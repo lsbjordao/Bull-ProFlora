@@ -101,8 +101,8 @@ export class QueuesModule implements NestModule {
 
     createBullBoard({
       queues: [
-        new BullMQAdapter(this.queue_oa_mapbiomas_landcover),
         new BullMQAdapter(this.queue_records),
+        new BullMQAdapter(this.queue_oa_mapbiomas_landcover),
         new BullMQAdapter(this.secondQueue)
       ],
       serverAdapter,

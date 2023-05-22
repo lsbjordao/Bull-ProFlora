@@ -5,15 +5,15 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  @Get('OA-MapBiomas-LandCover/:species')
-  addToQueue_oa_mapbiomas_landcover(@Param('species') species: string) {
-    return this.appService.addToQueue_oa_mapbiomas_landcover(species);
-  }
-
   @Post('records')
   addToQueue_records(@Body() data: any) {
     const {species} = data;
     return this.appService.addToQueue_records(species);
+  }
+  
+  @Get('OA-MapBiomas-LandCover/:species')
+  addToQueue_oa_mapbiomas_landcover(@Param('species') species: string) {
+    return this.appService.addToQueue_oa_mapbiomas_landcover(species);
   }
 
   @Get('second')

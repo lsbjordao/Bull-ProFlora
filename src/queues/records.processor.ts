@@ -9,7 +9,7 @@ import { Job } from 'bullmq';
 
 import { getOcc } from './helpers/getOccFromOldSys';
 import { whichFlow } from './helpers/whichFlow';
-import {GeoJSON} from './helpers/geojson';
+import { GeoJSON } from './helpers/geojson';
 
 import { writeFile } from 'fs';
 
@@ -53,11 +53,32 @@ export class Processor_records extends WorkerHost {
     // Filter occurrences by flow
     let filteredOccIdx: number[] = [];
     if (flowData.flow === 'PA') {
+
       for (let i = 0; i < speciesValidationOcc.length; i++) {
         if (speciesValidationOcc[i] === "Válido" && speciesValidationSIG[i] === "SIG OK") {
           filteredOccIdx.push(i);
         }
       }
+
+    }
+    if (flowData.flow === 'PNA') {
+
+      if (flowData.records === 'x' && speciesValidationOcc.sig === 'x') {
+        for (let i = 0; i < speciesValidationOcc.length; i++) {
+          if (speciesValidationOcc[i] === "Válido" && speciesValidationSIG[i] === "SIG OK") {
+            filteredOccIdx.push(i);
+          }
+        }
+      }
+
+      if (flowData.records === 'x' && speciesValidationOcc.sig === '0') {
+        for (let i = 0; i < speciesValidationOcc.length; i++) {
+          if (speciesValidationOcc[i] === "Válido") {
+            filteredOccIdx.push(i);
+          }
+        }
+      }
+
     }
 
     let speciesRecords: any = [];
@@ -74,6 +95,7 @@ export class Processor_records extends WorkerHost {
 
     const geojson = new GeoJSON();
     speciesRecords = geojson.parse(speciesRecords, { Point: ['lat', 'lon'] });
+    speciesRecords = speciesRecords.features
 
     writeFile(
       `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`,
