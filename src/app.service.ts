@@ -5,6 +5,7 @@ import { InjectQueue_records } from './queues/records.processor';
 import { InjectQueue_oa_mapbiomas_landcover } from './queues/oa_mapbiomas_landcover.processor';
 import { InjectQueue_information } from './queues/information.processor';
 import { InjectQueue_distribution } from './queues/distribution.processor';
+import { InjectQueue_citationFFB } from './queues/citationFFB.processor';
 
 @Injectable()
 export class AppService {
@@ -12,7 +13,8 @@ export class AppService {
     @InjectQueue_records() readonly queue_records: Queue,
     @InjectQueue_oa_mapbiomas_landcover() readonly queue_oa_mapbiomas_landcover: Queue,
     @InjectQueue_information() readonly queue_information: Queue,
-    @InjectQueue_distribution() readonly queue_distribution: Queue
+    @InjectQueue_distribution() readonly queue_distribution: Queue,
+    @InjectQueue_citationFFB() readonly queue_citationFFB: Queue
   ) { }
 
   addToQueue_records(species: string) {
@@ -33,6 +35,11 @@ export class AppService {
   addToQueue_distribution(species: string) {
     this.queue_distribution.add('Distribution', { species });
     return `<i>${species}</i> incluída na fila Distribution`;
+  }
+
+  addToQueue_citationFFB(species: string) {
+    this.queue_citationFFB.add('Distribution', { species });
+    return `<i>${species}</i> incluída na fila Citation FFB`;
   }
 
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, Query } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -27,6 +27,12 @@ export class AppController {
   addToQueue_distribution(@Body() data: any) {
     const {species} = data;
     return this.appService.addToQueue_distribution(species);
+  }
+
+  @Post('citationFFB')
+  addToQueue_citationFFB(@Body() data: any) {
+    const {species} = data;
+    return this.appService.addToQueue_citationFFB(species);
   }
 
 }
