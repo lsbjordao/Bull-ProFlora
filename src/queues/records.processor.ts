@@ -19,7 +19,7 @@ export const InjectQueue_records = (): ParameterDecorator =>
   InjectQueue(QUEUE_NAME_records);
 
 @Processor(QUEUE_NAME_records, {
-  concurrency: 3,
+  concurrency: 1,
 })
 export class Processor_records extends WorkerHost {
   private readonly logger = new Logger(Processor_records.name);

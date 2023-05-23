@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import { Controller, Post, Body, Param, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -11,14 +11,22 @@ export class AppController {
     return this.appService.addToQueue_records(species);
   }
   
-  @Get('OA-MapBiomas-LandCover/:species')
-  addToQueue_oa_mapbiomas_landcover(@Param('species') species: string) {
+  @Post('oa-mapbiomas-landcover')
+  addToQueue_oa_mapbiomas_landcover(@Body() data: any) {
+    const {species} = data;
     return this.appService.addToQueue_oa_mapbiomas_landcover(species);
   }
 
-  @Get('second')
-  addToSecondQueue(@Query('fail') fail: boolean) {
-    return this.appService.addToSecondQueue(fail ? true : false);
+  @Post('information')
+  addToQueue_information(@Body() data: any) {
+    const {species} = data;
+    return this.appService.addToQueue_information(species);
+  }
+
+  @Post('distribution')
+  addToQueue_distribution(@Body() data: any) {
+    const {species} = data;
+    return this.appService.addToQueue_distribution(species);
   }
 
 }

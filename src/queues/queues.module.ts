@@ -23,10 +23,16 @@ import {
 } from './records.processor';
 
 import {
-  SECOND_QUEUE_NAME,
-  SecondProcessor,
-  InjectSecondQueue,
-} from './second.processor';
+  QUEUE_NAME_information,
+  Processor_information,
+  InjectQueue_information,
+} from './information.processor';
+
+import {
+  QUEUE_NAME_distribution,
+  Processor_distribution,
+  InjectQueue_distribution,
+} from './distribution.processor';
 
 import { BasicAuthMiddleware } from './basic-auth.middleware';
 
@@ -41,14 +47,19 @@ export class QueuesModule implements NestModule {
       name: QUEUE_NAME_records,
     });
 
-    const secondQueue = BullModule.registerQueue({
-      name: SECOND_QUEUE_NAME,
+    const queue_information = BullModule.registerQueue({
+      name: QUEUE_NAME_information,
+    });
+
+    const queue_distribution = BullModule.registerQueue({
+      name: QUEUE_NAME_distribution,
     });
 
     if (
       !queue_oa_mapbiomas_landcover.providers || !queue_oa_mapbiomas_landcover.exports || 
       !queue_records.providers || !queue_records.exports || 
-      !secondQueue.providers || !secondQueue.exports
+      !queue_information.providers || !queue_information.exports ||
+      !queue_distribution.providers || !queue_distribution.exports
     ) {
       throw new Error('Unable to build queue');
     }
@@ -71,20 +82,24 @@ export class QueuesModule implements NestModule {
         }),
         queue_oa_mapbiomas_landcover,
         queue_records,
-        secondQueue,
+        queue_information,
+        queue_distribution
       ],
       providers: [
         Processor_oa_mapbiomas_landcover, 
         Processor_records, 
-        SecondProcessor, 
+        Processor_information, 
+        Processor_distribution,
         ...queue_oa_mapbiomas_landcover.providers, 
         ...queue_records.providers, 
-        ...secondQueue.providers
+        ...queue_information.providers,
+        ...queue_distribution.providers,
       ],
       exports: [
         ...queue_oa_mapbiomas_landcover.exports, 
         ...queue_records.exports, 
-        ...secondQueue.exports
+        ...queue_information.exports,
+        ...queue_distribution.exports
       ],
     };
   }
@@ -92,7 +107,8 @@ export class QueuesModule implements NestModule {
   constructor(
     @InjectQueue_oa_mapbiomas_landcover() private readonly queue_oa_mapbiomas_landcover: Queue,
     @InjectQueue_records() private readonly queue_records: Queue,
-    @InjectSecondQueue() private readonly secondQueue: Queue,
+    @InjectQueue_information() private readonly queue_information: Queue,
+    @InjectQueue_distribution() private readonly queue_distribution: Queue,
   ) {}
 
   configure(consumer: MiddlewareConsumer) {
@@ -101,9 +117,10 @@ export class QueuesModule implements NestModule {
 
     createBullBoard({
       queues: [
+        new BullMQAdapter(this.queue_information),
         new BullMQAdapter(this.queue_records),
-        new BullMQAdapter(this.queue_oa_mapbiomas_landcover),
-        new BullMQAdapter(this.secondQueue)
+        new BullMQAdapter(this.queue_distribution),
+        new BullMQAdapter(this.queue_oa_mapbiomas_landcover)
       ],
       serverAdapter,
     });

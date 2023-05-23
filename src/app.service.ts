@@ -3,14 +3,16 @@ import { Queue } from 'bullmq';
 
 import { InjectQueue_records } from './queues/records.processor';
 import { InjectQueue_oa_mapbiomas_landcover } from './queues/oa_mapbiomas_landcover.processor';
-import { InjectSecondQueue } from './queues/second.processor';
+import { InjectQueue_information } from './queues/information.processor';
+import { InjectQueue_distribution } from './queues/distribution.processor';
 
 @Injectable()
 export class AppService {
   constructor(
     @InjectQueue_records() readonly queue_records: Queue,
     @InjectQueue_oa_mapbiomas_landcover() readonly queue_oa_mapbiomas_landcover: Queue,
-    @InjectSecondQueue() readonly secondQueue: Queue
+    @InjectQueue_information() readonly queue_information: Queue,
+    @InjectQueue_distribution() readonly queue_distribution: Queue
   ) { }
 
   addToQueue_records(species: string) {
@@ -23,9 +25,14 @@ export class AppService {
     return `<i>${species}</i> incluída na fila OA-MapBiomas-LandCover`;
   }
 
-  addToSecondQueue(fail: boolean) {
-    this.secondQueue.add('456', { fail });
-    return 'OK';
+  addToQueue_information(species: string) {
+    this.queue_information.add('Information', { species });
+    return `<i>${species}</i> incluída na fila Information`;
+  }
+
+  addToQueue_distribution(species: string) {
+    this.queue_distribution.add('Distribution', { species });
+    return `<i>${species}</i> incluída na fila Distribution`;
   }
 
 }
