@@ -42,4 +42,9 @@ export class AppService {
     return `<i>${species}</i> incluída na fila Citation FFB`;
   }
 
+  addToQueue_obraPrinceps(species: string) {
+    this.queue_citationFFB.add('Obra Princeps', { species });
+    return `<i>${species}</i> incluída na fila Obra Princeps`;
+  }
+
 }

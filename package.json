@@ -28,6 +28,8 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@vicentecalfo/eoo-aoo-calc": "^1.2.2",
+    "@vicentecalfo/jskew": "^1.0.0",
+    "@vicentecalfo/tropicos-api-wrapper": "^1.2.1",
     "bullmq": "^3.13.4",
     "cheerio": "^1.0.0-rc.12",
     "fs": "^0.0.1-security",

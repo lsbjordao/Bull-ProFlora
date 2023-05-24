@@ -35,4 +35,10 @@ export class AppController {
     return this.appService.addToQueue_citationFFB(species);
   }
 
+  @Post('obraPrinceps')
+  addToQueue_obraPrinceps(@Body() data: any) {
+    const {species} = data;
+    return this.appService.addToQueue_obraPrinceps(species);
+  }
+
 }
