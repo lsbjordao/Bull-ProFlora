@@ -121,6 +121,10 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
       });
 
     return Promise.resolve(result);
+    
+  } catch(err: Error) {
+    console.error(err);
+    return null;
   }
 
 

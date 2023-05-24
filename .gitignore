@@ -37,3 +37,6 @@ lerna-debug.log*
 # Keys 
 credentials.json
 tropicosApiKey.json
+
+# Big files
+/src/queues/geojsons

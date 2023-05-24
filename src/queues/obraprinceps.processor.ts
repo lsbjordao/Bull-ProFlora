@@ -30,6 +30,10 @@ export class Processor_obraPrinceps extends WorkerHost {
       return Promise.reject(new Error('Failed'));
     }
 
+    const keyPath = './credentials.json';
+    const scopes = [
+      'https://www.googleapis.com/auth/spreadsheets'
+    ];
     const credentials = new google.auth.JWT({
       keyFile: keyPath,
       scopes: scopes,
@@ -40,19 +44,19 @@ export class Processor_obraPrinceps extends WorkerHost {
     const spreadsheetId = '1vdU2njQ-ZJl4FiDCPpmiX-VrL0637omEyS_hBXQtllY';
     const sheetName = 'Acomp_spp';
 
-    listOfSpecies = await ss.spreadsheets.values.get({
+    let listOfSpecies: any = await ss.spreadsheets.values.get({
       spreadsheetId: spreadsheetId,
       range: `${sheetName}!E2:E`,
     });
     listOfSpecies = listOfSpecies.data.values.flat();
 
-    author = await ss.spreadsheets.values.get({
+    let author: any = await ss.spreadsheets.values.get({
       spreadsheetId: spreadsheetId,
       range: `${sheetName}!D2:D`,
     });
     author = author.data.values.flat();
 
-    let speciesAuthor;
+    let speciesAuthor: any;
     const speciesIndex = listOfSpecies.indexOf(job.data.species);
     if (speciesIndex !== -1) {
       speciesAuthor = author[speciesIndex];
@@ -63,7 +67,7 @@ export class Processor_obraPrinceps extends WorkerHost {
     // Tropicos.org
 
     const TropicosApi = require('@vicentecalfo/tropicos-api-wrapper')
-    const tropicosApiKey = require('../tropicosApiKey.json')
+    const tropicosApiKey = require('../../tropicosApiKey.json')
 
     const tropicosApi = new TropicosApi({
       apiKey: tropicosApiKey[0],
@@ -86,7 +90,7 @@ export class Processor_obraPrinceps extends WorkerHost {
       }
     }
 
-    let tropicosOutput = await searchSpeciesInTropicos();
+    let tropicosOutput: any = await searchSpeciesInTropicos();
 
 
     // IPNI
@@ -108,7 +112,7 @@ export class Processor_obraPrinceps extends WorkerHost {
             author: speciesAuthor,
           })
           .toPromise()
-          .then((data) => {
+          .then((data: any) => {
             output = data.body.results;
           });
 
@@ -134,6 +138,7 @@ export class Processor_obraPrinceps extends WorkerHost {
     });
 
     return Promise.resolve(result);
+    
   } catch(err: Error) {
     console.error(err);
     return null;

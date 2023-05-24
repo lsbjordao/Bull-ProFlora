@@ -162,6 +162,7 @@ export class Processor_citationFFB extends WorkerHost {
     });
 
     return Promise.resolve(result);
+    
   } catch(err: Error) {
     console.error(err);
     return null;

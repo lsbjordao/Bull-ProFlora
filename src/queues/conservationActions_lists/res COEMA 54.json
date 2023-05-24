@@ -1,0 +1,314 @@
+[
+ {
+   "TAXON": "APOCYNACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Aspidosperma album",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Aspidosperma desmanthum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Aspidosperma sandwithianum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "ARACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Heteropsis flexuosa",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Heteropsis spruceana",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "ASTERACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Aspilia paraensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Monogereion carajensis",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "BIGNONIACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Handroanthus impetiginosus",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Jacaranda carajasensis",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Jacaranda egleri",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Jacaranda ulei",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Pleonotoma bracteata",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "BROMELIACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Aechmea eurycorymbus",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "BURSERACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Protium cordatum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Protium giganteum var. crassifolium",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "CHRYSOBALANACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Licania anneae",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "CONVOLVULACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Ipomoea cavalcantei",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Ipomoea maurandioides",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "CYPERACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Hypolytrum paraense",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "ERYTHROXYLACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Erythroxylum nelson-rosae",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Fabaceae ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Centrolobium paraense",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Centrosema carajasense",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Hymenolobium excelsum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa acutistipula var. ferrea",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa skinneri var. carajarum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Peltogyne maranhensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "HYMENOPHYLLACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Trichomanes macilentum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "LAURACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Aniba rosaeodora",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Dicypellium caryophyllaceum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mezilaurus itauba",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "LECYTHIDACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Bertholletia excelsa",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Eschweilera piresii subsp. piresii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Eschweilera subcordata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Gustavia erythrocarpa",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "LYTHRACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Physocalymma scaberrimum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "MALPIGHIACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Diplopterys cachimbensis",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "MELIACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Cedrela odorata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Swietenia macrophylla",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "OLACACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Ptychopetalum olacoides",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "ORCHIDACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Galeandra cristata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Selenipedium isabelianum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Selenipedium palmifolium",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "POACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Axonopus carajasensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "RUTACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Euxylophora paraensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Pilocarpus alatus",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Pilocarpus microphyllus",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "SAPOTACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Manilkara excelsa",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Manilkara huberi",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Pouteria brevensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Pouteria decussata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "SMILACACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Smilax longifolia",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "VITACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Cissus apendiculata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "VOCHYSIACEAE ",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Qualea coerulea",
+   "STATUS": "VU"
+ }
+]

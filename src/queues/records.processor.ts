@@ -109,6 +109,7 @@ export class Processor_records extends WorkerHost {
     );
 
     return Promise.resolve({ speciesRecords });
+    
   }
 
   @OnWorkerEvent('active')

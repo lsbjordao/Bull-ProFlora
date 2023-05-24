@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= species %>
+    </title>
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css"
+        integrity="sha512-9BZC+s8FFLHeOhr4t4sVtqz+hW8aV0MsHcSnpaX7IzTtLcE7cmYCGeRJiCfTXGJd8tsFMM+LifgzmbIQ9q3ng=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap Table CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@2.2.5/dist/bootstrap-table.min.css" />
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        h1 {
+            color: #00b300;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #008080;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        table {
+            background-color: #1a1a1a;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            color: #00b300;
+        }
+
+        tr:hover {
+            background-color: #262626;
+            color: #ffffff;
+        }
+
+        th {
+            background-color: #004d00;
+            color: #ffffff;
+            font-weight: bold;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .btn {
+            background-color: #00b300;
+            border-color: #00b300;
+        }
+
+        .btn:hover {
+            background-color: #008000;
+            border-color: #008000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-3">
+        <h1 class="text-center">
+            <%= species %>
+        </h1>
+
+        <h2>Informações básicas</h2>
+        <table id="basic-info-table" class="table table-bordered table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Propriedade</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Obra princeps</td>
+                    <td><%= obrasPrinceps.output %></td>
+                </tr>
+                <tr>
+                    <td>Nomes vernaculares</td>
+                    <td>
+                        <%= information.vernacularNames %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>EOO</td>
+                    <td>
+                        <%= EOO %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>AOO</td>
+                    <td>
+                        <%= AOO %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>AOO útil</td>
+                    <td>
+                        <%= AOOutil %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Domínios fitogeográficos</td>
+                    <td>
+                        <%= information.occurrenceRemarks %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Formações vegetacionais</td>
+                    <td>
+                        <%- information.vegetationType %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Endêmica do Brasil (FFB)</td>
+                    <td>
+                        <%= information.endemism %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Estados (FFB)</td>
+                    <td>
+                        <%= information.location %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Distribuição geográfica</td>
+                    <td><%= distribution.text.replace('citação FFB', citationFFB.short) %></td>
+                </tr>
+                <tr>
+                    <td>Citação FFB</td>
+                    <td><%= citationFFB.long %></td>
+                </tr>
+                <tr>
+                    <td>Forma de vida</td>
+                    <td>
+                        <%= information.lifeForm %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Habitat</td>
+                    <td>
+                        <%= information.habitat %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>IUCN</td>
+                    <td>
+                        <%= information.IUCN_assessment_presence %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>CITES</td>
+                    <td>
+                        <%= information.cites %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Usos</td>
+                    <td>
+                        <%= information.uses %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Ameaças</h2>
+        <table id="threats-table" class="table table-bordered table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Ameaça</th>
+                    <th>Texto</th>
+                    <th>Referência</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(threats.includeThreat.length > 0) { %>
+                    <% for(let i = 0; i < threats.includeThreat.length; i++) { %>
+                    <tr>
+                        <td><%= threats.includeThreat[i].threat %></td>
+                        <td><%= threats.includeThreat[i].text %></td>
+                        <td><%= threats.includeThreat[i].reference %></td>
+                    </tr>
+                    <%}%>
+                <% } %>
+            </tbody>
+        </table>
+
+        <h2>Ações</h2>
+
+        <table class="table table-dark table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Ação</th>
+                    <th scope="col">Situação</th>
+                    <th scope="col">Texto</th>
+                    <th scope="col">Referência</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= UCs.includeUC.action %></td>
+                    <td><%= UCs.includeUC.situation %></td>
+                    <td><%= UCs.includeUC.text %></td>
+                    <td><%= UCs.includeUC.reference %></td>
+                </tr>
+
+                <% if(PANs.includePAN.length > 0) { %>
+                    <% for(let i = 0; i < PANs.includePAN.length; i++) { %>
+                    <tr>
+                        <td><%= PANs.includePAN[i].action %></td>
+                        <td><%= PANs.includePAN[i].situation %></td>
+                        <td><%= PANs.includePAN[i].text %></td>
+                        <td><%= PANs.includePAN[i].reference %></td>
+                    </tr>
+                    <%}%>
+                <% } %>
+
+                <% if(Object.keys(TERs.includeTER).length > 0) { %>
+                    <tr>
+                        <td><%= TERs.includeTER.action %></td>
+                        <td><%= TERs.includeTER.situation %></td>
+                        <td><%= TERs.includeTER.text %></td>
+                        <td><%= TERs.includeTER.reference %></td>
+                    </tr>
+                <% } %>
+                
+                <% if(conservationActions.includeThreatenedList.length > 0) { %>
+                    <% for(let i = 0; i < conservationActions.includeThreatenedList.length; i++) { %>
+                    <tr>
+                        <td><%= conservationActions.includeThreatenedList[i].action %></td>
+                        <td><%= conservationActions.includeThreatenedList[i].situation %></td>
+                        <td><%= conservationActions.includeThreatenedList[i].text %></td>
+                        <td><%= conservationActions.includeThreatenedList[i].reference %></td>
+                    </tr>
+                    <%}%>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>

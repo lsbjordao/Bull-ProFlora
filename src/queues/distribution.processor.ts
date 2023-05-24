@@ -237,6 +237,7 @@ export class Processor_distribution extends WorkerHost {
     });
 
     return Promise.resolve(result);
+    
   } catch(err: Error) {
     console.error(err);
     return null;

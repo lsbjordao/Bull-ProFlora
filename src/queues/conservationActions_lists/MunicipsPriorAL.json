@@ -1,0 +1,482 @@
+[
+ {
+   "UF": "AM",
+   "MUNICIPIO": "Lábrea",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "AM",
+   "MUNICIPIO": "Boca do Acre",
+   "Ano_de_Entrada": 2011,
+   "Portaria_de_Entrada": "Portaria n 175/2011",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "AM",
+   "MUNICIPIO": "Apuí",
+   "Ano_de_Entrada": 2017,
+   "Portaria_de_Entrada": "Portaria n 361/2017",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "AM",
+   "MUNICIPIO": "Manicoré",
+   "Ano_de_Entrada": 2017,
+   "Portaria_de_Entrada": "Portaria n 361/2017",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "AM",
+   "MUNICIPIO": "Novo Aripuanã",
+   "Ano_de_Entrada": 2017,
+   "Portaria_de_Entrada": "Portaria n 361/2017",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MA",
+   "MUNICIPIO": "Amarante do Maranhão",
+   "Ano_de_Entrada": 2009,
+   "Portaria_de_Entrada": "Portaria n 102/2009",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MA",
+   "MUNICIPIO": "Grajaú",
+   "Ano_de_Entrada": 2011,
+   "Portaria_de_Entrada": "Portaria n 175/2011",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Peixoto de Azevedo",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Paranaíta",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Nova Maringá",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Nova Bandeirantes",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Juína",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Gaúcha do Norte",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Cotriguaçu",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Colniza",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Aripuanã",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Juara",
+   "Ano_de_Entrada": 2009,
+   "Portaria_de_Entrada": "Portaria n 102/2009",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "São Félix do Xingu",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Rondon do Pará",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Novo Repartimento",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Novo Progresso",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Cumaru do Norte",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Altamira",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Pacajá",
+   "Ano_de_Entrada": 2009,
+   "Portaria_de_Entrada": "Portaria n 102/2009",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Marabá",
+   "Ano_de_Entrada": 2009,
+   "Portaria_de_Entrada": "Portaria n 102/2009",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Itupiranga",
+   "Ano_de_Entrada": 2009,
+   "Portaria_de_Entrada": "Portaria n 102/2009",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Moju",
+   "Ano_de_Entrada": 2011,
+   "Portaria_de_Entrada": "Portaria n 175/2011",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Senador José Porfírio",
+   "Ano_de_Entrada": 2012,
+   "Portaria_de_Entrada": "Portaria n 323/2012",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Anapu",
+   "Ano_de_Entrada": 2012,
+   "Portaria_de_Entrada": "Portaria n 323/2012",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Itaituba",
+   "Ano_de_Entrada": 2017,
+   "Portaria_de_Entrada": "Portaria n 361/2017",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Portel",
+   "Ano_de_Entrada": 2017,
+   "Portaria_de_Entrada": "Portaria n 361/2017",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "RO",
+   "MUNICIPIO": "Porto Velho",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "RO",
+   "MUNICIPIO": "Pimenta Bueno",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "RO",
+   "MUNICIPIO": "Nova Mamoré",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "RO",
+   "MUNICIPIO": "Machadinho D'oeste",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "RO",
+   "MUNICIPIO": "Buritis",
+   "Ano_de_Entrada": 2017,
+   "Portaria_de_Entrada": "Portaria n 361/2017",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "RO",
+   "MUNICIPIO": "Candeias do Jamari",
+   "Ano_de_Entrada": 2017,
+   "Portaria_de_Entrada": "Portaria n 361/2017",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "RO",
+   "MUNICIPIO": "Cujubim",
+   "Ano_de_Entrada": 2017,
+   "Portaria_de_Entrada": "Portaria n 361/2017",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "RR",
+   "MUNICIPIO": "Mucajaí",
+   "Ano_de_Entrada": 2009,
+   "Portaria_de_Entrada": "Portaria n 102/2009",
+   "Ano_de_Saída": null,
+   "Portaria de saída": ""
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Querência",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2011,
+   "Portaria de saída": "Portaria n 139/2011"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Marcelândia",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2013,
+   "Portaria de saída": "Portaria n 412/2013"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Brasnorte",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2013,
+   "Portaria de saída": "Portaria n 412/2013"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Alta Floresta",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2012,
+   "Portaria de saída": "Portaria n 187/2012"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Feliz Natal",
+   "Ano_de_Entrada": 2009,
+   "Portaria_de_Entrada": "Portaria n 102/2009",
+   "Ano_de_Saída": 2013,
+   "Portaria de saída": "Portaria n 412/2013"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Alto Boa Vista",
+   "Ano_de_Entrada": 2011,
+   "Portaria_de_Entrada": "Portaria n 175/2011",
+   "Ano_de_Saída": 2017,
+   "Portaria de saída": "Portaria n 362/2017"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Cláudia",
+   "Ano_de_Entrada": 2011,
+   "Portaria_de_Entrada": "Portaria n 175/2011",
+   "Ano_de_Saída": 2017,
+   "Portaria de saída": "Portaria n 362/2017"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Confresa",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2017,
+   "Portaria de saída": "Portaria n 362/2017"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Nova Ubiratã",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2017,
+   "Portaria de saída": "Portaria n 362/2017"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Porto dos Gaúchos",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2017,
+   "Portaria de saída": "Portaria n 362/2017"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Santa Carmem",
+   "Ano_de_Entrada": 2011,
+   "Portaria_de_Entrada": "Portaria n 175/2011",
+   "Ano_de_Saída": 2017,
+   "Portaria de saída": "Portaria n 362/2017"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "São Félix do Araguaia",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2017,
+   "Portaria de saída": "Portaria n 362/2017"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Tapurah",
+   "Ano_de_Entrada": 2011,
+   "Portaria_de_Entrada": "Portaria n 175/2011",
+   "Ano_de_Saída": 2017,
+   "Portaria de saída": "Portaria n 362/2017"
+ },
+ {
+   "UF": "MT",
+   "MUNICIPIO": "Vila Rica",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2017,
+   "Portaria de saída": "Portaria n 362/2017"
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Ulianópolis",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2012,
+   "Portaria de saída": "Portaria n 324/2012"
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Santana do Araguaia",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2012,
+   "Portaria de saída": "Portaria n 187/2012"
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Paragominas",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2010,
+   "Portaria de saída": "Portaria n 67/2010"
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Dom Eliseu",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2012,
+   "Portaria de saída": "Portaria n 324/2012"
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Brasil Novo",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2013,
+   "Portaria de saída": "Portaria n 412/2013"
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Tailândia",
+   "Ano_de_Entrada": 2009,
+   "Portaria_de_Entrada": "Portaria n 102/2009",
+   "Ano_de_Saída": 2013,
+   "Portaria de saída": "Portaria n 412/2013"
+ },
+ {
+   "UF": "PA",
+   "MUNICIPIO": "Santa Maria das Barreiras",
+   "Ano_de_Entrada": 2008,
+   "Portaria_de_Entrada": "Portaria n 28/2008",
+   "Ano_de_Saída": 2017,
+   "Portaria de saída": "Portaria n 362/2017"
+ }
+]

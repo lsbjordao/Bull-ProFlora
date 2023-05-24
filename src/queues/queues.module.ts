@@ -46,6 +46,42 @@ import {
   InjectQueue_obraPrinceps,
 } from './obraprinceps.processor';
 
+import {
+  QUEUE_NAME_oa_UCs,
+  Processor_oa_UCs,
+  InjectQueue_oa_UCs,
+} from './oa_UCs.processor';
+
+import {
+  QUEUE_NAME_oa_TERs,
+  Processor_oa_TERs,
+  InjectQueue_oa_TERs,
+} from './oa_TERs.processor';
+
+import {
+  QUEUE_NAME_oa_PANs,
+  Processor_oa_PANs,
+  InjectQueue_oa_PANs,
+} from './oa_PANs.processor';
+
+import {
+  QUEUE_NAME_conservationActions,
+  Processor_conservationActions,
+  InjectQueue_conservationActions,
+} from './conservationActions.processor';
+
+import {
+  QUEUE_NAME_threats,
+  Processor_threats,
+  InjectQueue_threats,
+} from './threats.processor';
+
+import {
+  QUEUE_NAME_speciesProfile,
+  Processor_speciesProfile,
+  InjectQueue_speciesProfile,
+} from './speciesProfile.processor';
+
 import { BasicAuthMiddleware } from './basic-auth.middleware';
 
 @Module({})
@@ -75,13 +111,43 @@ export class QueuesModule implements NestModule {
       name: QUEUE_NAME_obraPrinceps,
     });
 
+    const queue_oa_UCs = BullModule.registerQueue({
+      name: QUEUE_NAME_oa_UCs,
+    });
+
+    const queue_oa_TERs = BullModule.registerQueue({
+      name: QUEUE_NAME_oa_TERs,
+    });
+
+    const queue_oa_PANs = BullModule.registerQueue({
+      name: QUEUE_NAME_oa_PANs,
+    });
+
+    const queue_conservationActions = BullModule.registerQueue({
+      name: QUEUE_NAME_conservationActions,
+    });
+
+    const queue_threats = BullModule.registerQueue({
+      name: QUEUE_NAME_threats,
+    });
+
+    const queue_speciesProfile = BullModule.registerQueue({
+      name: QUEUE_NAME_speciesProfile,
+    });
+
     if (
       !queue_oa_mapbiomas_landcover.providers || !queue_oa_mapbiomas_landcover.exports || 
       !queue_records.providers || !queue_records.exports || 
       !queue_information.providers || !queue_information.exports ||
       !queue_distribution.providers || !queue_distribution.exports ||
       !queue_citationFFB.providers || !queue_citationFFB.exports ||
-      !queue_obraPrinceps.providers || !queue_obraPrinceps.exports 
+      !queue_obraPrinceps.providers || !queue_obraPrinceps.exports ||
+      !queue_oa_UCs.providers || !queue_oa_UCs.exports ||
+      !queue_oa_TERs.providers || !queue_oa_TERs.exports ||
+      !queue_oa_PANs.providers || !queue_oa_PANs.exports ||
+      !queue_conservationActions.providers || !queue_conservationActions.exports ||
+      !queue_threats.providers || !queue_threats.exports ||
+      !queue_speciesProfile.providers || !queue_speciesProfile.exports
     ) {
       throw new Error('Unable to build queue');
     }
@@ -107,7 +173,13 @@ export class QueuesModule implements NestModule {
         queue_information,
         queue_distribution,
         queue_citationFFB,
-        queue_obraPrinceps
+        queue_obraPrinceps,
+        queue_oa_UCs,
+        queue_oa_TERs,
+        queue_oa_PANs,
+        queue_conservationActions,
+        queue_threats,
+        queue_speciesProfile
       ],
       providers: [
         Processor_oa_mapbiomas_landcover, 
@@ -116,12 +188,24 @@ export class QueuesModule implements NestModule {
         Processor_distribution,
         Processor_citationFFB,
         Processor_obraPrinceps,
+        Processor_oa_UCs,
+        Processor_oa_TERs,
+        Processor_oa_PANs,
+        Processor_conservationActions,
+        Processor_threats,
+        Processor_speciesProfile,
         ...queue_oa_mapbiomas_landcover.providers, 
         ...queue_records.providers, 
         ...queue_information.providers,
         ...queue_distribution.providers,
         ...queue_citationFFB.providers,
-        ...queue_obraPrinceps.providers
+        ...queue_obraPrinceps.providers,
+        ...queue_oa_UCs.providers,
+        ...queue_oa_TERs.providers,
+        ...queue_oa_PANs.providers,
+        ...queue_conservationActions.providers,
+        ...queue_threats.providers,
+        ...queue_speciesProfile.providers
       ],
       exports: [
         ...queue_oa_mapbiomas_landcover.exports, 
@@ -129,7 +213,13 @@ export class QueuesModule implements NestModule {
         ...queue_information.exports,
         ...queue_distribution.exports,
         ...queue_citationFFB.exports,
-        ...queue_obraPrinceps.exports
+        ...queue_obraPrinceps.exports,
+        ...queue_oa_UCs.exports,
+        ...queue_oa_TERs.exports,
+        ...queue_oa_PANs.exports,
+        ...queue_conservationActions.exports,
+        ...queue_threats.exports,
+        ...queue_speciesProfile.exports
       ],
     };
   }
@@ -140,7 +230,13 @@ export class QueuesModule implements NestModule {
     @InjectQueue_information() private readonly queue_information: Queue,
     @InjectQueue_distribution() private readonly queue_distribution: Queue,
     @InjectQueue_citationFFB() private readonly queue_citationFFB: Queue,
-    @InjectQueue_obraPrinceps() private readonly queue_obraPrinceps: Queue
+    @InjectQueue_obraPrinceps() private readonly queue_obraPrinceps: Queue,
+    @InjectQueue_oa_UCs() private readonly queue_oa_UCs: Queue,
+    @InjectQueue_oa_TERs() private readonly queue_oa_TERs: Queue,
+    @InjectQueue_oa_PANs() private readonly queue_oa_PANs: Queue,
+    @InjectQueue_conservationActions() private readonly queue_conservationActions: Queue,
+    @InjectQueue_threats() private readonly queue_threats: Queue,
+    @InjectQueue_speciesProfile() private readonly queue_speciesProfile: Queue
   ) {}
 
   configure(consumer: MiddlewareConsumer) {
@@ -154,7 +250,13 @@ export class QueuesModule implements NestModule {
         new BullMQAdapter(this.queue_obraPrinceps),
         new BullMQAdapter(this.queue_records),
         new BullMQAdapter(this.queue_distribution),
-        new BullMQAdapter(this.queue_oa_mapbiomas_landcover)
+        new BullMQAdapter(this.queue_oa_mapbiomas_landcover),
+        new BullMQAdapter(this.queue_oa_UCs),
+        new BullMQAdapter(this.queue_oa_TERs),
+        new BullMQAdapter(this.queue_oa_PANs),
+        new BullMQAdapter(this.queue_conservationActions),
+        new BullMQAdapter(this.queue_threats),
+        new BullMQAdapter(this.queue_speciesProfile)
       ],
       serverAdapter,
     });

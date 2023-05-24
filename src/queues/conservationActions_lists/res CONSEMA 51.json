@@ -1,0 +1,1570 @@
+[
+ {
+   "TAXON": "ACANTHACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Dyschoriste smithii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Justicia catharinensis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Ruellia kleinii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Ruellia reitzii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "ACHATOCARPACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Achatocarpus praecox",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "ALSTROEMERIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Alstroemeria amabilis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "AMARYLLIDACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Hippeastrum santacatarina",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Alstroemeria inodora",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Hippeastrum striatum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Hippeastrum vittatum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "ANEMIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Anemia simplicior",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Anemia imbricata",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Anemia organensis",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "APIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Eryngium corallinum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Eryngium raulinii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Eryngium urbanianum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "APOCYNACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Asclepias bracteolata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Asclepias langsdorffii",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Gonolobus rostratus",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Jobinia paranaensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Matelea dusenii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Matelea reitzii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Oxypetalum arnottianum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Oxypetalum foliosum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Oxypetalum kleinii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Oxypetalum morilloanum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Oxypetalum reitzii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Tassadia obovata",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "APODANTHACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Pilostyles blanchetii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "ARACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Anthurium pilonense",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Philodendron renauxii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "ARAUCARIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Araucaria angustifolia",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "ARECACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Butia catarinensis",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Butia eriospatha",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "ASPLENIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Elaphoglossum jamesonii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Elaphoglossum lagesianum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "ASPLENIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Asplenium lacinulatum",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "Asplenium muellerianum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Asplenium praemorsum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Asplenium resiliens",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "ASTERACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Austroeupatorium rosmarinaceum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Baccharis aracatubensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Baccharis glutinosa",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Baccharis sessiliflora",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Baccharis gnaphalioides",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Bidens laevis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Calea ilienii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Campuloclinium scabrum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Chacoa pseudoprasiifolia",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Conyza reitziana",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Dasyphyllum lanceolatum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Dendrophorbium missionum",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Dendrophorbium paranense",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Enydra anagallis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Hebeclinium macrophyllum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Hypochaeris catharinensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Hypochaeris lutea",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Hypochaeris glabra",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Hysterionica pinnatisecta",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Koanophyllon lobatifolium",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Lessingianthus ulei",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mikania paniculata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Perezia catharinensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Perezia eryngioides",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Perezia multiflora",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Perezia multiflora",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Pterocaulon virgatum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Senecio langei",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Senecio oligophyllus",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Senecio reitzianus",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Acmella bellidioides",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Stevia catharinensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Symphyopappus lymansmithii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Symphyopappus reitzii",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Tessaria integrifolia var. ambigua",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Dimerostemma arnottii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "BEGONIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Begonia camposportoana",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Begonia garuvae",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Begonia hilariana",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Begonia insularis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Begonia itatinensis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Begonia konderreisiana",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Begonia konderreisiana",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Begonia lineolata",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Begonia rupium",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Begonia squamipes",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Berberis kleinii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Dolichandra cynanchoides",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Fridericia speciosa",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Handroanthus catarinensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "BLECHNACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Lomaria spannagelii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "BROMELIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Aechmea apocalyptica",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Aechmea kleinii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Aechmea pimenti-velosoi",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Billbergia alfonsijoannis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Catopsis berteroniana",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Dyckia brevifolia",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "Dyckia cabrerae",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Dyckia distachya",
+   "STATUS": "EW"
+ },
+ {
+   "TAXON": "Dyckia ibiramensis",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "Dyckia leptostachya",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Dyckia minarum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Nidularium catarinense",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Vriesea biguassuensis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Vriesea muelleri",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Vriesea pinottii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Vriesea rubens",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Vriesea triangularis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "CALOPHYLLACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Calophyllum brasiliense",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "COMBRETACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Terminalia triflora",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "CONVOLVULACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Dichondra sericea",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Jacquemontia mucronifera",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "CUCURBITACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Apodanthera ulei",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Cayaponia alarici",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Cayaponia membranacea",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Fevillea passiflora",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "CYATHEACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Cyathea atrovirens",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Alsophila sternbergii",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "CYPERACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Cyperus inops",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Cyperus barrosianus",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Eleocharis montevidensis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Lagenocarpus rigidus",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Rhynchospora exaltata",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Isolepis cernua",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "DRYOPTERIDACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Megalastrum adenopteris",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "DYCSONIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Dicksonia sellowiana",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "ERICACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Gaultheria corvensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "ERIOCAULACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Eriocaulon ulaei",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Paepalanthus henriquei",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "ERYTHROXYLACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Erythroxylum catharinense",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "EUPHORBIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Acalypha brasiliensis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Caperonia buettneriacea",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Colliguaja brasiliensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Croton lanatus",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Croton serratus",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Dalechampia leandrii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Dalechampia riparia",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "FABACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Aeschynomene fructipendula",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Bauhinia uruguayensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Chamaecrista punctata",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Chamaecrista vestita",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Dalbergia ernest-ulei",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Desmanthus paspalaceus",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Gleditsia amorphoides",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Inga edwallii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Muellera grazielae",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Mimosa bifurca",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Mimosa gracilis var. capillipes",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Mimosa catharinensis",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "Mimosa dutrae",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa involucrata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa lepidorepens",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa lepidorepens",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa murex",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa per-dusenii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa pseudocallosa",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa pseudolepidota",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Mimosa ramentacea",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa ramosissima",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Mimosa sanguinolenta",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa serra",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Mimosa taimbensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Piptadenia affinis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Poiretia tetraphylla",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Senegalia catharinensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Senegalia tucumanensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Senna septemtrionalis",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "GERANIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Geranium glanduligerum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Napeanthus reitzii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "GUNNERACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Gunnera herteri",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "HYMENOPHYLLACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Hymenophyllum crispum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Hymenophyllum microcarpum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Hymenophyllum vestitum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Vandenboschia rupestris",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "ISOETACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Isoetes smithii",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Isoetes spannagelii",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "LAMIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Cunila platyphylla",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Cunila spicata",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Hesperozygis dimidiata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Hyptis lorentziana",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Salvia melissiflora",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "LAURACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Ocotea catharinensis",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "Ocotea porosa",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "Ocotea prolifera",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "ALISMATACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Hydrocleys nymphoides",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "LOGANIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Spigelia catarinensis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "LYCOPODIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Huperzia catharinae",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Austrolycopodium erectum",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Phlegmariurus sellowianus",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "LYTHRACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Lafoensia nummularifolia",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "MALVACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Callianthe muelleri-friderici",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Calyptraemalva catharinensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Pavonia reitzii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Pavonia renifolia",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "MARANTACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Ctenanthe lanceolata",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Marattia cicutifolia",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "MARSILEACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Regnellidium diphyllum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "MELASTOMATACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Clidemia capitellata",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Leandra cardiophylla",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Leandra niederleinii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Leandra urbaniana",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Tibouchina nitida",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "MONIMIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Mollinedia eugeniifolia",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Mollinedia howeana",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "MORACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Dorstenia tenuis",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "PRIMULACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Myrsine laetevirens",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "MYRTACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Campomanesia hirsuta",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Eugenia pachyclada",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Eugenia pseudomalacantha",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Myrceugenia hamoniana",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "OLACACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Ximenia americana",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "ORCHIDACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Acianthera asaroides",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Acianthera binotii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Acianthera murexoidea",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Anathallis globifera",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Anathallis pabstii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Brachystele bicrinita",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Brachystele scabrilingua",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Gomesa concolor",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Campylocentrum ulaei",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Cattleya guttata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Constantia australis",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Cyrtopodium brandonianum",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Cyrtopodium kleinii",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Grobya guieselii",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Habenaria ulei",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Cattleya purpurata",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "Maxillaria binotii",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Octomeria rohrii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Acianthera binotii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Promenaea guttata",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Promenaea guttata",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Pteroglossa lurida",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Stigmatosema odileana",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Vanilla dietschiana",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Veyretia undulata",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Zygostates dasyrhiza",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "OXALIDACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Oxalis odonellii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Oxalis refracta",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "PASSIFLORACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Passiflora catharinensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Passiflora reitzii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Passiflora urubiciensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "PHYTOLACCACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Microtea scabrida",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "PIPERACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Peperomia circinnata",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Peperomia pseudobcordata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Piper kleinii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Piper lhotzkyanum",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Piper ulei",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "PLAGIOGYRIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Plagiogyria fialhoi",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "POACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Polypogon exasperatus",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Apoclada diversa",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Calamagrostis reitzii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Cortaderia vaginata",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Digitaria myriostachya",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Merostachys ciliata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Merostachys vestita",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Panicum bresolinii",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Panicum magnispicula",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Piptochaetium palustre",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Paspalum rawitscheri",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "PODOCARPACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Podocarpus lambertii",
+   "STATUS": "EN"
+ },
+ {
+   "TAXON": "POLYPODIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Pecluma filicula",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Terpsichore chrysleri",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "PROTEACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Euplassa nebularis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Roupala pallida",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "PTERIDACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Adiantum digitatum",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Adiantum humile",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Adiantum intermedium",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Adiantum pectinatum",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Adiantum poiretii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Microlepia speluncae",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "RAFFLESIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Pilostyles blanchetii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "RANUNCULACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Ranunculus apiifolius",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "RHAMNACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Discaria americana",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "ROSACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Agrimonia parviflora",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Prunus ulei",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "RUBIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Declieuxia dusenii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Galianthe thalictroides",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Galium smithreitzii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Ixora venulosa",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Palicourea malaneoides",
+   "STATUS": "DD"
+ },
+ {
+   "TAXON": "Richardia stellaris",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Rudgea coriacea",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Borreria brachystemonoides",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "RUTACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Raulinoa echinata",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "SAPINDACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Matayba cristae",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Thinouia scandens",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "SCROPHULARIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Buddleja hatschbachii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "SOLANACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Calibrachoa eglandulata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Calibrachoa serrulata",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Nicotiana azambujae",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Petunia bonjardinensis",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Calibrachoa ericifolia",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Petunia reitzii",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "Petunia saxicola",
+   "STATUS": "CR"
+ },
+ {
+   "TAXON": "Salpichroa origanifolia",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Solanum platense",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "STERCULIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Byttneria triadenia",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Waltheria carpinifolia",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "SYMPLOCACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Symplocos bidana",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "PRIMULACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Samolus valerandi",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "TRIURIDACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Sciaphila schwackeana",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Umbelliferae",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Eryngium aloifolium",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "VERBENACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Aloysia dusenii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Glandularia hatschbachii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Glandularia tenera",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "Lantana montevidensis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Glandularia jordanensis",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Verbena gracilescens",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Verbena lindbergii",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "Glandularia thymoides",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "VITTARIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Polytaenium citrifolium",
+   "STATUS": "EX"
+ },
+ {
+   "TAXON": "VOCHYSIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Callisthene kuhlmannii",
+   "STATUS": "VU"
+ },
+ {
+   "TAXON": "WOODSIACEAE",
+   "STATUS": ""
+ },
+ {
+   "TAXON": "Woodsia montevidensis",
+   "STATUS": "VU"
+ }
+]
