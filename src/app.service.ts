@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bullmq';
 
-import { InjectQueue_records } from './queues/records.processor';
+import { InjectQueue_records, QUEUE_NAME_records } from './queues/records.processor';
 import { InjectQueue_oa_mapbiomas_landcover } from './queues/oa_mapbiomas_landcover.processor';
 import { InjectQueue_information } from './queues/information.processor';
 import { InjectQueue_distribution } from './queues/distribution.processor';
@@ -14,6 +14,7 @@ import { InjectQueue_conservationActions } from './queues/conservationActions.pr
 import { InjectQueue_threats } from './queues/threats.processor';
 import { InjectQueue_speciesProfile } from './queues/speciesProfile.processor';
 
+import { existsSync } from 'fs';
 import { google } from 'googleapis';
 import { JWT } from 'google-auth-library';
 
@@ -101,11 +102,9 @@ export class AppService {
   // add Jobs
 
   async addJobs() {
+    (async () => {
 
-    (async function () {
-
-      
-      
+      // Get list of species from follow-up table
       const keyPath = './credentials.json';
       const scopes = [
         'https://www.googleapis.com/auth/spreadsheets'
@@ -129,10 +128,10 @@ export class AppService {
           return;
         }
         const species = res.data.values;
-    
+
         async function speciesWithFile() {
           const existingFile = [];
-    
+
           for (let i = 0; i < species.length; i++) {
             const input = species[i];
             const exists = await hasFile(input);
@@ -142,36 +141,40 @@ export class AppService {
           }
           return existingFile;
         }
+
+        // Add jobs in Records
+        speciesWithFile().then((result) => {
+          let species = result;
+          species = species.flat()
+
+          this.queue_records.getJobs().then(async (jobs: any) => {
+
+            const jobNames = jobs.map(function (job: any) {
+              return job.data.species;
+            });
     
-        // speciesWithFile().then((result) => {
-        //   let species = result;
-        //   species = species.flat()
+            const speciesToAdd = species
+            .map(function (value) {
+              return value.toString();
+            })
+            .filter(function (value) {
+              const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${value}.html`;
+              return !jobNames.includes(value) && existsSync(path);
+            });
+
+            speciesToAdd.forEach((species: string) => {
+              this.addToQueue_records(species);
+            });
     
-        //   queue1.getJobs().then(function (jobs) {
-        //     const jobNames = jobs.map(function (job) {
-        //       return job.data.species;
-        //     });
-    
-        //     const speciesToAdd = species
-        //       .map(function (value) {
-        //         return value.toString();
-        //       })
-        //       .filter(function (value) {
-        //         const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${value}.html`;
-        //         return !jobNames.includes(value) && fs.existsSync(path);
-        //       });
-    
-        //     speciesToAdd.forEach((value) => {
-        //       addJob(queue1, 'OAC-MapBiomas-LandUse-7', { species: value });
-        //     });
-        //   });
-        // });
+          });
+
+        });
+
+        // Add jobs in OA-MapBiomas-LandCover
+
       });
 
-    })()
-
-    //this.addToQueue_records('Quiina maracaensis');
-
+    })();
   }
 
 }
