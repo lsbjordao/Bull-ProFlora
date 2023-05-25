@@ -30,6 +30,8 @@ export class Processor_oa_UCs extends WorkerHost {
       return Promise.reject(new Error('Failed'));
     }
 
+    job.updateProgress(1);
+
     const recordsFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${job.data.species}.json`;
     let records: any = fs.readFileSync(recordsFilePath, 'utf-8');
     records = JSON.parse(records);
@@ -199,6 +201,8 @@ export class Processor_oa_UCs extends WorkerHost {
           console.error(err);
         }
       });
+
+      job.updateProgress(100);
 
       return Promise.resolve(result);
 

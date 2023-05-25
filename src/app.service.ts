@@ -14,6 +14,11 @@ import { InjectQueue_conservationActions } from './queues/conservationActions.pr
 import { InjectQueue_threats } from './queues/threats.processor';
 import { InjectQueue_speciesProfile } from './queues/speciesProfile.processor';
 
+import { google } from 'googleapis';
+import { JWT } from 'google-auth-library';
+
+import { hasFile } from './queues/helpers/getOccFromOldSys';
+
 @Injectable()
 export class AppService {
   constructor(
@@ -29,7 +34,9 @@ export class AppService {
     @InjectQueue_conservationActions() readonly queue_conservationActions: Queue,
     @InjectQueue_threats() readonly queue_threats: Queue,
     @InjectQueue_speciesProfile() readonly queue_speciesProfile: Queue
-  ) { }
+  ) {
+    this.addJobs();
+  }
 
   addToQueue_records(species: string) {
     this.queue_records.add('Records', { species });
@@ -89,6 +96,82 @@ export class AppService {
   addToQueue_speciesProfile(species: string) {
     this.queue_speciesProfile.add('Species profile', { species });
     return `<i>${species}</i> incluída na fila Species profile`;
+  }
+
+  // add Jobs
+
+  async addJobs() {
+
+    (async function () {
+
+      
+      
+      const keyPath = './credentials.json';
+      const scopes = [
+        'https://www.googleapis.com/auth/spreadsheets'
+      ];
+      const credentials = new google.auth.JWT({
+        keyFile: keyPath,
+        scopes: scopes,
+      });
+      await credentials.authorize();
+
+      const ss = google.sheets({ version: 'v4', auth: credentials });
+      const spreadsheetId = '1DwBS0VD79wMO0UNztfSbUR5mTYdlv3rX9Se1bZhV4Jg';
+      const sheetName = 'List_for_HTML_profile';
+
+      ss.spreadsheets.values.get({
+        spreadsheetId: spreadsheetId,
+        range: `${sheetName}!E2:E`,
+      }, (err: Error, res: any) => {
+        if (err) {
+          console.error('Erro ao obter os valores da coluna E:', err);
+          return;
+        }
+        const species = res.data.values;
+    
+        async function speciesWithFile() {
+          const existingFile = [];
+    
+          for (let i = 0; i < species.length; i++) {
+            const input = species[i];
+            const exists = await hasFile(input);
+            if (exists) {
+              existingFile.push(input);
+            }
+          }
+          return existingFile;
+        }
+    
+        // speciesWithFile().then((result) => {
+        //   let species = result;
+        //   species = species.flat()
+    
+        //   queue1.getJobs().then(function (jobs) {
+        //     const jobNames = jobs.map(function (job) {
+        //       return job.data.species;
+        //     });
+    
+        //     const speciesToAdd = species
+        //       .map(function (value) {
+        //         return value.toString();
+        //       })
+        //       .filter(function (value) {
+        //         const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${value}.html`;
+        //         return !jobNames.includes(value) && fs.existsSync(path);
+        //       });
+    
+        //     speciesToAdd.forEach((value) => {
+        //       addJob(queue1, 'OAC-MapBiomas-LandUse-7', { species: value });
+        //     });
+        //   });
+        // });
+      });
+
+    })()
+
+    //this.addToQueue_records('Quiina maracaensis');
+
   }
 
 }

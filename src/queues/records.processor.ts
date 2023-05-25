@@ -29,12 +29,13 @@ export class Processor_records extends WorkerHost {
     this.logger.log(`Processing ${job.id}`);
 
     const species = job.data.species;
-
+    
     if (!species) {
       return Promise.reject(new Error('Failed'));
     }
 
     // Start process
+    job.updateProgress(1);
 
     const speciesOcc: any = await getOcc(species);
     const speciesUrns = speciesOcc.urns;
@@ -44,7 +45,7 @@ export class Processor_records extends WorkerHost {
     const flowData = await whichFlow(species);
 
     // Check bad coordinates
-
+    
     /// Bad characters
 
     /// Coordinates in water
@@ -107,6 +108,8 @@ export class Processor_records extends WorkerHost {
         }
       }
     );
+
+    job.updateProgress(100);
 
     return Promise.resolve({ speciesRecords });
     

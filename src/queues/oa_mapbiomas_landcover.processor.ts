@@ -33,6 +33,8 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
       return Promise.reject(new Error('Failed'));
     }
 
+    job.updateProgress(1);
+
     const pathFile: string = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
     let file: any = fs.readFileSync(pathFile);
     const records: any = JSON.parse(file);
@@ -119,6 +121,8 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
           console.error(err);
         }
       });
+
+    job.updateProgress(100);
 
     return Promise.resolve(result);
     

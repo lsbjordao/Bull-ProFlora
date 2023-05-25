@@ -30,6 +30,8 @@ export class Processor_citationFFB extends WorkerHost {
       return Promise.reject(new Error('Failed'));
     }
 
+    job.updateProgress(1);
+
     let citation: any;
     let result: any;
     let taxonId: any;
@@ -161,6 +163,8 @@ export class Processor_citationFFB extends WorkerHost {
       }
     });
 
+    job.updateProgress(100);
+    
     return Promise.resolve(result);
     
   } catch(err: Error) {

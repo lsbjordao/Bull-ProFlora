@@ -29,7 +29,7 @@ export class Processor_speciesProfile extends WorkerHost {
       return Promise.reject(new Error('Failed'));
     }
 
-
+    job.updateProgress(1);
 
     function readJson(filePath: string) {
       return new Promise((resolve, reject) => {
@@ -597,6 +597,8 @@ export class Processor_speciesProfile extends WorkerHost {
       });
     };
 
+    job.updateProgress(100);
+    
     return Promise.resolve('G:/Outros computadores/Meu computador/CNCFlora_data/speciesProfiles/' + species + '.html');
 
   } catch(err: Error) {

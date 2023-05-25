@@ -29,6 +29,8 @@ export class Processor_information extends WorkerHost {
       return Promise.reject(new Error('Failed'));
     }
 
+    job.updateProgress(1);
+
     const keyPath = './credentials.json';
     const scopes = [
       'https://www.googleapis.com/auth/spreadsheets'
@@ -80,6 +82,8 @@ export class Processor_information extends WorkerHost {
       }
     });
 
+    job.updateProgress(100);
+    
     return Promise.resolve(result);
 
   } catch(err: Error) {

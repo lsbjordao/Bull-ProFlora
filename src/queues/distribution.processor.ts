@@ -33,6 +33,8 @@ export class Processor_distribution extends WorkerHost {
       return Promise.reject(new Error('Failed'));
     }
 
+    job.updateProgress(1);
+
     const speciesOcc: any = await getOcc(job.data.species);
     const speciesUrns = speciesOcc.urns;
     const speciesStates = speciesOcc.states;
@@ -235,6 +237,8 @@ export class Processor_distribution extends WorkerHost {
         console.error(err);
       }
     });
+
+    job.updateProgress(100);
 
     return Promise.resolve(result);
     
