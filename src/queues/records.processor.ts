@@ -11,8 +11,8 @@ import { getOcc } from './helpers/getOccFromOldSys';
 import { whichFlow } from './helpers/whichFlow';
 import { GeoJSON } from './helpers/geojson';
 
-import { writeFile } from 'fs';
-
+import { writeFile, readFileSync } from 'fs';
+import * as turf from '@turf/turf';
 
 export const QUEUE_NAME_records = 'Records';
 export const InjectQueue_records = (): ParameterDecorator =>
@@ -29,7 +29,7 @@ export class Processor_records extends WorkerHost {
     this.logger.log(`Processing ${job.id}`);
 
     const species = job.data.species;
-    
+
     if (!species) {
       return Promise.reject(new Error('Failed'));
     }
@@ -45,10 +45,86 @@ export class Processor_records extends WorkerHost {
     const flowData = await whichFlow(species);
 
     // Check bad coordinates
-    
+    job.updateProgress(2);
+
     /// Bad characters
+    const regexBadcharacters = /[º°,]|--/;
+
+    let haveBadCoords: boolean = false;
+    let badCoords: any = [];
+    for (let i = 0; i < speciesCoords.length; i++) {
+      if (regexBadcharacters.test(speciesCoords[i].lat) || regexBadcharacters.test(speciesCoords[i].lon)) {
+        badCoords.push([speciesCoords[i].lat, speciesCoords[i].lon])
+        haveBadCoords = true
+      }
+    }
 
     /// Coordinates in water
+    const regexCoordsInWater = /^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,15}/;
+
+    let haveCoordsInWater: boolean = false;
+    let coordsInWater = [];
+    // https://hub.arcgis.com/datasets/CESJ::world-countries/explore?location=-3.705351%2C-31.396331%2C6.00
+    const worldCountriesPath = './src/queues/geojsons/World_Countries.json';
+    let worldCountries: any = readFileSync(worldCountriesPath, 'utf-8');
+    worldCountries = JSON.parse(worldCountries);
+    
+    const areas = ['South America']
+    let polygons = worldCountries.features.filter((feature: any) => areas.indexOf(feature.properties.CONTINENT) !== -1)
+    polygons = worldCountries.features.map((feature: any) => turf.multiPolygon(feature.geometry.coordinates));
+    for (let i = 0; i < speciesCoords.length; i++) {
+      if (regexCoordsInWater.test(speciesCoords[i].lat) && regexCoordsInWater.test(speciesCoords[i].lon)) {
+        const point = turf.point(
+          [Number(speciesCoords[i].lon), Number(speciesCoords[i].lat)]
+        )
+        let water: any = []
+        polygons.forEach((poly: any) => {
+          const ptsWithin = turf.booleanPointInPolygon(point, poly)
+          if (ptsWithin) {
+            water.push(1)
+          } else {
+            water.push(0)
+          }
+        })
+        water = water.reduce((total: any, num: any) => total + num, 0) === 0
+        if (water) {
+          coordsInWater.push([speciesCoords[i].lat, speciesCoords[i].lon])
+          haveCoordsInWater = true
+        }
+      }
+    }
+
+    if (haveBadCoords === true || haveCoordsInWater === true) {
+
+      if (haveBadCoords === true && haveCoordsInWater === true) {
+        const log: any = {
+          BadCoordinates: badCoords,
+          CoordinatesInWater: coordsInWater
+        };
+        job.log(log);
+
+        throw new Error('Bad characters & Coordinates in water');
+      };
+
+      if (haveBadCoords === true && haveCoordsInWater === false) {
+        const log: any = {
+          BadCoordinates: badCoords,
+        };
+        job.log(log);
+
+        throw new Error('Bad characters');
+      };
+
+      if (haveBadCoords === false && haveCoordsInWater === true) {
+        const log: any = {
+          CoordinatesInWater: coordsInWater
+        };
+        job.log(log);
+
+        throw new Error('Coordinates in water');
+      };
+
+    }
 
 
     // Filter occurrences by flow
@@ -112,7 +188,7 @@ export class Processor_records extends WorkerHost {
     job.updateProgress(100);
 
     return Promise.resolve({ speciesRecords });
-    
+
   }
 
   @OnWorkerEvent('active')
