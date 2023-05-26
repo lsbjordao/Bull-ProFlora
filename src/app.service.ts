@@ -35,9 +35,7 @@ export class AppService {
     @InjectQueue_conservationActions() readonly queue_conservationActions: Queue,
     @InjectQueue_threats() readonly queue_threats: Queue,
     @InjectQueue_speciesProfile() readonly queue_speciesProfile: Queue
-  ) {
-    this.addJobs();
-  }
+  ) { }
 
   addToQueue_records(species: string) {
     this.queue_records.add('Records', { species });
@@ -101,80 +99,80 @@ export class AppService {
 
   // add Jobs
 
-  async addJobs() {
-    (async () => {
+  // async addJobs() {
+  //   (async () => {
+  //     console.log('agagagagaga')
+  //     // Get list of species from follow-up table
+  //     const keyPath = './credentials.json';
+  //     const scopes = [
+  //       'https://www.googleapis.com/auth/spreadsheets'
+  //     ];
+  //     const credentials = new google.auth.JWT({
+  //       keyFile: keyPath,
+  //       scopes: scopes,
+  //     });
+  //     await credentials.authorize();
 
-      // Get list of species from follow-up table
-      const keyPath = './credentials.json';
-      const scopes = [
-        'https://www.googleapis.com/auth/spreadsheets'
-      ];
-      const credentials = new google.auth.JWT({
-        keyFile: keyPath,
-        scopes: scopes,
-      });
-      await credentials.authorize();
+  //     const ss = google.sheets({ version: 'v4', auth: credentials });
+  //     const spreadsheetId = '1DwBS0VD79wMO0UNztfSbUR5mTYdlv3rX9Se1bZhV4Jg';
+  //     const sheetName = 'List_for_HTML_profile';
 
-      const ss = google.sheets({ version: 'v4', auth: credentials });
-      const spreadsheetId = '1DwBS0VD79wMO0UNztfSbUR5mTYdlv3rX9Se1bZhV4Jg';
-      const sheetName = 'List_for_HTML_profile';
+  //     ss.spreadsheets.values.get({
+  //       spreadsheetId: spreadsheetId,
+  //       range: `${sheetName}!E2:E`,
+  //     }, (err: Error, res: any) => {
+  //       if (err) {
+  //         console.error('Erro ao obter os valores da coluna E:', err);
+  //         return;
+  //       }
+  //       const species = res.data.values;
 
-      ss.spreadsheets.values.get({
-        spreadsheetId: spreadsheetId,
-        range: `${sheetName}!E2:E`,
-      }, (err: Error, res: any) => {
-        if (err) {
-          console.error('Erro ao obter os valores da coluna E:', err);
-          return;
-        }
-        const species = res.data.values;
+  //       async function speciesWithFile() {
+  //         const existingFile = [];
 
-        async function speciesWithFile() {
-          const existingFile = [];
+  //         for (let i = 0; i < species.length; i++) {
+  //           const input = species[i];
+  //           const exists = await hasFile(input);
+  //           if (exists) {
+  //             existingFile.push(input);
+  //           }
+  //         }
+  //         return existingFile;
+  //       }
 
-          for (let i = 0; i < species.length; i++) {
-            const input = species[i];
-            const exists = await hasFile(input);
-            if (exists) {
-              existingFile.push(input);
-            }
-          }
-          return existingFile;
-        }
+  //       // Add jobs in Records
+  //       speciesWithFile().then((result) => {
+  //         let species = result;
+  //         species = species.flat()
 
-        // Add jobs in Records
-        speciesWithFile().then((result) => {
-          let species = result;
-          species = species.flat()
+  //         this.queue_records.getJobs().then(async (jobs: any) => {
 
-          this.queue_records.getJobs().then(async (jobs: any) => {
-
-            const jobNames = jobs.map(function (job: any) {
-              return job.data.species;
-            });
+  //           const jobNames = jobs.map(function (job: any) {
+  //             return job.data.species;
+  //           });
     
-            const speciesToAdd = species
-            .map(function (value) {
-              return value.toString();
-            })
-            .filter(function (value) {
-              const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${value}.html`;
-              return !jobNames.includes(value) && existsSync(path);
-            });
+  //           const speciesToAdd = species
+  //           .map(function (value) {
+  //             return value.toString();
+  //           })
+  //           .filter(function (value) {
+  //             const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${value}.html`;
+  //             return !jobNames.includes(value) && existsSync(path);
+  //           });
 
-            speciesToAdd.forEach((species: string) => {
-              this.addToQueue_records(species);
-            });
+  //           speciesToAdd.forEach((species: string) => {
+  //             this.addToQueue_records(species);
+  //           });
     
-          });
+  //         });
 
-        });
+  //       });
 
-        // Add jobs in OA-MapBiomas-LandCover
+  //       // Add jobs in OA-MapBiomas-LandCover
 
-      });
+  //     });
 
-    })();
-  }
+  //   })();
+  // }
 
 }

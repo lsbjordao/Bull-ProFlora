@@ -11,7 +11,7 @@ import * as fs from 'fs';
 import { google } from 'googleapis';
 
 
-export const QUEUE_NAME_obraPrinceps = 'Obra Princeps';
+export const QUEUE_NAME_obraPrinceps = 'Obras princeps';
 export const InjectQueue_obraPrinceps = (): ParameterDecorator =>
   InjectQueue(QUEUE_NAME_obraPrinceps);
 
