@@ -161,7 +161,7 @@ export class QueuesModule implements NestModule {
             port: 6379,
           },
           defaultJobOptions: {
-            attempts: 3,
+            attempts: 1,
             backoff: {
               type: 'exponential',
               delay: 1000,

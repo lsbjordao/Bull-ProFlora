@@ -24,7 +24,7 @@ export class Processor_threats extends WorkerHost {
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
 
-    this.logger.log(`Processing ${job.id}`);
+    this.logger.log(`Processing #${job.id} - ${job.data.species}`);
 
     if (!species) {
       return Promise.reject(new Error('Failed'));
@@ -277,16 +277,16 @@ export class Processor_threats extends WorkerHost {
 
   @OnWorkerEvent('active')
   onActive(job: Job) {
-    this.logger.log(`Active ${job.id}`);
+    this.logger.log(`Active #${job.id} - ${job.data.species}`);
   }
 
   @OnWorkerEvent('completed')
   onCompleted(job: Job) {
-    this.logger.log(`Completed ${job.id}`);
+    this.logger.log(`Completed #${job.id} - ${job.data.species}`);
   }
 
   @OnWorkerEvent('failed')
   onFailed(job: Job) {
-    this.logger.log(`Failed ${job.id}`);
+    this.logger.log(`Failed #${job.id} - ${job.data.species}`);
   }
 }

@@ -97,30 +97,26 @@ export class Processor_records extends WorkerHost {
     if (haveBadCoords === true || haveCoordsInWater === true) {
 
       if (haveBadCoords === true && haveCoordsInWater === true) {
-        const log: any = {
-          BadCoordinates: badCoords,
-          CoordinatesInWater: coordsInWater
-        };
-        job.log(log);
-
+        badCoords.forEach((coords: any) => {
+          job.log(`Bad characters: ${coords}`);
+        });
+        coordsInWater.forEach((coords: any) => {
+          job.log(`Coordinates in water: ${coords}`);
+        });
         throw new Error('Bad characters & Coordinates in water');
       };
 
       if (haveBadCoords === true && haveCoordsInWater === false) {
-        const log: any = {
-          BadCoordinates: badCoords,
-        };
-        job.log(log);
-
+        badCoords.forEach((coords: any) => {
+          job.log(`Bad characters: ${coords}`);
+        });
         throw new Error('Bad characters');
       };
 
       if (haveBadCoords === false && haveCoordsInWater === true) {
-        const log: any = {
-          CoordinatesInWater: coordsInWater
-        };
-        job.log(log);
-
+        coordsInWater.forEach((coords: any) => {
+          job.log(`Coordinates in water: ${coords}`);
+        });
         throw new Error('Coordinates in water');
       };
 

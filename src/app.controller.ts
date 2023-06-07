@@ -43,19 +43,19 @@ export class AppController {
     return this.appService.addToQueue_obraPrinceps(species);
   }
 
-  @Post('oa_UCs')
+  @Post('oa-UCs')
   addToQueue_oa_UCs(@Body() data: any) {
     const {species} = data;
     return this.appService.addToQueue_oa_UCs(species);
   }
 
-  @Post('oa_TERs')
+  @Post('oa-TERs')
   addToQueue_oa_TERs(@Body() data: any) {
     const {species} = data;
     return this.appService.addToQueue_oa_TERs(species);
   }
 
-  @Post('oa_PANs')
+  @Post('oa-PANs')
   addToQueue_oa_PANs(@Body() data: any) {
     const {species} = data;
     return this.appService.addToQueue_oa_PANs(species);
