@@ -59,6 +59,13 @@ export class Processor_records extends WorkerHost {
       }
     }
 
+    if (haveBadCoords === true) {
+      badCoords.forEach((coords: any) => {
+        job.log(`Bad characters: ${coords}`);
+      });
+      throw new Error('Bad characters');
+    };
+
     /// Coordinates in water
     const regexCoordsInWater = /^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,15}/;
 
@@ -94,33 +101,12 @@ export class Processor_records extends WorkerHost {
       }
     }
 
-    if (haveBadCoords === true || haveCoordsInWater === true) {
-
-      if (haveBadCoords === true && haveCoordsInWater === true) {
-        badCoords.forEach((coords: any) => {
-          job.log(`Bad characters: ${coords}`);
-        });
-        coordsInWater.forEach((coords: any) => {
-          job.log(`Coordinates in water: ${coords}`);
-        });
-        throw new Error('Bad characters & Coordinates in water');
-      };
-
-      if (haveBadCoords === true && haveCoordsInWater === false) {
-        badCoords.forEach((coords: any) => {
-          job.log(`Bad characters: ${coords}`);
-        });
-        throw new Error('Bad characters');
-      };
-
-      if (haveBadCoords === false && haveCoordsInWater === true) {
-        coordsInWater.forEach((coords: any) => {
-          job.log(`Coordinates in water: ${coords}`);
-        });
-        throw new Error('Coordinates in water');
-      };
-
-    }
+    if (haveCoordsInWater === true) {
+      coordsInWater.forEach((coords: any) => {
+        job.log(`Coordinates in water: ${coords}`);
+      });
+      throw new Error('Coordinates in water');
+    };
 
 
     // Filter occurrences by flow
