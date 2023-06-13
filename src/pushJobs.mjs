@@ -156,8 +156,9 @@ async function pushJobs() {
           return species.toString();
         })
         .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/information/${species}.json`;
-          return !jobNames.includes(species) && existsSync(path);
+          const pathRecords = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
+          const pathInformation = `G:/Outros computadores/Meu computador/CNCFlora_data/information/${species}.json`;
+          return !jobNames.includes(species) && existsSync(pathRecords) && existsSync(pathInformation);
         });
 
       speciesToAdd.forEach((species) => {

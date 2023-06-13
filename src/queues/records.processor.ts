@@ -10,6 +10,7 @@ import { Job } from 'bullmq';
 import { getOcc } from './helpers/getOccFromOldSys';
 import { whichFlow } from './helpers/whichFlow';
 import { GeoJSON } from './helpers/geojson';
+import { getSIGanalyst } from './helpers/getSIGanalyst';
 
 import { writeFile, readFileSync } from 'fs';
 import * as turf from '@turf/turf';
@@ -43,6 +44,8 @@ export class Processor_records extends WorkerHost {
     const speciesValidationSIG = speciesOcc.validationSIG;
     const speciesCoords = speciesOcc.coordsObj;
     const flowData = await whichFlow(species);
+    const SIGanalyst = await getSIGanalyst(species);
+        
 
     // Check bad coordinates
     job.updateProgress(2);
@@ -61,7 +64,7 @@ export class Processor_records extends WorkerHost {
 
     if (haveBadCoords === true) {
       badCoords.forEach((coords: any) => {
-        job.log(`Bad characters: ${coords}`);
+        job.log(`Bad characters: ${coords} (${SIGanalyst})`);
       });
       throw new Error('Bad characters');
     };
@@ -103,7 +106,7 @@ export class Processor_records extends WorkerHost {
 
     if (haveCoordsInWater === true) {
       coordsInWater.forEach((coords: any) => {
-        job.log(`Coordinates in water: ${coords}`);
+        job.log(`Coordinates in water: ${coords} (${SIGanalyst})`);
       });
       throw new Error('Coordinates in water');
     };
