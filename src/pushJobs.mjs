@@ -277,7 +277,7 @@ async function pushJobs() {
           return species.toString();
         })
         .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-LandUse7/${species}.json`;
+          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
           return !jobNames.includes(species) && existsSync(path);
         });
 

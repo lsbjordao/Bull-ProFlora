@@ -4,6 +4,9 @@ const Fuse = require('fuse.js')
 const fs = require('fs');
 
 function getBestMatch(firstLvl, secondLvl) {
+
+    secondLvl = secondLvl.replace(/^D\.\s/, '')
+
     const divisions = fs.readFileSync('./src/queues/admDivisions/divisions.csv', 'utf-8')
         .split('\n')
         .filter(Boolean)
@@ -71,6 +74,12 @@ function getBestMatch(firstLvl, secondLvl) {
     let bestMatchesFirstLvl = fuse.search(firstLvl);
     bestMatchesFirstLvl = bestMatchesFirstLvl.map((element) => element.item);
 
+    const identicalFirstLvl = bestMatchesFirstLvl.some(element => element.firstLvl === firstLvl);
+
+    if (identicalFirstLvl) {
+        bestMatchesFirstLvl = bestMatchesFirstLvl.filter(element => element.firstLvl === firstLvl);
+    }
+
     const optionsSecondLvl = {
         keys: [
             { name: 'secondLvl' }
@@ -80,6 +89,18 @@ function getBestMatch(firstLvl, secondLvl) {
 
     fuse = new Fuse(bestMatchesFirstLvl, optionsSecondLvl);
     let bestMatchSecondLvl = fuse.search(secondLvl);
+
+    if (bestMatchSecondLvl.length === 0) {
+        bestMatchSecondLvl = [
+            {
+                item: {
+                    country: bestMatchesFirstLvl[0].country,
+                    firstLvl: bestMatchesFirstLvl[0].firstLvl,
+                    secondLvl: 'desconhecido'
+                }
+            }
+        ]
+    }
 
     if (bestMatchSecondLvl.length > 0) {
         bestMatchSecondLvl = bestMatchSecondLvl[0].item;

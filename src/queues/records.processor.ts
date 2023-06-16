@@ -114,18 +114,17 @@ export class Processor_records extends WorkerHost {
 
     // Filter occurrences by flow
     let filteredOccIdx: number[] = [];
+    
     if (flowData.flow === 'PA') {
-
       for (let i = 0; i < speciesValidationOcc.length; i++) {
         if (speciesValidationOcc[i] === "Válido" && speciesValidationSIG[i] === "SIG OK") {
           filteredOccIdx.push(i);
         }
       }
-
     }
+    
     if (flowData.flow === 'PNA') {
-
-      if (flowData.records === 'x' && speciesValidationOcc.sig === 'x') {
+      if (flowData.records === 'x' && flowData.sig === 'x') {
         for (let i = 0; i < speciesValidationOcc.length; i++) {
           if (speciesValidationOcc[i] === "Válido" && speciesValidationSIG[i] === "SIG OK") {
             filteredOccIdx.push(i);
@@ -133,11 +132,17 @@ export class Processor_records extends WorkerHost {
         }
       }
 
-      if (flowData.records === 'x' && speciesValidationOcc.sig === '0') {
+      if (flowData.records === 'x' && flowData.sig === '0') {
         for (let i = 0; i < speciesValidationOcc.length; i++) {
           if (speciesValidationOcc[i] === "Válido") {
             filteredOccIdx.push(i);
           }
+        }
+      }
+
+      if (flowData.records === '0' && flowData.sig === '0') {
+        for (let i = 0; i < speciesValidationOcc.length; i++) {
+            filteredOccIdx.push(i);
         }
       }
 

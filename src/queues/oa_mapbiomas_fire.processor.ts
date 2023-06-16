@@ -11,17 +11,17 @@ import * as fs from 'fs';
 //@ts-ignore
 import * as EooAooCalc from '@vicentecalfo/eoo-aoo-calc';
 
-import * as oa from './functions/overlayAnalysis';
+import * as oa from './functions/overlayAnalysis_fire';
 
-export const QUEUE_NAME_oa_mapbiomas_landcover = 'OA-MapBiomas-LandCover';
-export const InjectQueue_oa_mapbiomas_landcover = (): ParameterDecorator =>
-  InjectQueue(QUEUE_NAME_oa_mapbiomas_landcover);
+export const QUEUE_NAME_oa_mapbiomas_fire = 'OA-MapBiomas-Fire';
+export const InjectQueue_oa_mapbiomas_fire = (): ParameterDecorator =>
+  InjectQueue(QUEUE_NAME_oa_mapbiomas_fire);
 
-@Processor(QUEUE_NAME_oa_mapbiomas_landcover, {
+@Processor(QUEUE_NAME_oa_mapbiomas_fire, {
   concurrency: 1,
 })
-export class Processor_oa_mapbiomas_landcover extends WorkerHost {
-  private readonly logger = new Logger(Processor_oa_mapbiomas_landcover.name);
+export class Processor_oa_mapbiomas_fire extends WorkerHost {
+  private readonly logger = new Logger(Processor_oa_mapbiomas_fire.name);
 
   async process(job: Job<any, any, string>): Promise<any> {
 
@@ -40,9 +40,8 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
     const records: any = JSON.parse(file);
 
     // Exclude records with centroid coordinates
-    const regexMunicipio = /[cC]entr[oó]ide de [Mm]unic[ií]pio/;
-    const regexEstado = /[cC]entr[oó]ide de [Ee]stado/;
-    const recordsUtil = records.filter((obj: any) => !regexMunicipio.test(obj) || !regexEstado.test(obj));
+    const regexCentroid = /[cC]entr[oó]ide de [Mm]unic[ií]pio/;
+    const recordsUtil = records.filter((obj: any) => !regexCentroid.test(obj.properties.precision))
 
     async function getCoords(geojson: any): Promise<any> {
       const coords = geojson.map((feature: any) => {
@@ -73,23 +72,6 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
       Object.values(coord).every((val: any) => /^-?\d+(\.\d+)?$/.test(val))
     );
 
-    let aooObj;
-    let aooArea = 0;
-    if (coords.length > 0) {
-      const aoo = new EooAooCalc.AOO({ coordinates: coords })
-      aooObj = aoo.calculate({ gridWidthInKm: 2 })
-      aooArea = aooObj.areaInSquareKm;
-    }
-
-
-    let aooUtilObj;
-    let aooUtilArea = 0;
-    if (coordsAooUtil.length > 0) {
-      const aooUtil = new EooAooCalc.AOO({ coordinates: coordsAooUtil })
-      aooUtilObj = aooUtil.calculate({ gridWidthInKm: 2 })
-      aooUtilArea = aooUtilObj.areaInSquareKm;
-    }
-
     let result: any;
     if (coordsAooUtil.length > 0) {
       result = await oa.calcArea(coordsAooUtil);
@@ -102,13 +84,22 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
       );
     }
 
-    let eooObj;
-    let eooArea = 0;
-    if (coords.length >= 3) {
-      const eoo = new EooAooCalc.EOO({ coordinates: coords });
-      eooObj = eoo.calculate();
-      eooArea = eooObj.areaInSquareKm;
+    const eoo = new EooAooCalc.EOO({ coordinates: coords });
+    const eooObj = eoo.calculate();
+
+    const aoo = new EooAooCalc.AOO({ coordinates: coords })
+    const aooObj = aoo.calculate({ gridWidthInKm: 2 })
+
+    let aooUtilObj;
+    let aooUtilArea = 0;
+    if (coordsAooUtil.length > 0) {
+      const aooUtil = new EooAooCalc.AOO({ coordinates: coordsAooUtil })
+      aooUtilObj = aooUtil.calculate({ gridWidthInKm: 2 })
+      aooUtilArea = aooUtilObj.areaInSquareKm;
     }
+
+    const aooArea = aooObj.areaInSquareKm;
+    const eooArea = eooObj.areaInSquareKm;
 
     result.EOO_km2 = eooArea;
     result.AOO_km2 = aooArea;
@@ -134,7 +125,7 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
     job.updateProgress(100);
 
     return Promise.resolve(result);
-
+    
   } catch(err: Error) {
     console.error(err);
     return null;
@@ -143,7 +134,7 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
 
   @OnWorkerEvent('active')
   onActive(job: Job) {
-    this.logger.log(`Active ${job.id} - ${job.data.species}`);
+    this.logger.log(`Active #${job.id} - ${job.data.species}`);
   }
 
   @OnWorkerEvent('completed')

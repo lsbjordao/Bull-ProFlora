@@ -17,6 +17,12 @@ import {
 } from './oa_mapbiomas_landcover.processor';
 
 import {
+  QUEUE_NAME_oa_mapbiomas_fire,
+  Processor_oa_mapbiomas_fire,
+  InjectQueue_oa_mapbiomas_fire,
+} from './oa_mapbiomas_fire.processor';
+
+import {
   QUEUE_NAME_records,
   Processor_records,
   InjectQueue_records
@@ -91,6 +97,10 @@ export class QueuesModule implements NestModule {
       name: QUEUE_NAME_oa_mapbiomas_landcover
     });
 
+    const queue_oa_mapbiomas_fire = BullModule.registerQueue({
+      name: QUEUE_NAME_oa_mapbiomas_fire
+    });
+
     const queue_records = BullModule.registerQueue({
       name: QUEUE_NAME_records,
     });
@@ -137,6 +147,7 @@ export class QueuesModule implements NestModule {
 
     if (
       !queue_oa_mapbiomas_landcover.providers || !queue_oa_mapbiomas_landcover.exports || 
+      !queue_oa_mapbiomas_fire.providers || !queue_oa_mapbiomas_fire.exports || 
       !queue_records.providers || !queue_records.exports || 
       !queue_information.providers || !queue_information.exports ||
       !queue_distribution.providers || !queue_distribution.exports ||
@@ -169,6 +180,7 @@ export class QueuesModule implements NestModule {
           },
         }),
         queue_oa_mapbiomas_landcover,
+        queue_oa_mapbiomas_fire,
         queue_records,
         queue_information,
         queue_distribution,
@@ -183,6 +195,7 @@ export class QueuesModule implements NestModule {
       ],
       providers: [
         Processor_oa_mapbiomas_landcover, 
+        Processor_oa_mapbiomas_fire, 
         Processor_records, 
         Processor_information, 
         Processor_distribution,
@@ -195,6 +208,7 @@ export class QueuesModule implements NestModule {
         Processor_threats,
         Processor_speciesProfile,
         ...queue_oa_mapbiomas_landcover.providers, 
+        ...queue_oa_mapbiomas_fire.providers, 
         ...queue_records.providers, 
         ...queue_information.providers,
         ...queue_distribution.providers,
@@ -209,6 +223,7 @@ export class QueuesModule implements NestModule {
       ],
       exports: [
         ...queue_oa_mapbiomas_landcover.exports, 
+        ...queue_oa_mapbiomas_fire.exports, 
         ...queue_records.exports, 
         ...queue_information.exports,
         ...queue_distribution.exports,
@@ -226,6 +241,7 @@ export class QueuesModule implements NestModule {
 
   constructor(
     @InjectQueue_oa_mapbiomas_landcover() private readonly queue_oa_mapbiomas_landcover: Queue,
+    @InjectQueue_oa_mapbiomas_fire() private readonly queue_oa_mapbiomas_fire: Queue,
     @InjectQueue_records() private readonly queue_records: Queue,
     @InjectQueue_information() private readonly queue_information: Queue,
     @InjectQueue_distribution() private readonly queue_distribution: Queue,
@@ -251,6 +267,7 @@ export class QueuesModule implements NestModule {
         new BullMQAdapter(this.queue_records),
         new BullMQAdapter(this.queue_distribution),
         new BullMQAdapter(this.queue_oa_mapbiomas_landcover),
+        new BullMQAdapter(this.queue_oa_mapbiomas_fire),
         new BullMQAdapter(this.queue_oa_UCs),
         new BullMQAdapter(this.queue_oa_TERs),
         new BullMQAdapter(this.queue_oa_PANs),

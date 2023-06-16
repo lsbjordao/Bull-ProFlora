@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bullmq';
 
-import { InjectQueue_records, QUEUE_NAME_records } from './queues/records.processor';
+import { InjectQueue_records } from './queues/records.processor';
 import { InjectQueue_oa_mapbiomas_landcover } from './queues/oa_mapbiomas_landcover.processor';
+import { InjectQueue_oa_mapbiomas_fire } from './queues/oa_mapbiomas_fire.processor';
 import { InjectQueue_information } from './queues/information.processor';
 import { InjectQueue_distribution } from './queues/distribution.processor';
 import { InjectQueue_citationFFB } from './queues/citationFFB.processor';
@@ -19,6 +20,7 @@ export class AppService {
   constructor(
     @InjectQueue_records() readonly queue_records: Queue,
     @InjectQueue_oa_mapbiomas_landcover() readonly queue_oa_mapbiomas_landcover: Queue,
+    @InjectQueue_oa_mapbiomas_fire() readonly queue_oa_mapbiomas_fire: Queue,
     @InjectQueue_information() readonly queue_information: Queue,
     @InjectQueue_distribution() readonly queue_distribution: Queue,
     @InjectQueue_citationFFB() readonly queue_citationFFB: Queue,
@@ -39,6 +41,11 @@ export class AppService {
   addToQueue_oa_mapbiomas_landcover(species: string) {
     this.queue_oa_mapbiomas_landcover.add('OA-MapBiomas-LandCover', { species });
     return `${species} included on queue OA-MapBiomas-LandCover`;
+  }
+
+  addToQueue_oa_mapbiomas_fire(species: string) {
+    this.queue_oa_mapbiomas_fire.add('OA-MapBiomas-Fire', { species });
+    return `${species} included on queue OA-MapBiomas-Fire`;
   }
 
   addToQueue_information(species: string) {

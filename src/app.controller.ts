@@ -19,6 +19,12 @@ export class AppController {
     return this.appService.addToQueue_oa_mapbiomas_landcover(species);
   }
 
+  @Post('oa-mapbiomas-fire')
+  addToQueue_oa_mapbiomas_fire(@Body() data: any) {
+    const {species} = data;
+    return this.appService.addToQueue_oa_mapbiomas_fire(species);
+  }
+
   @Post('information')
   addToQueue_information(@Body() data: any) {
     const {species} = data;

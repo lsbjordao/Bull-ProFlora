@@ -59,15 +59,15 @@ export class Processor_distribution extends WorkerHost {
     for (let i = 0; i < speciesStates.length; i++) {
       if (recordsUrns.includes(speciesUrns[i])) {
         const obj = {
-          state: speciesStates[i],
-          municipality: speciesMunicipalities[i]
+          firstLvl: speciesStates[i],
+          secondLvl: speciesMunicipalities[i]
         };
         result.push(obj);
       }
     }
 
     result = _.filter(result, function (item: any) {
-      return item.state !== '' && item.municipality !== '';
+      return item.firstLvl !== '' && item.secondLvl !== '';
     });
 
     result = _.uniq(result, false, function (item: any) {
@@ -75,10 +75,10 @@ export class Processor_distribution extends WorkerHost {
     });
 
     const distribution: any = result.map((obj: any) => {
-      const { state, municipality } = obj;
-      const bestMatch = admDivisions.getBestMatch(state, municipality);
-      bestMatch.firstLvl_search = state;
-      bestMatch.secondLvl_search = municipality;
+      const { firstLvl, secondLvl } = obj;
+      const bestMatch = admDivisions.getBestMatch(firstLvl, secondLvl);
+      bestMatch.firstLvl_search = firstLvl;
+      bestMatch.secondLvl_search = secondLvl;
       return bestMatch;
     });
 
@@ -134,22 +134,22 @@ export class Processor_distribution extends WorkerHost {
         const filtered = Object.values(municipalities).filter((m: any) => m.country === country);
         const groupedByState: any = filtered.reduce((acc: any, cur: any) => {
           const { firstLvl, secondLvl } = cur;
-          const state = `${firstLvl}`;
+          const firstLvl_ = `${firstLvl}`;
 
-          if (!acc[state]) {
-            acc[state] = {
-              state: firstLvl,
+          if (!acc[firstLvl_]) {
+            acc[firstLvl_] = {
+              firstLvl: firstLvl,
               municipalities: [],
             };
           }
 
-          acc[state].municipalities.push(secondLvl);
+          acc[firstLvl_].municipalities.push(secondLvl);
 
           return acc;
         }, {});
 
         const countryText = Object.values(groupedByState)
-          .map(({ state, municipalities }) => {
+          .map(({ firstLvl, municipalities }) => {
             let stateLabel, municipalityLabel;
 
             if (country === 'Brasil') {
@@ -191,7 +191,7 @@ export class Processor_distribution extends WorkerHost {
             }
 
             const municipalitiesText = `${municipalityLabel} ${municipalities.sort().join(', ')}`;
-            return `no ${stateLabel} ${state} \u2014 ${municipalitiesText} \u2014`;
+            return `no ${stateLabel} ${firstLvl} \u2014 ${municipalitiesText} \u2014`;
           })
           .join('. ');
 
