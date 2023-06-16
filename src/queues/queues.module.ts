@@ -276,6 +276,11 @@ export class QueuesModule implements NestModule {
         new BullMQAdapter(this.queue_speciesProfile)
       ],
       serverAdapter,
+      options: {
+        uiConfig: {
+          boardTitle: 'Bull-CNCFlora'
+        },
+      }
     });
 
     consumer
