@@ -173,6 +173,7 @@ export class QueuesModule implements NestModule {
           },
           defaultJobOptions: {
             attempts: 1,
+            sizeLimit: 1073741824,
             backoff: {
               type: 'exponential',
               delay: 1000,

@@ -43,10 +43,10 @@ export class Processor_records extends WorkerHost {
     const speciesValidationOcc = speciesOcc.validationRecords;
     const speciesValidationSIG = speciesOcc.validationSIG;
     const speciesCoords = speciesOcc.coordsObj;
+    
     const flowData = await whichFlow(species);
     const SIGanalyst = await getSIGanalyst(species);
-        
-
+    
     // Check bad coordinates
     job.updateProgress(2);
 
@@ -73,7 +73,7 @@ export class Processor_records extends WorkerHost {
     const regexCoordsInWater = /^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,15}/;
 
     let haveCoordsInWater: boolean = false;
-    let coordsInWater = [];
+    let coordsInWater: any = [];
     // https://hub.arcgis.com/datasets/CESJ::world-countries/explore?location=-3.705351%2C-31.396331%2C6.00
     const worldCountriesPath = './src/queues/geojsons/World_Countries.json';
     let worldCountries: any = readFileSync(worldCountriesPath, 'utf-8');
@@ -82,27 +82,34 @@ export class Processor_records extends WorkerHost {
     const areas = ['South America']
     let polygons = worldCountries.features.filter((feature: any) => areas.indexOf(feature.properties.CONTINENT) !== -1)
     polygons = worldCountries.features.map((feature: any) => turf.multiPolygon(feature.geometry.coordinates));
-    for (let i = 0; i < speciesCoords.length; i++) {
-      if (regexCoordsInWater.test(speciesCoords[i].lat) && regexCoordsInWater.test(speciesCoords[i].lon)) {
-        const point = turf.point(
-          [Number(speciesCoords[i].lon), Number(speciesCoords[i].lat)]
-        )
-        let water: any = []
-        polygons.forEach((poly: any) => {
-          const ptsWithin = turf.booleanPointInPolygon(point, poly)
+
+    coordsInWater = speciesCoords.map((coord: any) => {
+      const isCoordsInWater = regexCoordsInWater.test(coord.lat) && regexCoordsInWater.test(coord.lon);
+      if (isCoordsInWater) {
+        const point = turf.point([Number(coord.lon), Number(coord.lat)]);
+        let water: any = [];
+        let count = 0;
+    
+        const isInWater = polygons.some((poly: any) => {
+          const ptsWithin = turf.booleanPointInPolygon(point, poly);
           if (ptsWithin) {
-            water.push(1)
+            water.push(1);
           } else {
-            water.push(0)
+            water.push(0);
           }
-        })
-        water = water.reduce((total: any, num: any) => total + num, 0) === 0
-        if (water) {
-          coordsInWater.push([speciesCoords[i].lat, speciesCoords[i].lon])
-          haveCoordsInWater = true
+
+          return ptsWithin;
+        });
+    
+        if (isInWater && water.reduce((total: any, num: any) => total + num, 0) === 0) {
+          return [coord.lat, coord.lon];
         }
       }
-    }
+      return null;
+    }).filter(Boolean);    
+    
+    haveCoordsInWater = coordsInWater.length > 0;
+    
 
     if (haveCoordsInWater === true) {
       coordsInWater.forEach((coords: any) => {
@@ -135,6 +142,14 @@ export class Processor_records extends WorkerHost {
       if (flowData.records === 'x' && flowData.sig === '0') {
         for (let i = 0; i < speciesValidationOcc.length; i++) {
           if (speciesValidationOcc[i] === "Válido") {
+            filteredOccIdx.push(i);
+          }
+        }
+      }
+
+      if (flowData.records === '0' && flowData.sig === 'x') {
+        for (let i = 0; i < speciesValidationOcc.length; i++) {
+          if (speciesValidationSIG[i] === "SIG OK") {
             filteredOccIdx.push(i);
           }
         }

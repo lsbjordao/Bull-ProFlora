@@ -23,7 +23,7 @@ export class Processor_oa_UCs extends WorkerHost {
 
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
-
+    
     this.logger.log(`Processing #${job.id} - ${job.data.species}`);
 
     if (!species) {
@@ -66,7 +66,7 @@ export class Processor_oa_UCs extends WorkerHost {
         }));
 
         return coordinates
-      }
+      };
 
       const coordinates = await getCoords(recordsUtil);
 
@@ -99,7 +99,7 @@ export class Processor_oa_UCs extends WorkerHost {
             }
           })
         }
-      }
+      };
       let onlyUCsName: any = UCsPoly.map((data: any) => data.properties.NOME_UC1);
       onlyUCsName = _.uniq(onlyUCsName);
 
@@ -115,7 +115,7 @@ export class Processor_oa_UCs extends WorkerHost {
             }
             str[i] = parts.join(separator);
           }
-        }
+        };
         return str.join(' ')
           .replace(/\sE\s/g, ' e ')
           .replace(/\sDe\s/g, ' de ')
@@ -192,8 +192,7 @@ export class Processor_oa_UCs extends WorkerHost {
           .replace(/\s\(Sc\)/g, '');
       }
 
-      const UCsOutput = onlyUCsName.map((UC: any) => fixUcName(UC))
-
+      const UCsOutput = onlyUCsName.map((UC: any) => fixUcName(UC));
       const result: any = UCsOutput;
 
       fs.writeFile(`G:/Outros computadores/Meu computador/CNCFlora_data/oac/UCs/${job.data.species}.json`, JSON.stringify(result), 'utf8', function (err) {
@@ -201,7 +200,7 @@ export class Processor_oa_UCs extends WorkerHost {
           console.error(err);
         }
       });
-
+      
       job.updateProgress(100);
 
       return Promise.resolve(result);

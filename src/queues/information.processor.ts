@@ -61,7 +61,7 @@ export class Processor_information extends WorkerHost {
     const speciesHabitat = speciesRow[10];
     const speciesCites = speciesRow[12];
     const speciesUses = speciesRow[14];
-    const speciesIUCN_assessment_presence = speciesRow[15];
+    let speciesIUCN_assessment_presence = speciesRow[15] || "";
 
     const result = {
       "vernacularNames": speciesVernacularNames,

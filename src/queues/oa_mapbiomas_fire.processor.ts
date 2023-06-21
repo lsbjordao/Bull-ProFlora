@@ -115,7 +115,7 @@ export class Processor_oa_mapbiomas_fire extends WorkerHost {
     result = orderedResult
 
     fs.writeFile(
-      `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-landUse7/${job.data.species}.json`,
+      `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-Fire/${job.data.species}.json`,
       JSON.stringify(result), 'utf8', (err) => {
         if (err) {
           console.error(err);

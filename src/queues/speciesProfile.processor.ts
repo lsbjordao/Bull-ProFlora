@@ -509,10 +509,6 @@ export class Processor_speciesProfile extends WorkerHost {
 
         if (AooThreats.length !== 0 && EooThreats.length === 0) {
 
-          console.log('AooThreats.length !== 0 && EooThreats.length === 0')
-          console.log('species')
-          console.log(job.data.species)
-
           let AooThreatsList = [];
           for (const threat of AooThreats) {
             const lastYear = threat.lastYear;
@@ -565,8 +561,64 @@ export class Processor_speciesProfile extends WorkerHost {
           }
           const threatsList = AooThreatsListMerged.concat(AooThreatsListNotMerged);
 
-          console.log('threatsList')
-          console.log(threatsList)
+          output.threats.includeThreat = threatsList;
+
+        };
+
+        if (AooThreats.length === 0 && EooThreats.length !== 0) {
+
+          let EooThreatsList = [];
+          for (const threat of EooThreats) {
+            const lastYear = threat.lastYear;
+            const lastYearPercentage = threat.lastYear_percentage.toFixed(2);
+            const lastYearKm2 = threat.lastYear_km2.toFixed(2);
+            const annualRate = threat.trendAnalysis.annualRate.toFixed(2);
+            const pValue = threat.trendAnalysis.pValue.toExponential(4);
+            const rSquared = threat.trendAnalysis.rSquared.toFixed(4);
+            const threatName = threat.threat;
+
+            let EooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua EOO convertidos em áreas de ${threatName}, atividade que apresenta tendência nula desde 1985 até 2020.`;
+            if (annualRate > 0) {
+              EooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua EOO convertidos em áreas de ${threatName}, atividade que cresce a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
+            };
+            if (annualRate < 0) {
+              EooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua EOO convertidos em áreas de ${threatName}, atividade que dimimui a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
+            };
+
+            EooThreatText = EooThreatText.replace('áreas de área urbanizada', 'área urbanizada');
+
+            const EooThreatInfo = {
+              "threat": threatsIUCN[threatName],
+              "text": EooThreatText,
+              "reference": `MapBiomas, 2022. Projeto MapBiomas - Coleção 7 da Série Anual de Mapas de Cobertura e Uso de Solo do Brasil, dados de 1985 e 2021. URL https://https://mapbiomas.org (acesso em ${date}).`
+            };
+            EooThreatsList.push(EooThreatInfo);
+          };
+
+          let EooThreatsListMerged = EooThreatsList.filter(item => item.threat === '2.1.4 Scale Unknown/Unrecorded');
+          let EooThreatsListNotMerged = EooThreatsList.filter(item => item.threat !== '2.1.4 Scale Unknown/Unrecorded');
+          if (EooThreatsListMerged.length >= 2) {
+            const firstItem = EooThreatsListMerged[0];
+            const secondItem = EooThreatsListMerged[1];
+
+            firstItem.text += ' ' + secondItem.text;
+
+            EooThreatsList.splice(EooThreatsList.indexOf(secondItem), 1);
+          }
+          EooThreatsListMerged = EooThreatsListMerged.concat(EooThreatsListNotMerged);
+
+          EooThreatsListMerged = EooThreatsList.filter(item => item.threat === '2.3.4 Scale Unknown/Unrecorded');
+          EooThreatsListNotMerged = EooThreatsList.filter(item => item.threat !== '2.3.4 Scale Unknown/Unrecorded');
+          if (EooThreatsListMerged.length >= 2) {
+            const firstItem = EooThreatsListMerged[0];
+            const secondItem = EooThreatsListMerged[1];
+
+            firstItem.text += ' ' + secondItem.text;
+
+            EooThreatsList.splice(EooThreatsList.indexOf(secondItem), 1);
+          }
+          const threatsList = EooThreatsListMerged.concat(EooThreatsListNotMerged);
+
           output.threats.includeThreat = threatsList;
 
         };
