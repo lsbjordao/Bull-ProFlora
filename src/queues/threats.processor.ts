@@ -78,7 +78,7 @@ export class Processor_threats extends WorkerHost {
         }
       }
 
-      const filePath = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-LandUse7/${job.data.species}.json`;
+      const filePath = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-LandCover7/${job.data.species}.json`;
       const oacJson = await readJsonFile(filePath);
 
       const threats: any = {

@@ -38,13 +38,16 @@ export class Processor_conservationActions extends WorkerHost {
 
     let result: any;
     if (records.length === 0) {
-      result = [];
+      result = {
+        threatenedLists: [],
+        municipsPriorAL: []
+      };
       fs.writeFile(`G:/Outros computadores/Meu computador/CNCFlora_data/conservationActions/${job.data.species}.json`, JSON.stringify(result), 'utf8', function (err) {
         if (err) {
           console.error(err);
         }
       });
-      return Promise.resolve('No records.');
+      return Promise.resolve(result);
     }
 
     if (records.length > 0) {

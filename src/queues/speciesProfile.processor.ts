@@ -56,7 +56,7 @@ export class Processor_speciesProfile extends WorkerHost {
       'information',
       'obrasPrinceps',
       'citationFFB',
-      'oac/MapBiomas-LandUse7',
+      'oac/MapBiomas-LandCover7',
       'oac/PANs',
       'oac/TERs',
       'oac/UCs',
@@ -83,8 +83,8 @@ export class Processor_speciesProfile extends WorkerHost {
 
         output.obrasPrinceps.output = output.obrasPrinceps.Tropicos[0].DisplayReference;
 
-        output["MapBiomas"] = output["oac/MapBiomas-LandUse7"];
-        delete output["oac/MapBiomas-LandUse7"];
+        output["MapBiomas"] = output["oac/MapBiomas-LandCover7"];
+        delete output["oac/MapBiomas-LandCover7"];
 
         output.EOO = output.MapBiomas.EOO_km2;
         output.EOO = output.EOO.toFixed(0);

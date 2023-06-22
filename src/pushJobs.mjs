@@ -68,7 +68,8 @@ async function pushJobs() {
       return;
     }
     const listOfSpecies = (res.data.values).flat();
-
+    if(listOfSpecies !== ['#N/A'])
+    
     // Queue Records
     queueRecords.getJobs().then(async (jobs) => {
       const jobNames = jobs.map(function (job) {
@@ -299,8 +300,8 @@ async function pushJobs() {
         })
         .filter(function (species) {
           const pathRecords = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
-          const pathOacMapBiomasLandUse = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-LandUse7/${species}.json`;
-          return !jobNames.includes(species) && existsSync(pathRecords) && existsSync(pathOacMapBiomasLandUse);
+          const pathOacMapBiomasLandCover = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-LandCover7/${species}.json`;
+          return !jobNames.includes(species) && existsSync(pathRecords) && existsSync(pathOacMapBiomasLandCover);
         });
 
       speciesToAdd.forEach((species) => {
@@ -336,7 +337,7 @@ async function pushJobs() {
           'information',
           'obrasPrinceps',
           'citationFFB',
-          'oac/MapBiomas-LandUse7',
+          'oac/MapBiomas-LandCover7',
           'oac/PANs',
           'oac/TERs',
           'oac/UCs',
