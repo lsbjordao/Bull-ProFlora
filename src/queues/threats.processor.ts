@@ -78,8 +78,10 @@ export class Processor_threats extends WorkerHost {
         }
       }
 
-      const filePath = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-LandCover7/${job.data.species}.json`;
-      const oacJson = await readJsonFile(filePath);
+
+      // MapBiomas Land cover
+      const oacMapBiomasLandCoverfilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-LandCover7/${job.data.species}.json`;
+      const oacMapBiomasLandCoverfilePathJson = await readJsonFile(oacMapBiomasLandCoverfilePath);
 
       const threats: any = {
         "9": "Silvicultura",
@@ -90,8 +92,8 @@ export class Processor_threats extends WorkerHost {
       }
 
       // AOO
-      const AOO = oacJson.AOO;
-      const AOOvalue = oacJson.AOO_km2;
+      const AOO = oacMapBiomasLandCoverfilePathJson.AOO;
+      const AOOvalue = oacMapBiomasLandCoverfilePathJson.AOO_km2;
 
       const AOOvalues: any = {};
       for (let i = 0; i < AOO.length; i++) {
@@ -169,8 +171,8 @@ export class Processor_threats extends WorkerHost {
       const AOOoutput = AOOresult;
 
       // EOO
-      const EOO = oacJson.EOO;
-      const EOOvalue = oacJson.EOO_km2;
+      const EOO = oacMapBiomasLandCoverfilePathJson.EOO;
+      const EOOvalue = oacMapBiomasLandCoverfilePathJson.EOO_km2;
       let EOOoutput: any;
 
       if (EOOvalue > 0) {
@@ -252,7 +254,181 @@ export class Processor_threats extends WorkerHost {
         EOOoutput = [];
       }
 
-      const output = { "AOO": AOOoutput, "EOO": EOOoutput };
+
+      // MapBiomas fire
+      const oacMapBiomasFirefilePathfilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-Fire/${job.data.species}.json`;
+      const oacMapBiomasFireJson = await readJsonFile(oacMapBiomasFirefilePathfilePath);
+
+      const classes: any = {
+        0: "Out",
+        1: "Floresta",
+        2: "Leñosas cerradas",
+        3: "Formação florestal",
+        4: "Formação savânica",
+        5: "Mangue",
+        6: "Floresta inundável",
+        9: "Silvicultura",
+        11: "Campo alagado e área pantanosa",
+        12: "Formação campestre",
+        13: "Outras formações não florestais",
+        15: "Pastagem",
+        18: "Agricultura",
+        19: "Lavoura temporária",
+        20: "Cana",
+        21: "Mosaico de usos",
+        22: "Áreas não vegetadas",
+        23: "Praia, duna e areal",
+        24: "Área urbanizada",
+        25: "Outras áreas não vegetadas",
+        27: "Não observado",
+        29: "Afloramento rochoso",
+        30: "Mineração",
+        31: "Aquicultura",
+        32: "Apicum",
+        33: "Rio, lago e oceano",
+        34: "Geleira",
+        35: "Cultura de palma",
+        36: "Lavoura perene",
+        39: "Soja",
+        40: "Arroz",
+        41: "Outras lavouras temporárias",
+        42: "Pastizal abierto",
+        43: "Pastizal cerrado",
+        44: "Pastizal disperso",
+        45: "Leñosas dispersas",
+        46: "Café",
+        47: "Citrus",
+        48: "Outras lavouras perenes",
+        49: "Restinga arborizada",
+        57: "Cultivos simples",
+        58: "Cultivos múltiples",
+        62: "Algodão",
+        63: "NoData"
+      }
+
+      // AOO Fire
+      const AOOfire = oacMapBiomasFireJson.AOO;
+
+      const AOOfireValues: any = {};
+      for (let i = 0; i < AOOfire.length; i++) {
+        let band = AOOfire[i].band;
+        let year = band.substring(band.lastIndexOf('_') + 1);
+
+        let groups = AOOfire[i].areaKm2.groups;
+
+        for (let j = 0; j < groups.length; j++) {
+          let classValue = groups[j].class;
+
+          if ([1, 2, 3, 4, 5, 6, 9, 11, 12, 13, 15, 18, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 35, 36, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 57, 58, 62].includes(classValue)) {
+            let sumValue = groups[j].sum;
+
+            if (!AOOfireValues[classValue]) {
+              AOOfireValues[classValue] = {};
+            }
+
+            if (!AOOfireValues[classValue][year]) {
+              AOOfireValues[classValue][year] = sumValue;
+            } else {
+              AOOfireValues[classValue][year] += sumValue;
+            }
+          }
+        }
+      }
+
+      const AooFireThreats: any = {};
+      for (const key in AOOfireValues) {
+        AooFireThreats[classes[key]] = AOOfireValues[key];
+      }
+
+      // Threats greather than 5%
+      let relevantAooFireThreats: any = [];
+      let AoototalAreaPercentage = 0;
+
+      for (const key of Object.keys(AooFireThreats)) {
+        let areaPercentage = AooFireThreats[key]['2022'] / AOOvalue;
+        if (isNaN(areaPercentage)) {
+          areaPercentage = 0;
+        }
+        AoototalAreaPercentage += areaPercentage;
+
+        if (AoototalAreaPercentage >= 0.05) {
+          if (areaPercentage !== 0) {
+            const data = {
+              "class": key,
+              "year": 2022,
+              "km2": AooFireThreats[key]['2022'],
+              "percent": areaPercentage
+            };
+            relevantAooFireThreats.push(data);
+          }
+        }
+      }
+
+      const AOOfireOutput = relevantAooFireThreats;
+
+
+      // EOO Fire
+      const EOOfire = oacMapBiomasFireJson.EOO;
+
+      const EOOfireValues: any = {};
+      for (let i = 0; i < AOOfire.length; i++) {
+        let band = AOOfire[i].band;
+        let year = band.substring(band.lastIndexOf('_') + 1);
+
+        let groups = AOOfire[i].areaKm2.groups;
+
+        for (let j = 0; j < groups.length; j++) {
+          let classValue = groups[j].class;
+
+          if ([1, 2, 3, 4, 5, 6, 9, 11, 12, 13, 15, 18, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 35, 36, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 57, 58, 62].includes(classValue)) {
+            let sumValue = groups[j].sum;
+
+            if (!EOOfireValues[classValue]) {
+              EOOfireValues[classValue] = {};
+            }
+
+            if (!EOOfireValues[classValue][year]) {
+              EOOfireValues[classValue][year] = sumValue;
+            } else {
+              EOOfireValues[classValue][year] += sumValue;
+            }
+          }
+        }
+      }
+
+      const EooFireThreats: any = {};
+      for (const key in EOOfireValues) {
+        EooFireThreats[classes[key]] = EOOfireValues[key];
+      }
+
+      // Threats greather than 5%
+      let relevantEooFireThreats: any = [];
+      let EoototalAreaPercentage = 0;
+
+      for (const key of Object.keys(EooFireThreats)) {
+        let areaPercentage = EooFireThreats[key]['2022'] / EOOvalue;
+        if (isNaN(areaPercentage)) {
+          areaPercentage = 0;
+        }
+        EoototalAreaPercentage += areaPercentage;
+
+        if (EoototalAreaPercentage >= 0.05) {
+          if (areaPercentage !== 0) {
+            const data = {
+              "class": key,
+              "year": 2022,
+              "km2": EooFireThreats[key]['2022'],
+              "percent": areaPercentage
+            };
+            relevantAooFireThreats.push(data);
+          }
+        }
+      }
+
+      const EOOfireOutput = relevantEooFireThreats;
+
+
+      const output = { "AOO": AOOoutput, "EOO": EOOoutput, "AOOfire": AOOfireOutput, "EOOfire": EOOfireOutput };
 
       const result = output;
 
@@ -265,7 +441,7 @@ export class Processor_threats extends WorkerHost {
       job.updateProgress(100);
 
       return Promise.resolve(result);
-      
+
     }
 
   } catch(err: Error) {

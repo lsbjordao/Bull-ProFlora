@@ -338,6 +338,7 @@ async function pushJobs() {
           'obrasPrinceps',
           'citationFFB',
           'oac/MapBiomas-LandCover7',
+          'oac/MapBiomas-Fire',
           'oac/PANs',
           'oac/TERs',
           'oac/UCs',
