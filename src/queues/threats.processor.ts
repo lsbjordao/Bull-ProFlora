@@ -157,6 +157,7 @@ export class Processor_threats extends WorkerHost {
           const value = values[year];
           y.push(value);
         }
+        
         const trendAnalysis: any = await runRScript(y);
         const lastYear_km2 = relevantAooThreats[key]["2021"];
         AOOresult.push({
