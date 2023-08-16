@@ -24,8 +24,6 @@ export class Processor_obraPrinceps extends WorkerHost {
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
 
-    this.logger.log(`Processing #${job.id} - ${job.data.species}`);
-
     if (!species) {
       return Promise.reject(new Error('Failed'));
     }
@@ -148,10 +146,11 @@ export class Processor_obraPrinceps extends WorkerHost {
     return null;
   }
 
-
   @OnWorkerEvent('active')
   onActive(job: Job) {
-    this.logger.log(`Active #${job.id} - ${job.data.species}`);
+    const message = `Active #${job.id} - ${job.data.species}`;
+    const blueMessage = `\x1b[34m${message}\x1b[0m`;
+    this.logger.log(blueMessage);
   }
 
   @OnWorkerEvent('completed')
@@ -161,6 +160,8 @@ export class Processor_obraPrinceps extends WorkerHost {
 
   @OnWorkerEvent('failed')
   onFailed(job: Job) {
-    this.logger.log(`Failed #${job.id} - ${job.data.species}`);
+    const message = `Failed #${job.id} - ${job.data.species}`;
+    const redMessage = `\x1b[31m${message}\x1b[0m`;
+    this.logger.log(redMessage);
   }
 }

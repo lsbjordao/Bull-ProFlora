@@ -24,8 +24,6 @@ export class Processor_threats extends WorkerHost {
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
 
-    this.logger.log(`Processing #${job.id} - ${job.data.species}`);
-
     if (!species) {
       return Promise.reject(new Error('Failed'));
     }
@@ -35,6 +33,8 @@ export class Processor_threats extends WorkerHost {
     const recordsFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${job.data.species}.json`;
     let records: any = fs.readFileSync(recordsFilePath, 'utf-8');
     records = JSON.parse(records);
+
+    job.updateProgress(2);
 
     let result: any;
     if (records.length === 0) {
@@ -47,11 +47,12 @@ export class Processor_threats extends WorkerHost {
           console.error(err);
         }
       });
+      job.updateProgress(90);
       return Promise.resolve('No records.');
     }
 
     if (records.length > 0) {
-
+      job.updateProgress(3);
       const rScriptPath = './src/queues/functions/trendAnalysis.R';
 
       function runRScript(y: any) {
@@ -90,6 +91,8 @@ export class Processor_threats extends WorkerHost {
         "24": "Área urbanizada",
         "30": "Mineração"
       }
+
+      job.updateProgress(4);
 
       // AOO
       const AOO = oacMapBiomasLandCoverfilePathJson.AOO;
@@ -170,6 +173,8 @@ export class Processor_threats extends WorkerHost {
       }
 
       const AOOoutput = AOOresult;
+
+      job.updateProgress(5);
 
       // EOO
       const EOO = oacMapBiomasLandCoverfilePathJson.EOO;
@@ -255,7 +260,7 @@ export class Processor_threats extends WorkerHost {
         EOOoutput = [];
       }
 
-
+      job.updateProgress(7);
       // MapBiomas fire
       const oacMapBiomasFirefilePathfilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-Fire/${job.data.species}.json`;
       const oacMapBiomasFireJson = await readJsonFile(oacMapBiomasFirefilePathfilePath);
@@ -307,6 +312,7 @@ export class Processor_threats extends WorkerHost {
         63: "NoData"
       }
 
+      job.updateProgress(9);
       // AOO Fire
       const AOOfire = oacMapBiomasFireJson.AOO;
 
@@ -367,7 +373,7 @@ export class Processor_threats extends WorkerHost {
 
       const AOOfireOutput = relevantAooFireThreats;
 
-
+      job.updateProgress(11);
       // EOO Fire
       const EOOfire = oacMapBiomasFireJson.EOO;
 
@@ -454,7 +460,9 @@ export class Processor_threats extends WorkerHost {
 
   @OnWorkerEvent('active')
   onActive(job: Job) {
-    this.logger.log(`Active #${job.id} - ${job.data.species}`);
+    const message = `Active #${job.id} - ${job.data.species}`;
+    const blueMessage = `\x1b[34m${message}\x1b[0m`;
+    this.logger.log(blueMessage);
   }
 
   @OnWorkerEvent('completed')
@@ -464,6 +472,8 @@ export class Processor_threats extends WorkerHost {
 
   @OnWorkerEvent('failed')
   onFailed(job: Job) {
-    this.logger.log(`Failed #${job.id} - ${job.data.species}`);
+    const message = `Failed #${job.id} - ${job.data.species}`;
+    const redMessage = `\x1b[31m${message}\x1b[0m`;
+    this.logger.log(redMessage);
   }
 }

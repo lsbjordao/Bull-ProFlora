@@ -25,8 +25,6 @@ export class Processor_oa_mapbiomas_fire extends WorkerHost {
 
   async process(job: Job<any, any, string>): Promise<any> {
 
-    this.logger.log(`Processing #${job.id} - ${job.data.species}`);
-
     const species = job.data.species;
 
     if (!species) {
@@ -113,7 +111,7 @@ export class Processor_oa_mapbiomas_fire extends WorkerHost {
       orderedResult[key] = result[key];
     });
     result = orderedResult
-
+    
     fs.writeFile(
       `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-Fire/${job.data.species}.json`,
       JSON.stringify(result), 'utf8', (err) => {
@@ -134,7 +132,9 @@ export class Processor_oa_mapbiomas_fire extends WorkerHost {
 
   @OnWorkerEvent('active')
   onActive(job: Job) {
-    this.logger.log(`Active #${job.id} - ${job.data.species}`);
+    const message = `Active #${job.id} - ${job.data.species}`;
+    const blueMessage = `\x1b[34m${message}\x1b[0m`;
+    this.logger.log(blueMessage);
   }
 
   @OnWorkerEvent('completed')
@@ -144,6 +144,8 @@ export class Processor_oa_mapbiomas_fire extends WorkerHost {
 
   @OnWorkerEvent('failed')
   onFailed(job: Job) {
-    this.logger.log(`Failed #${job.id} - ${job.data.species}`);
+    const message = `Failed #${job.id} - ${job.data.species}`;
+    const redMessage = `\x1b[31m${message}\x1b[0m`;
+    this.logger.log(redMessage);
   }
 }
