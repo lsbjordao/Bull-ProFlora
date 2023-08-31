@@ -121,9 +121,12 @@ export class Processor_citationFFB extends WorkerHost {
         haveAuthor = false
       }
       if (haveAuthor === true) {
+        const matchResult = howToCite.match(/(\W\w+)\sin/);
+        const taxon = matchResult ? matchResult[1] : '';
+        
         howToCite = howToCite.replace(/(.*)\sin Flora do Brasil.*/, '$1')
         howToCite = howToCite.replace(/\s\w+$/, '')
-        howToCite = `${howToCite}, ${year}. Flora e Funga do Brasil. Jardim Botânico do Rio de Janeiro. URL https://floradobrasil.jbrj.gov.br/${id} (acesso em ${date}).`
+        howToCite = `${howToCite}, ${year}.${taxon}. Flora e Funga do Brasil. Jardim Botânico do Rio de Janeiro. URL https://floradobrasil.jbrj.gov.br/${id} (acesso em ${date}).`
         citation = howToCite;
       } else {
         citation = `Flora e Funga do Brasil, ${year}. ${citation.family}. Flora e Funga do Brasil. Jardim Botânico do Rio de Janeiro. URL https://floradobrasil.jbrj.gov.br/${id} (acesso em ${date}).`
