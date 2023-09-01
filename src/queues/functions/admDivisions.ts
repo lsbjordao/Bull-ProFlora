@@ -32,6 +32,11 @@ function getBestMatch(firstLvl, secondLvl) {
     // secondLvl = Província
     // thirdLvl = Distrito
 
+    // Bolívia
+    // firstLvl = Departamento
+    // secondLvl = Província
+    // thirdLvl = Município
+
     // Paraguai
     // firstLvl = Departamento
     // secondLvl = Município

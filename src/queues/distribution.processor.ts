@@ -159,6 +159,9 @@ export class Processor_distribution extends WorkerHost {
             } else if (country === 'Paraguai') {
               stateLabel = 'departamento';
               municipalityLabel = municipalities.length > 1 ? 'municípios' : 'município';
+            } else if (country === 'Bolívia') {
+              stateLabel = 'departamento';
+              municipalityLabel = municipalities.length > 1 ? 'municípios' : 'município';
             } else if (country === 'Peru') {
               stateLabel = 'departamento';
               municipalityLabel = municipalities.length > 1 ? 'províncias' : 'província';
