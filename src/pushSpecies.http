@@ -1,6 +1,101 @@
 // Information
-POST
-http://localhost:3005/information
-Accept: application/json
+POST http://localhost:3005/information HTTP/1.1
+content-type: application/json
+
 {"species": "Swartzia costata"}
 
+###
+
+// Citation FFB
+POST http://localhost:3005/citationFFB HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// Obras princeps
+POST http://localhost:3005/obraPrinceps HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// Records
+POST http://localhost:3005/records HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// Distribution
+POST http://localhost:3005/distribution HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// OA-MapBiomas-LandCover
+POST http://localhost:3005/oa-mapbiomas-landcover HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// OA-MapBiomas-Fire
+POST http://localhost:3005/oa-mapbiomas-fire HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// OA-UCs
+POST http://localhost:3005/oa-ucs HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// OA-TERs
+POST http://localhost:3005/oa-TERs HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// OA-PANs
+POST http://localhost:3005/oa-PANs HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// Conservation actions
+POST http://localhost:3005/conservationActions HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// Threats
+POST http://localhost:3005/threats HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
+
+###
+
+// Species profile
+POST http://localhost:3005/speciesProfile HTTP/1.1
+content-type: application/json
+
+{"species": "Swartzia costata"}
