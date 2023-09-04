@@ -1,0 +1,6 @@
+// Information
+POST
+http://localhost:3005/information
+Accept: application/json
+{"species": "Swartzia costata"}
+
