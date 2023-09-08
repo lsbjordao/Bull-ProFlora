@@ -67,7 +67,7 @@ export class Processor_records extends WorkerHost {
       throw new Error('Bad characters');
     };
 
-    // Coordinates format check
+    /// Coordinates format check
     const regexValidLat = /^-?(90(\.0+)?|[0-8]?\d(\.\d+)?)$/;
     const regexValidLon = /^-?(180(\.0+)?|(\d{1,2}|1[0-7]\d)(\.\d+)?)$/;
 
