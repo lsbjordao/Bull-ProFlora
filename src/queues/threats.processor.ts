@@ -47,7 +47,7 @@ export class Processor_threats extends WorkerHost {
           console.error(err);
         }
       });
-      job.updateProgress(90);
+      job.updateProgress(100);
       return Promise.resolve('No records.');
     }
 
