@@ -40,10 +40,22 @@ export class Processor_records extends WorkerHost {
     const speciesUrns = speciesOcc.urns;
     const speciesValidationOcc = speciesOcc.validationRecords;
     const speciesValidationSIG = speciesOcc.validationSIG;
-    const speciesCoords = speciesOcc.coordsObj;
+    let speciesCoords = speciesOcc.coordsObj;
 
     const flowData = await whichFlow(species);
     const SIGanalyst = await getSIGanalyst(species);
+
+    // Remove empty coords from PNA species
+    if(flowData.flow = 'PNA'){
+      speciesCoords = speciesCoords.filter((coords: { lat: string; lon: string; }) => coords.lat !== '' && coords.lon !== '')
+    }
+
+    // Trim coords
+    speciesCoords = speciesCoords.map((coords: { lat: string; lon: string; }) => ({
+      ...coords,
+      lat: coords.lat.trim(),
+      lon: coords.lon.trim(),
+    }));
 
     // Check bad coordinates
     job.updateProgress(2);
@@ -123,7 +135,6 @@ export class Processor_records extends WorkerHost {
     }).filter(Boolean);
 
     haveCoordsInWater = coordsInWater.length > 0;
-
 
     if (haveCoordsInWater === true) {
       coordsInWater.forEach((coords: any) => {

@@ -71,7 +71,7 @@ function getBestMatch(firstLvl, secondLvl) {
         keys: [
             { name: 'firstLvl' }
         ],
-        threshold: 0.75,
+        threshold: 0.7,
         useExtendedSearch: true
     };
 

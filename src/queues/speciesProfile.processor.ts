@@ -79,7 +79,10 @@ export class Processor_speciesProfile extends WorkerHost {
 
         output.species = species;
 
-        output.obrasPrinceps.output = output.obrasPrinceps.Tropicos[0].DisplayReference;
+        output.obrasPrinceps.output = `
+          ${output.obrasPrinceps.Tropicos[0].DisplayReference}, ${output.obrasPrinceps.Tropicos[0].DisplayDate}. [Tropicos]<br>
+          ${output.obrasPrinceps.Ipni[0].publication} ${output.obrasPrinceps.Ipni[0].referenceCollation}, ${output.obrasPrinceps.Ipni[0].publicationYear}. [IPNI]
+          `
 
         output["MapBiomas"] = output["oac/MapBiomas-LandCover7"];
         delete output["oac/MapBiomas-LandCover7"];

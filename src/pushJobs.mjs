@@ -68,8 +68,7 @@ async function pushJobs() {
       return;
     }
     const listOfSpecies = (res.data.values).flat();
-    if(listOfSpecies !== ['#N/A'])
-    
+        
     // Queue Records
     queueRecords.getJobs().then(async (jobs) => {
       const jobNames = jobs.map(function (job) {
