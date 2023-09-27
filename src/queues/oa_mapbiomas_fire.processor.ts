@@ -35,11 +35,14 @@ export class Processor_oa_mapbiomas_fire extends WorkerHost {
 
     const pathFile: string = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
     let file: any = fs.readFileSync(pathFile);
-    const records: any = JSON.parse(file);
+    let records: any = JSON.parse(file)
+    records = records.filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
 
     // Exclude records with centroid coordinates
     const regexCentroid = /[cC]entr[oó]ide de [Mm]unic[ií]pio/;
-    const recordsUtil = records.filter((obj: any) => !regexCentroid.test(obj.properties.precision))
+    const recordsUtil = records
+      .filter((obj: any) => !regexCentroid.test(obj.properties.precision))
+      .filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
 
     async function getCoords(geojson: any): Promise<any> {
       const coords = geojson.map((feature: any) => {
@@ -111,7 +114,7 @@ export class Processor_oa_mapbiomas_fire extends WorkerHost {
       orderedResult[key] = result[key];
     });
     result = orderedResult
-    
+
     fs.writeFile(
       `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-Fire/${job.data.species}.json`,
       JSON.stringify(result), 'utf8', (err) => {
@@ -123,7 +126,7 @@ export class Processor_oa_mapbiomas_fire extends WorkerHost {
     job.updateProgress(100);
 
     return Promise.resolve(result);
-    
+
   } catch(err: Error) {
     console.error(err);
     return null;

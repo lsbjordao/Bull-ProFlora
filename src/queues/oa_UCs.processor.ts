@@ -23,7 +23,7 @@ export class Processor_oa_UCs extends WorkerHost {
 
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
-    
+
     if (!species) {
       return Promise.reject(new Error('Failed'));
     }
@@ -48,7 +48,9 @@ export class Processor_oa_UCs extends WorkerHost {
     if (records.length > 0) {
 
       const regexCentroide = /[cC]entr[oó]ide de [Mm]unic[ií]pio/;
-      const recordsUtil = records.filter((obj: any) => !regexCentroide.test(obj.properties.precision))
+      const recordsUtil = records
+        .filter((obj: any) => !regexCentroide.test(obj.properties.precision))
+        .filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
 
       async function getCoords(records: any) {
         const coords = records.map((feature: any) => {
@@ -198,7 +200,7 @@ export class Processor_oa_UCs extends WorkerHost {
           console.error(err);
         }
       });
-      
+
       job.updateProgress(100);
 
       return Promise.resolve(result);

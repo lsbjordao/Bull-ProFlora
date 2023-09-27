@@ -394,7 +394,7 @@ export class Processor_speciesProfile extends WorkerHost {
               AooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua AOO convertidos em áreas de ${threatName}, atividade que cresce a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
             };
             if (annualRate < 0) {
-              AooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua AOO convertidos em áreas de ${threatName}, atividade que dimimui a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
+              AooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua AOO convertidos em áreas de ${threatName}, atividade que diminui a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
             };
 
             AooThreatText = AooThreatText.replace('áreas de área urbanizada', 'área urbanizada');
@@ -422,7 +422,7 @@ export class Processor_speciesProfile extends WorkerHost {
               EooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua EOO convertidos em áreas de ${threatName}, atividade que cresce a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
             };
             if (annualRate < 0) {
-              EooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua EOO convertidos em áreas de ${threatName}, atividade que dimimui a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
+              EooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua EOO convertidos em áreas de ${threatName}, atividade que diminui a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
             };
 
             EooThreatText = EooThreatText.replace('áreas de área urbanizada', 'área urbanizada');
@@ -525,7 +525,7 @@ export class Processor_speciesProfile extends WorkerHost {
               AooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua AOO convertidos em áreas de ${threatName}, atividade que cresce a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
             };
             if (annualRate < 0) {
-              AooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua AOO convertidos em áreas de ${threatName}, atividade que dimimui a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
+              AooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua AOO convertidos em áreas de ${threatName}, atividade que diminui a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
             };
 
             AooThreatText = AooThreatText.replace('áreas de área urbanizada', 'área urbanizada');
@@ -583,7 +583,7 @@ export class Processor_speciesProfile extends WorkerHost {
               EooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua EOO convertidos em áreas de ${threatName}, atividade que cresce a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
             };
             if (annualRate < 0) {
-              EooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua EOO convertidos em áreas de ${threatName}, atividade que dimimui a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
+              EooThreatText = `Em ${lastYear}, a espécie apresentava ${lastYearPercentage.replace('\.', ',')}% (${lastYearKm2.replace('\.', ',')} km²) da sua EOO convertidos em áreas de ${threatName}, atividade que diminui a uma taxa de ${annualRate.replace('\.', ',')}% aa desde 1985 até 2020 [valor-p: ${pValue}; R²: ${rSquared}].`;
             };
 
             EooThreatText = EooThreatText.replace('áreas de área urbanizada', 'área urbanizada');

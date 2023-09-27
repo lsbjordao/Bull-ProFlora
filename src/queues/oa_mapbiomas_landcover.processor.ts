@@ -35,12 +35,15 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
 
     const pathFile: string = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
     let file: any = fs.readFileSync(pathFile);
-    const records: any = JSON.parse(file);
+    let records: any = JSON.parse(file)
+    records = records.filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
 
     // Exclude records with centroid coordinates
     const regexMunicipio = /[cC]entr[oó]ide de [Mm]unic[ií]pio/;
     const regexEstado = /[cC]entr[oó]ide de [Ee]stado/;
-    const recordsUtil = records.filter((obj: any) => !regexMunicipio.test(obj) || !regexEstado.test(obj));
+    const recordsUtil = records
+      .filter((obj: any) => !regexMunicipio.test(obj) || !regexEstado.test(obj))
+      .filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
 
     async function getCoords(geojson: any): Promise<any> {
       const coords = geojson.map((feature: any) => {
@@ -120,7 +123,7 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
       orderedResult[key] = result[key];
     });
     result = orderedResult
-    
+
     fs.writeFile(
       `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-landCover7/${job.data.species}.json`,
       JSON.stringify(result), 'utf8', (err) => {
