@@ -105,7 +105,7 @@ export class Processor_oa_PANs extends WorkerHost {
         }
       }
 
-      let onlyPANsName = PANsPoly.map((data: any) => data.properties.Nome_compl)
+      let onlyPANsName = PANsPoly.map((data: any) => data.properties.PAN)
       onlyPANsName = _.uniq(onlyPANsName)
 
       const result = onlyPANsName;

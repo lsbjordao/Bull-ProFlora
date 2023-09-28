@@ -66,6 +66,7 @@ export class Processor_speciesProfile extends WorkerHost {
     const promises = dirs.map(dir => {
       const filePath = `G:/Outros computadores/Meu computador/CNCFlora_data/${dir}/${species}.json`;
       return readJson(filePath).then(result => {
+        // console.log(result)
         data[dir] = result;
       });
     });
@@ -79,10 +80,19 @@ export class Processor_speciesProfile extends WorkerHost {
 
         output.species = species;
 
-        output.obrasPrinceps.output = `
-          ${output.obrasPrinceps.Tropicos[0].DisplayReference}, ${output.obrasPrinceps.Tropicos[0].DisplayDate}. [Tropicos]<br>
-          ${output.obrasPrinceps.Ipni[0].publication} ${output.obrasPrinceps.Ipni[0].referenceCollation}, ${output.obrasPrinceps.Ipni[0].publicationYear}. [IPNI]
-          `
+        output.obrasPrinceps.output = '';
+
+        if (output.obrasPrinceps.Tropicos) {
+          output.obrasPrinceps.output += `${output.obrasPrinceps.Tropicos[0].DisplayReference}, ${output.obrasPrinceps.Tropicos[0].DisplayDate}. [Tropicos]<br>`;
+        }
+
+        if (output.obrasPrinceps.Ipni) {
+          output.obrasPrinceps.output += `${output.obrasPrinceps.Ipni[0].publication} ${output.obrasPrinceps.Ipni[0].referenceCollation}, ${output.obrasPrinceps.Ipni[0].publicationYear}. [IPNI]`;
+        }
+
+        if (!output.obrasPrinceps.Tropicos && !output.obrasPrinceps.Ipni) {
+          output.obrasPrinceps.output = 'Espécie não encontrada.';
+        }
 
         output["MapBiomas"] = output["oac/MapBiomas-LandCover7"];
         delete output["oac/MapBiomas-LandCover7"];

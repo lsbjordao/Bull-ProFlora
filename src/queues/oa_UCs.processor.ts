@@ -189,7 +189,8 @@ export class Processor_oa_UCs extends WorkerHost {
           .replace(/D(´|')Ouro/g, "d'Ouro")
           .replace(/\./g, '')
           .replace(/Botujuru-Serra/g, 'Botujuru - Serra')
-          .replace(/\s\(Sc\)/g, '');
+          .replace(/\s\(Sc\)/g, '')
+          .replace(/^Rds /g, 'Reserva de Desenvolvimento Sustentável ')
       }
 
       const UCsOutput = onlyUCsName.map((UC: any) => fixUcName(UC));
