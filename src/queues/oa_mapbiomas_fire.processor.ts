@@ -36,84 +36,99 @@ export class Processor_oa_mapbiomas_fire extends WorkerHost {
     const pathFile: string = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
     let file: any = fs.readFileSync(pathFile);
     let records: any = JSON.parse(file)
-    records = records.filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
-
-    // Exclude records with centroid coordinates
-    const regexCentroid = /[cC]entr[oó]ide de [Mm]unic[ií]pio/;
-    const recordsUtil = records
-      .filter((obj: any) => !regexCentroid.test(obj.properties.precision))
-      .filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
-
-    async function getCoords(geojson: any): Promise<any> {
-      const coords = geojson.map((feature: any) => {
-        return {
-          lat: feature.geometry.coordinates[1],
-          lon: feature.geometry.coordinates[0]
-        };
-      });
-
-      const coordinates = coords.map(({ lat, lon }: { lat: any, lon: any }) => ({
-        latitude: parseFloat(lat),
-        longitude: parseFloat(lon),
-      }));
-
-      return coordinates;
-    }
-
-    const coordinates: any = await getCoords(records);
-    const coordinates_for_aooUtil: any = await getCoords(recordsUtil);
-
-    let coords;
-    coords = coordinates.filter((coord: any) =>
-      Object.values(coord).every((val: any) => /^-?\d+(\.\d+)?$/.test(val))
-    );
-
-    let coordsAooUtil;
-    coordsAooUtil = coordinates_for_aooUtil.filter((coord: any) =>
-      Object.values(coord).every((val: any) => /^-?\d+(\.\d+)?$/.test(val))
-    );
-
     let result: any;
-    if (coordsAooUtil.length > 0) {
-      result = await oa.calcArea(coordsAooUtil);
+
+    if (records.length !== 0) {
+      // Exclude records with centroid coordinates
+      const regexCentroid = /[cC]entr[oó]ide de [Mm]unic[ií]pio/;
+      const recordsUtil = records
+        .filter((obj: any) => !regexCentroid.test(obj.properties.precision))
+
+      async function getCoords(geojson: any): Promise<any> {
+        const coords = geojson.map((feature: any) => {
+          return {
+            lat: feature.geometry.coordinates[1],
+            lon: feature.geometry.coordinates[0]
+          };
+        });
+
+        const coordinates = coords.map(({ lat, lon }: { lat: any, lon: any }) => ({
+          latitude: parseFloat(lat),
+          longitude: parseFloat(lon),
+        }));
+
+        return coordinates;
+      }
+
+      const coordinates: any = await getCoords(records);
+      const coordinates_for_aooUtil: any = await getCoords(recordsUtil);
+
+      let coords;
+      coords = coordinates.filter((coord: any) =>
+        Object.values(coord).every((val: any) => /^-?\d+(\.\d+)?$/.test(val))
+      );
+
+      let coordsAooUtil;
+      coordsAooUtil = coordinates_for_aooUtil.filter((coord: any) =>
+        Object.values(coord).every((val: any) => /^-?\d+(\.\d+)?$/.test(val))
+      );
+
+      if (coordsAooUtil.length > 0) {
+        result = await oa.calcArea(coordsAooUtil);
+      } else {
+        result = await oa.calcArea(
+          [{
+            latitude: -26.148915,
+            longitude: -41.805632
+          }]
+        );
+      }
+
+      const eoo = new EooAooCalc.EOO({ coordinates: coords });
+      const eooObj = eoo.calculate();
+
+      const aoo = new EooAooCalc.AOO({ coordinates: coords })
+      const aooObj = aoo.calculate({ gridWidthInKm: 2 })
+
+      let aooUtilObj;
+      let aooUtilArea = 0;
+      if (coordsAooUtil.length > 0) {
+        const aooUtil = new EooAooCalc.AOO({ coordinates: coordsAooUtil })
+        aooUtilObj = aooUtil.calculate({ gridWidthInKm: 2 })
+        aooUtilArea = aooUtilObj.areaInSquareKm;
+      }
+
+      const aooArea = aooObj.areaInSquareKm;
+      const eooArea = eooObj.areaInSquareKm;
+
+      result.EOO_km2 = eooArea;
+      result.AOO_km2 = aooArea;
+      result.AOOutil_km2 = aooUtilArea;
+
+      const orderedKeys = ['EOO_km2', 'AOO_km2', 'AOOutil_km2', 'EOO', 'AOO'];
+
+      const orderedResult: any = {};
+
+      orderedKeys.forEach(function (key) {
+        orderedResult[key] = result[key];
+      });
+      result = orderedResult
     } else {
-      result = await oa.calcArea(
+      const calcAreaResult: any = await oa.calcArea(
         [{
           latitude: -26.148915,
           longitude: -41.805632
         }]
       );
+
+      result = {
+        "EOO_km2": 0,
+        "AOO_km2": 0,
+        "AOOutil_km2": 0,
+        "EOO": calcAreaResult.EOO,
+        "AOO": calcAreaResult.AOO,
+      }
     }
-
-    const eoo = new EooAooCalc.EOO({ coordinates: coords });
-    const eooObj = eoo.calculate();
-
-    const aoo = new EooAooCalc.AOO({ coordinates: coords })
-    const aooObj = aoo.calculate({ gridWidthInKm: 2 })
-
-    let aooUtilObj;
-    let aooUtilArea = 0;
-    if (coordsAooUtil.length > 0) {
-      const aooUtil = new EooAooCalc.AOO({ coordinates: coordsAooUtil })
-      aooUtilObj = aooUtil.calculate({ gridWidthInKm: 2 })
-      aooUtilArea = aooUtilObj.areaInSquareKm;
-    }
-
-    const aooArea = aooObj.areaInSquareKm;
-    const eooArea = eooObj.areaInSquareKm;
-
-    result.EOO_km2 = eooArea;
-    result.AOO_km2 = aooArea;
-    result.AOOutil_km2 = aooUtilArea;
-
-    const orderedKeys = ['EOO_km2', 'AOO_km2', 'AOOutil_km2', 'EOO', 'AOO'];
-
-    const orderedResult: any = {};
-
-    orderedKeys.forEach(function (key) {
-      orderedResult[key] = result[key];
-    });
-    result = orderedResult
 
     fs.writeFile(
       `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-Fire/${job.data.species}.json`,

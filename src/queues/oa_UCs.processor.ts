@@ -48,9 +48,7 @@ export class Processor_oa_UCs extends WorkerHost {
     if (records.length > 0) {
 
       const regexCentroide = /[cC]entr[oó]ide de [Mm]unic[ií]pio/;
-      const recordsUtil = records
-        .filter((obj: any) => !regexCentroide.test(obj.properties.precision))
-        .filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
+      const recordsUtil = records.filter((obj: any) => !regexCentroide.test(obj.properties.precision))
 
       async function getCoords(records: any) {
         const coords = records.map((feature: any) => {

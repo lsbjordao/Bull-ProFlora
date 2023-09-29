@@ -3,17 +3,17 @@ import {
   WorkerHost,
   OnWorkerEvent,
   InjectQueue,
-} from '@nestjs/bullmq';
-import { Logger } from '@nestjs/common';
-import { Job } from 'bullmq';
+} from '@nestjs/bullmq'
+import { Logger } from '@nestjs/common'
+import { Job } from 'bullmq'
 
-import * as fs from 'fs';
+import * as fs from 'fs'
 //@ts-ignore
-import * as EooAooCalc from '@vicentecalfo/eoo-aoo-calc';
+import * as EooAooCalc from '@vicentecalfo/eoo-aoo-calc'
 
-import * as oa from './functions/overlayAnalysis';
+import * as oa from './functions/overlayAnalysis'
 
-export const QUEUE_NAME_oa_mapbiomas_landcover = 'OA-MapBiomas-LandCover';
+export const QUEUE_NAME_oa_mapbiomas_landcover = 'OA-MapBiomas-LandCover'
 export const InjectQueue_oa_mapbiomas_landcover = (): ParameterDecorator =>
   InjectQueue(QUEUE_NAME_oa_mapbiomas_landcover);
 
@@ -21,29 +21,26 @@ export const InjectQueue_oa_mapbiomas_landcover = (): ParameterDecorator =>
   concurrency: 1,
 })
 export class Processor_oa_mapbiomas_landcover extends WorkerHost {
-  private readonly logger = new Logger(Processor_oa_mapbiomas_landcover.name);
+  private readonly logger = new Logger(Processor_oa_mapbiomas_landcover.name)
 
   async process(job: Job<any, any, string>): Promise<any> {
 
-    const species = job.data.species;
+    const species = job.data.species
 
     if (!species) {
-      return Promise.reject(new Error('Failed'));
+      return Promise.reject(new Error('Failed'))
     }
 
-    job.updateProgress(1);
+    job.updateProgress(1)
 
-    const pathFile: string = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
+    const pathFile: string = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`
     let file: any = fs.readFileSync(pathFile);
     let records: any = JSON.parse(file)
-    records = records.filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
 
     // Exclude records with centroid coordinates
     const regexMunicipio = /[cC]entr[oó]ide de [Mm]unic[ií]pio/;
     const regexEstado = /[cC]entr[oó]ide de [Ee]stado/;
-    const recordsUtil = records
-      .filter((obj: any) => !regexMunicipio.test(obj) || !regexEstado.test(obj))
-      .filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
+    const recordsUtil = records.filter((obj: any) => !regexMunicipio.test(obj) || !regexEstado.test(obj))
 
     async function getCoords(geojson: any): Promise<any> {
       const coords = geojson.map((feature: any) => {
@@ -79,7 +76,7 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
     if (coords.length > 0) {
       const aoo = new EooAooCalc.AOO({ coordinates: coords })
       aooObj = aoo.calculate({ gridWidthInKm: 2 })
-      aooArea = aooObj.areaInSquareKm;
+      aooArea = aooObj.areaInSquareKm
     }
 
 
@@ -88,12 +85,12 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
     if (coordsAooUtil.length > 0) {
       const aooUtil = new EooAooCalc.AOO({ coordinates: coordsAooUtil })
       aooUtilObj = aooUtil.calculate({ gridWidthInKm: 2 })
-      aooUtilArea = aooUtilObj.areaInSquareKm;
+      aooUtilArea = aooUtilObj.areaInSquareKm
     }
 
     let result: any;
     if (coordsAooUtil.length > 0) {
-      result = await oa.calcArea(coordsAooUtil);
+      result = await oa.calcArea(coordsAooUtil)
     } else {
       result = await oa.calcArea(
         [{
@@ -106,58 +103,58 @@ export class Processor_oa_mapbiomas_landcover extends WorkerHost {
     let eooObj;
     let eooArea = 0;
     if (coords.length >= 3) {
-      const eoo = new EooAooCalc.EOO({ coordinates: coords });
-      eooObj = eoo.calculate();
-      eooArea = eooObj.areaInSquareKm;
+      const eoo = new EooAooCalc.EOO({ coordinates: coords })
+      eooObj = eoo.calculate()
+      eooArea = eooObj.areaInSquareKm
     }
 
-    result.EOO_km2 = eooArea;
-    result.AOO_km2 = aooArea;
-    result.AOOutil_km2 = aooUtilArea;
+    result.EOO_km2 = eooArea
+    result.AOO_km2 = aooArea
+    result.AOOutil_km2 = aooUtilArea
 
-    const orderedKeys = ['EOO_km2', 'AOO_km2', 'AOOutil_km2', 'EOO', 'AOO'];
+    const orderedKeys = ['EOO_km2', 'AOO_km2', 'AOOutil_km2', 'EOO', 'AOO']
 
-    const orderedResult: any = {};
+    const orderedResult: any = {}
 
     orderedKeys.forEach(function (key) {
-      orderedResult[key] = result[key];
-    });
+      orderedResult[key] = result[key]
+    })
     result = orderedResult
 
     fs.writeFile(
       `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-landCover7/${job.data.species}.json`,
       JSON.stringify(result), 'utf8', (err) => {
         if (err) {
-          console.error(err);
+          console.error(err)
         }
       });
 
-    job.updateProgress(100);
+    job.updateProgress(100)
 
-    return Promise.resolve(result);
+    return Promise.resolve(result)
 
   } catch(err: Error) {
-    console.error(err);
-    return null;
+    console.error(err)
+    return null
   }
 
 
   @OnWorkerEvent('active')
   onActive(job: Job) {
-    const message = `Active #${job.id} - ${job.data.species}`;
-    const blueMessage = `\x1b[34m${message}\x1b[0m`;
-    this.logger.log(blueMessage);
+    const message = `Active #${job.id} - ${job.data.species}`
+    const blueMessage = `\x1b[34m${message}\x1b[0m`
+    this.logger.log(blueMessage)
   }
 
   @OnWorkerEvent('completed')
   onCompleted(job: Job) {
-    this.logger.log(`Completed #${job.id} - ${job.data.species}`);
+    this.logger.log(`Completed #${job.id} - ${job.data.species}`)
   }
 
   @OnWorkerEvent('failed')
   onFailed(job: Job) {
-    const message = `Failed #${job.id} - ${job.data.species}`;
-    const redMessage = `\x1b[31m${message}\x1b[0m`;
-    this.logger.log(redMessage);
+    const message = `Failed #${job.id} - ${job.data.species}`
+    const redMessage = `\x1b[31m${message}\x1b[0m`
+    this.logger.log(redMessage)
   }
 }

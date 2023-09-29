@@ -203,6 +203,7 @@ export class Processor_records extends WorkerHost {
     const geojson = new GeoJSON();
     speciesRecords = geojson.parse(speciesRecords, { Point: ['lat', 'lon'] });
     speciesRecords = speciesRecords.features
+    speciesRecords = speciesRecords.filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
 
     writeFile(
       `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`,

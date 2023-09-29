@@ -152,6 +152,29 @@ export class Processor_threats extends WorkerHost {
         relevantAooThreatsPercentage[key] = percentageValues;
       }
 
+      interface ThreatData {
+        [year: string]: number;
+      }
+      
+      function fillMissingYears(obj: ThreatData) {
+        const years = Object.keys(obj);
+        const minYear = 1985
+        const maxYear = Math.max(...years.map((year) => parseInt(year, 10)))
+      
+        for (let year = minYear; year <= maxYear; year++) {
+          if (!obj.hasOwnProperty(year.toString())) {
+            obj[year.toString()] = 0;
+          }
+        }
+      }
+      
+      for (const key in relevantAooThreatsPercentage) {
+        if (Object.hasOwnProperty.call(relevantAooThreatsPercentage, key)) {
+          const obj = relevantAooThreatsPercentage[key];
+          fillMissingYears(obj);
+        }
+      }
+
       const AOOresult = [];
       for (const key in relevantAooThreatsPercentage) {
         const values = relevantAooThreatsPercentage[key];
@@ -160,8 +183,9 @@ export class Processor_threats extends WorkerHost {
           const value = values[year];
           y.push(value);
         }
-        
+
         const trendAnalysis: any = await runRScript(y);
+
         const lastYear_km2 = relevantAooThreats[key]["2021"];
         AOOresult.push({
           "threat": key.toLowerCase(),
@@ -170,6 +194,7 @@ export class Processor_threats extends WorkerHost {
           "lastYear_km2": lastYear_km2,
           "lastYear_percentage": relevantAooThreatsPercentage[key]["2021"]
         });
+
       }
 
       const AOOoutput = AOOresult;

@@ -177,7 +177,9 @@ export class Processor_speciesProfile extends WorkerHost {
           let regexRJ = /Rio de Janeiro/i;
           output.PANs.forEach((value: any) => {
             if (regexRJ.test(value)) {
-              if (output.distribution.every((obj: any) => obj.state === "Rio de Janeiro")) {
+              if (output.distribution.bestMatch.every((obj: any) => {
+                obj.firstLvl === "Rio de Janeiro"
+              })) {
                 output.PANs.includePAN.push(
                   {
                     "action": "5.1.2 National level",
