@@ -46,7 +46,7 @@ export class Processor_records extends WorkerHost {
     const SIGanalyst = await getSIGanalyst(species);
 
     // Remove empty coords from PNA species
-    if(flowData.flow = 'PNA'){
+    if (flowData.flow = 'PNA') {
       speciesCoords = speciesCoords.filter((coords: { lat: string; lon: string; }) => coords.lat !== '' && coords.lon !== '')
     }
 
@@ -59,25 +59,6 @@ export class Processor_records extends WorkerHost {
 
     // Check bad coordinates
     job.updateProgress(2);
-
-    /// Bad characters
-    const regexBadcharacters = /[º°,]|--/;
-
-    let haveBadCoords: boolean = false;
-    let badCoords: any = [];
-    for (let i = 0; i < speciesCoords.length; i++) {
-      if (regexBadcharacters.test(speciesCoords[i].lat) || regexBadcharacters.test(speciesCoords[i].lon)) {
-        badCoords.push([speciesCoords[i].lat, speciesCoords[i].lon])
-        haveBadCoords = true
-      }
-    }
-
-    if (haveBadCoords === true) {
-      badCoords.forEach((coords: any) => {
-        job.log(`Bad characters: ${coords} (${SIGanalyst})`);
-      });
-      throw new Error('Bad characters');
-    };
 
     /// Coordinates format check
     const regexValidLat = /^-?(90(\.0+)?|[0-8]?\d(\.\d+)?)$/;
@@ -101,6 +82,36 @@ export class Processor_records extends WorkerHost {
       throw new Error('Invalid coordinate format');
     }
 
+
+    /// Check bounding box
+    const bbox = {
+      minLat: -56.632125,
+      maxLat: 15.735603,
+      minLon: -94.401456,
+      maxLon: -24.339269,
+    };
+
+    function isCoordinateInBoundingBox(lat: any, lon: any) {
+      return lat >= bbox.minLat && lat <= bbox.maxLat &&
+        lon >= bbox.minLon && lon <= bbox.maxLon;
+    }
+
+    const coordsOutsideBoundingBox = speciesCoords.map((coord: any) => {
+      const lat = parseFloat(coord.lat);
+      const lon = parseFloat(coord.lon);
+
+      if (!isCoordinateInBoundingBox(lat, lon)) {
+        return [coord.lat, coord.lon];
+      }
+    }).filter(Boolean);
+
+    if (coordsOutsideBoundingBox.length > 0) {
+      coordsOutsideBoundingBox.forEach((coords: any) => {
+        job.log(`Coordinates outside bounding box: ${coords} (${SIGanalyst})`);
+      });
+      throw new Error('Coordinates outside bounding box');
+    }
+
     /// Coordinates in water
     let haveCoordsInWater: boolean = false;
     let coordsInWater: any = [];
@@ -116,7 +127,7 @@ export class Processor_records extends WorkerHost {
     coordsInWater = speciesCoords.map((coord: any) => {
       const point = turf.point([Number(coord.lon), Number(coord.lat)]);
       let water: any = [];
-    
+
       const isInWater = polygons.some((poly: any) => {
         const ptsWithin = turf.booleanPointInPolygon(point, poly);
         if (ptsWithin) {
@@ -124,10 +135,10 @@ export class Processor_records extends WorkerHost {
         } else {
           water.push(0);
         }
-    
+
         return ptsWithin;
       });
-    
+
       if (isInWater && water.reduce((total: any, num: any) => total + num, 0) === 0) {
         return [coord.lat, coord.lon];
       }
