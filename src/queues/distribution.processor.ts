@@ -209,6 +209,8 @@ export class Processor_distribution extends WorkerHost {
       text = text.replace('No Guiana', 'Na Guiana');
       text = text.replace('No Venezuela', 'Na Venezuela');
       text = text.replace(/no província/g, 'na província');
+      text = text.replace(/Caiena/g, 'Cayenne');
+      
 
       text = text.replace(/distribuição\. No Brasil, apresenta distribuição:/, 'distribuição');
 

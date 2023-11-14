@@ -514,10 +514,12 @@ export class Processor_speciesProfile extends WorkerHost {
             }
           });
 
-          const threatsList = Object.values(mergedThreats);
+          const threatsList: any = Object.values(mergedThreats)
+          threatsList.forEach((threat: { text: any; }) => {
+            threat.text = threat.text.replace(/\.$/, ' (MapBiomas, 2022).')
+          })
 
-          output.threats.includeThreat = threatsList;
-
+          output.threats.includeThreat = threatsList
         };
 
         if (AooThreats.length !== 0 && EooThreats.length === 0) {
@@ -544,7 +546,7 @@ export class Processor_speciesProfile extends WorkerHost {
 
             const AooThreatInfo = {
               "threat": threatsIUCN[threatName],
-              "text": AooThreatText,
+              "text": AooThreatText.replace(/\.$/, ' (MapBiomas, 2022).'),
               "reference": `MapBiomas, 2022. Projeto MapBiomas - Coleção 7 da Série Anual de Mapas de Cobertura e Uso de Solo do Brasil, dados de 1985 e 2021. URL https://https://mapbiomas.org (acesso em ${date}).`
             };
             AooThreatsList.push(AooThreatInfo);
@@ -602,7 +604,7 @@ export class Processor_speciesProfile extends WorkerHost {
 
             const EooThreatInfo = {
               "threat": threatsIUCN[threatName],
-              "text": EooThreatText,
+              "text": EooThreatText.replace(/\.$/, ' (MapBiomas, 2022).'),
               "reference": `MapBiomas, 2022. Projeto MapBiomas - Coleção 7 da Série Anual de Mapas de Cobertura e Uso de Solo do Brasil, dados de 1985 e 2021. URL https://https://mapbiomas.org (acesso em ${date}).`
             };
             EooThreatsList.push(EooThreatInfo);
