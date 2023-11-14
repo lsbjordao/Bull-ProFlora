@@ -85,10 +85,10 @@ export class Processor_records extends WorkerHost {
 
     /// Check bounding box
     const bbox = {
-      minLat: -56.632125,
-      maxLat: 15.735603,
-      minLon: -94.401456,
-      maxLon: -24.339269,
+      minLat: -57.632125,
+      maxLat: 23,
+      minLon: -102,
+      maxLon: -23.339269,
     };
 
     function isCoordinateInBoundingBox(lat: any, lon: any) {
