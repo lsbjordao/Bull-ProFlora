@@ -86,10 +86,29 @@ export class Processor_threats extends WorkerHost {
 
       const threats: any = {
         "9": "Silvicultura",
+        "14": "Agropecuária",
         "15": "Pastagem",
+        "18": "Agricultura",
+        "19": "Lavoura temporária",
+        "20": "Cana",
         "21": "Mosaico de usos",
         "24": "Área urbanizada",
-        "30": "Mineração"
+        "30": "Mineração",
+        "31": "Aquicultura",
+        "35": "Cultura de palma",
+        "36": "Lavoura perene",
+        "39": "Soja",
+        "40": "Arroz",
+        "41": "Outras lavouras temporárias",
+        "46": "Café",
+        "47": "Citrus",
+        "48": "Outras lavouras perenes",
+        "51": "Área urbana",
+        "52": "Infraestrutura",
+        "53": "Outras áreas urbanizadas",
+        "57": "Cultivos simples",
+        "58": "Cultivos múltiples",
+        "62": "Algodão"
       }
 
       job.updateProgress(4);
@@ -108,7 +127,7 @@ export class Processor_threats extends WorkerHost {
         for (let j = 0; j < groups.length; j++) {
           let threatValue = groups[j].class;
 
-          if ([9, 15, 21, 24, 30].includes(threatValue)) {
+          if ([9, 15, 18, 19, 20, 21, 24, 30, 35, 36, 39, 40, 41, 46, 47, 48, 57, 58, 62].includes(threatValue)) {
             let sumValue = groups[j].sum;
 
             if (!AOOvalues[threatValue]) {
@@ -155,19 +174,19 @@ export class Processor_threats extends WorkerHost {
       interface ThreatData {
         [year: string]: number;
       }
-      
+
       function fillMissingYears(obj: ThreatData) {
         const years = Object.keys(obj);
         const minYear = 1985
         const maxYear = Math.max(...years.map((year) => parseInt(year, 10)))
-      
+
         for (let year = minYear; year <= maxYear; year++) {
           if (!obj.hasOwnProperty(year.toString())) {
             obj[year.toString()] = 0;
           }
         }
       }
-      
+
       for (const key in relevantAooThreatsPercentage) {
         if (Object.hasOwnProperty.call(relevantAooThreatsPercentage, key)) {
           const obj = relevantAooThreatsPercentage[key];
@@ -217,7 +236,7 @@ export class Processor_threats extends WorkerHost {
           for (let j = 0; j < groups.length; j++) {
             let threatValue = groups[j].class;
 
-            if ([9, 15, 21, 24, 30].includes(threatValue)) {
+            if ([9, 15, 18, 19, 20, 21, 24, 30, 35, 36, 39, 40, 41, 46, 47, 48, 57, 58, 62].includes(threatValue)) {
               let sumValue = groups[j].sum;
 
               if (!EOOvalues[threatValue]) {
@@ -286,6 +305,7 @@ export class Processor_threats extends WorkerHost {
       }
 
       job.updateProgress(7);
+
       // MapBiomas fire
       const oacMapBiomasFirefilePathfilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-Fire/${job.data.species}.json`;
       const oacMapBiomasFireJson = await readJsonFile(oacMapBiomasFirefilePathfilePath);

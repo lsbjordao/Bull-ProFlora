@@ -236,7 +236,7 @@ export class Processor_speciesProfile extends WorkerHost {
                 {
                   "action": "5.1.2 National level",
                   "situation": "on going",
-                  "text": "Pougy, N., Martins, E., Verdi, M., Maurenza, D., Loyola, R., Martinelli, G. (Orgs.), 2015. Plano de Ação Nacional para a Conservação da Flora Ameaçada de Extinção da Região de Grão Mogol-Francisco Sá. CNCFlora: Jardim Botânico do Rio de Janeiro: Laboratório de Biogeografia da Conservação: Andrea Jakobsson Estúdio, Rio de Janeiro. 76 p.",
+                  "text": "A espécie ocorre no território de abrangência do Plano de Ação Nacional para a Conservação da Flora Ameaçada de Extinção da Região de Grão Mogol-Francisco Sá (Pougy et al., 2015).",
                   "reference": "Pougy, N., Martins, E., Verdi, M., Maurenza, D., Loyola, R., Martinelli, G. (Orgs.), 2015. Plano de Ação Nacional para a Conservação da Flora Ameaçada de Extinção da Região de Grão Mogol-Francisco Sá. CNCFlora: Jardim Botânico do Rio de Janeiro: Laboratório de Biogeografia da Conservação: Andrea Jakobsson Estúdio, Rio de Janeiro. 76 p."
                 }
               );
@@ -368,11 +368,29 @@ export class Processor_speciesProfile extends WorkerHost {
         const date = `${day} de ${month} de ${year}`;
 
         const threatsIUCN: any = {
-          "área urbanizada": "1.1 Housing & urban areas",
           "silvicultura": "2.2.3 Scale Unknown/Unrecorded",
+          "agropecuária": "2.3.4 Scale Unknown/Unrecorded",
           "pastagem": "2.3.4 Scale Unknown/Unrecorded",
+          "agricultura": "2.1.4 Scale Unknown/Unrecorded",
+          "lavoura temporária": "2.1.4 Scale Unknown/Unrecorded",
+          "cana": "2.1.4 Scale Unknown/Unrecorded",
           "mosaico de usos": "2.3.4 Scale Unknown/Unrecorded",
-          "mineração": "3.2 Mining & quarrying"
+          "área urbanizada": "1.1 Housing & urban areas",
+          "mineração": "3.2 Mining & quarrying",
+          "cultura de palma": "2.1.4 Scale Unknown/Unrecorded",
+          "lavoura perene": "2.1.4 Scale Unknown/Unrecorded",
+          "soja": "2.1.4 Scale Unknown/Unrecorded",
+          "arroz": "2.1.4 Scale Unknown/Unrecorded",
+          "outras lavouras temporárias": "2.1.4 Scale Unknown/Unrecorded",
+          "café": "2.1.4 Scale Unknown/Unrecorded",
+          "citrus": "2.1.4 Scale Unknown/Unrecorded",
+          "outras lavouras perenes": "2.1.4 Scale Unknown/Unrecorded",
+          "área urbana": "2.1.4 Scale Unknown/Unrecorded",
+          "infraestrutura": "2.1.4 Scale Unknown/Unrecorded",
+          "outras áreas urbanizadas": "2.1.4 Scale Unknown/Unrecorded",
+          "cultivos simples": "2.1.4 Scale Unknown/Unrecorded",
+          "cultivos múltiples": "2.1.4 Scale Unknown/Unrecorded",
+          "algodão": "2.1.4 Scale Unknown/Unrecorded"
         };
 
         const AooThreats = output.threats.AOO;
