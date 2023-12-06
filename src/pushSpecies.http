@@ -26,7 +26,7 @@ content-type: application/json
 POST http://localhost:3005/records HTTP/1.1
 content-type: application/json
 
-{"species": "Stachytarpheta glazioviana"}
+{"species": "Hirtella tocantina"}
 
 ###
 
@@ -34,7 +34,7 @@ content-type: application/json
 POST http://localhost:3005/distribution HTTP/1.1
 content-type: application/json
 
-{"species": "Schinus engleri"}
+{"species": "Hirtella tocantina"}
 
 ###
 
@@ -42,7 +42,7 @@ content-type: application/json
 POST http://localhost:3005/oa-mapbiomas-landcover HTTP/1.1
 content-type: application/json
 
-{"species": "Myrocarpus frondosus"}
+{"species": "Ruprechtia exploratricis"}
 
 ###
 
@@ -90,7 +90,7 @@ content-type: application/json
 POST http://localhost:3005/threats HTTP/1.1
 content-type: application/json
 
-{"species": "Picrasma crenata"}
+{"species": "Ruprechtia exploratricis"}
 
 ###
 
@@ -98,4 +98,4 @@ content-type: application/json
 POST http://localhost:3005/speciesProfile HTTP/1.1
 content-type: application/json
 
-{"species": "Myrocarpus frondosus"}
+{"species": "Hirtella tocantina"}

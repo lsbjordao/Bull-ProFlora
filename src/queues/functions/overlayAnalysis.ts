@@ -30,33 +30,14 @@ function calcArea(coordinates: any) {
                 var image1 = ee.Image('projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2');
                 var image2 = ee.Image('projects/mapbiomas-raisg/public/collection4/mapbiomas_raisg_panamazonia_collection4_integration_v1');
                 var image3 = ee.Image('projects/MapBiomas_Pampa/public/collection2/mapbiomas_pampa_collection2_integration_v1');
-                var image4 = ee.Image('projects/mapbiomas-chaco/public/collection1/mapbiomas_chaco_collection1_integration_v1');
+                var image4 = ee.Image('projects/mapbiomas-chaco/public/collection4/mapbiomas_chaco_collection4_integration_v1');
                 var image5 = ee.Image('projects/mapbiomas_af_trinacional/public/collection2/mapbiomas_atlantic_forest_collection20_integration_v1');
                 var image6 = ee.Image('projects/mapbiomas-public/assets/peru/collection1/mapbiomas_peru_collection1_integration_v1');
 
                 var image1bandNames = image1.bandNames().getInfo();
                 var image4bandNames = image4.bandNames().getInfo();
-
-                var bandsNotInImage4 = image1bandNames.filter(function (bandName: any) {
-                    return !image4bandNames.includes(bandName);
-                });
-
-                for (var i = 0; i < bandsNotInImage4.length; i++) {
-                    var bandName = bandsNotInImage4[i];
-                    var band = image4.select('classification_2017');
-                    var newBand = band.rename(bandName);
-
-                    //MapBiomas pixel max:62
-                    var constantImage = ee.Image.constant(63).clip(newBand.geometry())
-                        .rename('constantImage');
-
-                    var remappedBand = newBand.updateMask(newBand.mask())
-                        .blend(constantImage);
-
-                    image4 = image4.addBands(remappedBand);
-                }
-
-                image4 = image4.select(image1bandNames).selfMask()
+                
+                image4 = image4.select(image4bandNames.filter(function(band) { return band !== 'classification_2022'; }));
 
                 var mosaic = ee.ImageCollection([image1, image2, image3, image5, image6, image4]).mosaic();
 

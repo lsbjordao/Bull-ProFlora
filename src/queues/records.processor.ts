@@ -26,7 +26,6 @@ export class Processor_records extends WorkerHost {
   private readonly logger = new Logger(Processor_records.name);
 
   async process(job: Job<any, any, string>): Promise<any> {
-
     const species = job.data.species;
 
     if (!species) {
@@ -45,17 +44,36 @@ export class Processor_records extends WorkerHost {
     const flowData = await whichFlow(species);
     const SIGanalyst = await getSIGanalyst(species);
 
-    // Remove empty coords from PNA species
-    if (flowData.flow = 'PNA') {
-      speciesCoords = speciesCoords.filter((coords: { lat: string; lon: string; }) => coords.lat !== '' && coords.lon !== '')
+    // Remove empty coords
+    // Remoção dos mesmos índices de speciesCoords, speciesUrns, speciesValidationOcc e speciesValidationSIG
+    if (flowData.flow === 'PNA' || flowData.flow === 'PA') {
+      const indicesToRemove: number[] = [];
+
+      speciesCoords = speciesCoords.filter(
+        (coords: { lat: string; lon: string }, index: number) => {
+          if (coords.lat === '' || coords.lon === '') {
+            indicesToRemove.push(index);
+            return false;
+          }
+          return true;
+        },
+      );
+
+      indicesToRemove.reverse().forEach((index) => {
+        speciesUrns.splice(index, 1);
+        speciesValidationOcc.splice(index, 1);
+        speciesValidationSIG.splice(index, 1);
+      });
     }
 
     // Trim coords
-    speciesCoords = speciesCoords.map((coords: { lat: string; lon: string; }) => ({
-      ...coords,
-      lat: coords.lat.trim(),
-      lon: coords.lon.trim(),
-    }));
+    speciesCoords = speciesCoords.map(
+      (coords: { lat: string; lon: string }) => ({
+        ...coords,
+        lat: coords.lat.trim(),
+        lon: coords.lon.trim(),
+      }),
+    );
 
     // Check bad coordinates
     job.updateProgress(2);
@@ -68,9 +86,14 @@ export class Processor_records extends WorkerHost {
     let invalidCoordinateFormatCoords: any[] = [];
 
     for (let i = 0; i < speciesCoords.length; i++) {
-      const isInvalidFormat = !regexValidLat.test(speciesCoords[i].lat) || !regexValidLon.test(speciesCoords[i].lon);
+      const isInvalidFormat =
+        !regexValidLat.test(speciesCoords[i].lat) ||
+        !regexValidLon.test(speciesCoords[i].lon);
       if (isInvalidFormat) {
-        invalidCoordinateFormatCoords.push([speciesCoords[i].lat, speciesCoords[i].lon]);
+        invalidCoordinateFormatCoords.push([
+          speciesCoords[i].lat,
+          speciesCoords[i].lon,
+        ]);
         haveInvalidCoordinateFormat = true;
       }
     }
@@ -82,7 +105,6 @@ export class Processor_records extends WorkerHost {
       throw new Error('Invalid coordinate format');
     }
 
-
     /// Check bounding box
     const bbox = {
       minLat: -57.632125,
@@ -92,18 +114,24 @@ export class Processor_records extends WorkerHost {
     };
 
     function isCoordinateInBoundingBox(lat: any, lon: any) {
-      return lat >= bbox.minLat && lat <= bbox.maxLat &&
-        lon >= bbox.minLon && lon <= bbox.maxLon;
+      return (
+        lat >= bbox.minLat &&
+        lat <= bbox.maxLat &&
+        lon >= bbox.minLon &&
+        lon <= bbox.maxLon
+      );
     }
 
-    const coordsOutsideBoundingBox = speciesCoords.map((coord: any) => {
-      const lat = parseFloat(coord.lat);
-      const lon = parseFloat(coord.lon);
+    const coordsOutsideBoundingBox = speciesCoords
+      .map((coord: any) => {
+        const lat = parseFloat(coord.lat);
+        const lon = parseFloat(coord.lon);
 
-      if (!isCoordinateInBoundingBox(lat, lon)) {
-        return [coord.lat, coord.lon];
-      }
-    }).filter(Boolean);
+        if (!isCoordinateInBoundingBox(lat, lon)) {
+          return [coord.lat, coord.lon];
+        }
+      })
+      .filter(Boolean);
 
     if (coordsOutsideBoundingBox.length > 0) {
       coordsOutsideBoundingBox.forEach((coords: any) => {
@@ -120,30 +148,39 @@ export class Processor_records extends WorkerHost {
     let worldCountries: any = readFileSync(worldCountriesPath, 'utf-8');
     worldCountries = JSON.parse(worldCountries);
 
-    const areas = ['South America']
-    let polygons = worldCountries.features.filter((feature: any) => areas.indexOf(feature.properties.CONTINENT) !== -1)
-    polygons = worldCountries.features.map((feature: any) => turf.multiPolygon(feature.geometry.coordinates));
+    const areas = ['South America'];
+    let polygons = worldCountries.features.filter(
+      (feature: any) => areas.indexOf(feature.properties.CONTINENT) !== -1,
+    );
+    polygons = worldCountries.features.map((feature: any) =>
+      turf.multiPolygon(feature.geometry.coordinates),
+    );
 
-    coordsInWater = speciesCoords.map((coord: any) => {
-      const point = turf.point([Number(coord.lon), Number(coord.lat)]);
-      let water: any = [];
+    coordsInWater = speciesCoords
+      .map((coord: any) => {
+        const point = turf.point([Number(coord.lon), Number(coord.lat)]);
+        let water: any = [];
 
-      const isInWater = polygons.some((poly: any) => {
-        const ptsWithin = turf.booleanPointInPolygon(point, poly);
-        if (ptsWithin) {
-          water.push(1);
-        } else {
-          water.push(0);
+        const isInWater = polygons.some((poly: any) => {
+          const ptsWithin = turf.booleanPointInPolygon(point, poly);
+          if (ptsWithin) {
+            water.push(1);
+          } else {
+            water.push(0);
+          }
+
+          return ptsWithin;
+        });
+
+        if (
+          isInWater &&
+          water.reduce((total: any, num: any) => total + num, 0) === 0
+        ) {
+          return [coord.lat, coord.lon];
         }
-
-        return ptsWithin;
-      });
-
-      if (isInWater && water.reduce((total: any, num: any) => total + num, 0) === 0) {
-        return [coord.lat, coord.lon];
-      }
-      return null;
-    }).filter(Boolean);
+        return null;
+      })
+      .filter(Boolean);
 
     haveCoordsInWater = coordsInWater.length > 0;
 
@@ -152,15 +189,17 @@ export class Processor_records extends WorkerHost {
         job.log(`Coordinates in water: ${coords} (${SIGanalyst})`);
       });
       throw new Error('Coordinates in water');
-    };
-
+    }
 
     // Filter occurrences by flow
     let filteredOccIdx: number[] = [];
 
     if (flowData.flow === 'PA') {
       for (let i = 0; i < speciesValidationOcc.length; i++) {
-        if (speciesValidationOcc[i] === "Válido" && speciesValidationSIG[i] === "SIG OK") {
+        if (
+          speciesValidationOcc[i] === 'Válido' &&
+          speciesValidationSIG[i] === 'SIG OK'
+        ) {
           filteredOccIdx.push(i);
         }
       }
@@ -169,7 +208,10 @@ export class Processor_records extends WorkerHost {
     if (flowData.flow === 'PNA') {
       if (flowData.records === 'x' && flowData.sig === 'x') {
         for (let i = 0; i < speciesValidationOcc.length; i++) {
-          if (speciesValidationOcc[i] === "Válido" && speciesValidationSIG[i] === "SIG OK") {
+          if (
+            speciesValidationOcc[i] === 'Válido' &&
+            speciesValidationSIG[i] === 'SIG OK'
+          ) {
             filteredOccIdx.push(i);
           }
         }
@@ -177,7 +219,7 @@ export class Processor_records extends WorkerHost {
 
       if (flowData.records === 'x' && flowData.sig === '0') {
         for (let i = 0; i < speciesValidationOcc.length; i++) {
-          if (speciesValidationOcc[i] === "Válido") {
+          if (speciesValidationOcc[i] === 'Válido') {
             filteredOccIdx.push(i);
           }
         }
@@ -185,7 +227,7 @@ export class Processor_records extends WorkerHost {
 
       if (flowData.records === '0' && flowData.sig === 'x') {
         for (let i = 0; i < speciesValidationOcc.length; i++) {
-          if (speciesValidationSIG[i] === "SIG OK") {
+          if (speciesValidationSIG[i] === 'SIG OK') {
             filteredOccIdx.push(i);
           }
         }
@@ -196,15 +238,14 @@ export class Processor_records extends WorkerHost {
           filteredOccIdx.push(i);
         }
       }
-
     }
-
+    
     let speciesRecords: any = [];
-    filteredOccIdx.forEach(i => {
+    filteredOccIdx.forEach((i) => {
       const record = {
         urn: speciesUrns[i],
         validationRecord: speciesValidationOcc[i],
-        validationSIG: speciesValidationSIG[i]
+        validationSIG: speciesValidationSIG[i],
       };
       const coords = speciesCoords[i];
       const record_coords = Object.assign({}, record, coords);
@@ -213,8 +254,10 @@ export class Processor_records extends WorkerHost {
 
     const geojson = new GeoJSON();
     speciesRecords = geojson.parse(speciesRecords, { Point: ['lat', 'lon'] });
-    speciesRecords = speciesRecords.features
-    speciesRecords = speciesRecords.filter((obj: any) => obj.geometry.hasOwnProperty('coordinates'))
+    speciesRecords = speciesRecords.features;
+    speciesRecords = speciesRecords.filter((obj: any) =>
+      obj.geometry.hasOwnProperty('coordinates'),
+    );
 
     writeFile(
       `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`,
@@ -224,13 +267,12 @@ export class Processor_records extends WorkerHost {
         if (err) {
           console.error(err);
         }
-      }
+      },
     );
 
     job.updateProgress(100);
 
     return Promise.resolve({ speciesRecords });
-
   }
 
   @OnWorkerEvent('active')

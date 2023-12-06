@@ -152,7 +152,7 @@ export class Processor_threats extends WorkerHost {
       let relevantAooThreats: any = {};
       for (const key of Object.keys(AooThreats)) {
         let areaPercentage = AooThreats[key]['2021'] / AOOvalue;
-        if (areaPercentage >= 0.05) {
+        if (areaPercentage >= 0.01) {
           relevantAooThreats[key] = AooThreats[key];
         }
       }
@@ -261,7 +261,7 @@ export class Processor_threats extends WorkerHost {
         let relevantEooThreats: any = {};
         for (const key of Object.keys(EooThreats)) {
           let areaPercentage = EooThreats[key]['2021'] / EOOvalue;
-          if (areaPercentage >= 0.05) {
+          if (areaPercentage >= 0.01) {
             relevantEooThreats[key] = EooThreats[key];
           }
         }

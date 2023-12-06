@@ -37,9 +37,7 @@ export class Processor_citationFFB extends WorkerHost {
     let speciesTaxonId: any = null;
 
     const keyPath = './credentials.json';
-    const scopes = [
-      'https://www.googleapis.com/auth/spreadsheets'
-    ];
+    const scopes = ['https://www.googleapis.com/auth/spreadsheets'];
     const credentials = new google.auth.JWT({
       keyFile: keyPath,
       scopes: scopes,
@@ -71,7 +69,7 @@ export class Processor_citationFFB extends WorkerHost {
       const options = {
         hostname: 'servicos.jbrj.gov.br',
         path: '/v2/flora/taxon/' + encodeURIComponent(species),
-        method: 'GET'
+        method: 'GET',
       };
       return new Promise((resolve, reject) => {
         const req = https.request(options, (res: any) => {
@@ -84,7 +82,7 @@ export class Processor_citationFFB extends WorkerHost {
           });
         });
         req.on('error', (error: Error) => {
-          reject(error);
+          // reject(error);
         });
         req.end();
       });
@@ -92,16 +90,30 @@ export class Processor_citationFFB extends WorkerHost {
 
     citation = await getCitation(job.data.species);
 
+    if (citation.erro === '500') {
+      result = { long: 'SERVIDOR_FFB_OFF', short: 'COLOCAR_CITAÇÃO' }
+    }
+
     if (citation.length === 0) {
       result = { long: 'NÃO_LISTADA_NA_FFB', short: 'COLOCAR_CITAÇÃO' };
     }
 
     if (citation.length > 0) {
-      citation = citation[0].taxon
+      citation = citation[0].taxon;
       let today = new Date();
       const months = [
-        "janeiro", "fevereiro", "março", "abril", "maio", "junho",
-        "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+        'janeiro',
+        'fevereiro',
+        'março',
+        'abril',
+        'maio',
+        'junho',
+        'julho',
+        'agosto',
+        'setembro',
+        'outubro',
+        'novembro',
+        'dezembro',
       ];
       const day = today.getDate();
       const month = months[today.getMonth()];
@@ -109,27 +121,27 @@ export class Processor_citationFFB extends WorkerHost {
 
       const date = `${day} de ${month} de ${year}`;
 
-      let id = citation.references
-      id = id.match(/id\=.*/)[0]
-      id = id.replace(/id\=/, '')
+      let id = citation.references;
+      id = id.match(/id\=.*/)[0];
+      id = id.replace(/id\=/, '');
 
-      let howToCite = citation.bibliographiccitation_how_to_cite
-      let haveAuthor = howToCite.match(/^Flora do Brasil/)
+      let howToCite = citation.bibliographiccitation_how_to_cite;
+      let haveAuthor = howToCite.match(/^Flora do Brasil/);
       if (haveAuthor === null) {
-        haveAuthor = true
+        haveAuthor = true;
       } else {
-        haveAuthor = false
+        haveAuthor = false;
       }
       if (haveAuthor === true) {
         const matchResult = howToCite.match(/(\W\w+)\sin/);
         const taxon = matchResult ? matchResult[1] : '';
-        
-        howToCite = howToCite.replace(/(.*)\sin Flora do Brasil.*/, '$1')
-        howToCite = howToCite.replace(/\s\w+$/, '')
-        howToCite = `${howToCite}, ${year}.${taxon}. Flora e Funga do Brasil. Jardim Botânico do Rio de Janeiro. URL https://floradobrasil.jbrj.gov.br/${id} (acesso em ${date}).`
+
+        howToCite = howToCite.replace(/(.*)\sin Flora do Brasil.*/, '$1');
+        howToCite = howToCite.replace(/\s\w+$/, '');
+        howToCite = `${howToCite}, ${year}.${taxon}. Flora e Funga do Brasil. Jardim Botânico do Rio de Janeiro. URL https://floradobrasil.jbrj.gov.br/${id} (acesso em ${date}).`;
         citation = howToCite;
       } else {
-        citation = `Flora e Funga do Brasil, ${year}. ${citation.family}. Flora e Funga do Brasil. Jardim Botânico do Rio de Janeiro. URL https://floradobrasil.jbrj.gov.br/${id} (acesso em ${date}).`
+        citation = `Flora e Funga do Brasil, ${year}. ${citation.family}. Flora e Funga do Brasil. Jardim Botânico do Rio de Janeiro. URL https://floradobrasil.jbrj.gov.br/${id} (acesso em ${date}).`;
       }
 
       function generateShortCitation(longCitation: any) {
@@ -138,14 +150,16 @@ export class Processor_citationFFB extends WorkerHost {
 
         let shortCitation;
         if (longCitation.startsWith('Flora e Funga do Brasil')) {
-          shortCitation = 'Flora e Funga do Brasil, ' + year
+          shortCitation = 'Flora e Funga do Brasil, ' + year;
         } else {
           const authorsRegex = /.*?\d{4}/;
           let authors = longCitation.match(authorsRegex)[0];
-          authors = authors.replace(/,?\s*\d{4}\b/, '')
+          authors = authors.replace(/,?\s*\d{4}\b/, '');
           let authorList = authors.split(/,\s+[\w\.-]+,\s/).filter(Boolean);
           const lastInitialRegex = /,\s[\w\.-]+\s*$/;
-          authorList = authorList.map((author: any) => author.replace(lastInitialRegex, ''));
+          authorList = authorList.map((author: any) =>
+            author.replace(lastInitialRegex, ''),
+          );
 
           if (authorList.length === 1) {
             shortCitation = `${authorList[0]}, ${year}`;
@@ -164,21 +178,25 @@ export class Processor_citationFFB extends WorkerHost {
       result = { long: citation, short: shortCitation };
     }
 
-    fs.writeFile(`G:/Outros computadores/Meu computador/CNCFlora_data/citationFFB/${job.data.species}.json`, JSON.stringify(result), 'utf8', (err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
+    fs.writeFile(
+      `G:/Outros computadores/Meu computador/CNCFlora_data/citationFFB/${job.data.species}.json`,
+      JSON.stringify(result),
+      'utf8',
+      (err) => {
+        if (err) {
+          console.error(err);
+        }
+      },
+    );
 
     job.updateProgress(100);
 
     return Promise.resolve(result);
-
-  } catch(err: Error) {
+  }
+  catch(err: Error) {
     console.error(err);
     return null;
   }
-
 
   @OnWorkerEvent('active')
   onActive(job: Job) {
