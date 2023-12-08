@@ -2,7 +2,6 @@
 
 const ee = require('@google/earthengine');
 const privateKey = require('../../../credentials.json');
-const fs = require('fs');
 const EooAooCalc = require('@vicentecalfo/eoo-aoo-calc')
 
 function calcArea(coordinates: any) {
@@ -119,7 +118,6 @@ function calcArea(coordinates: any) {
                     resolve({ EOO: EOOresult, AOO: AOOresult });
                 
                 }).catch((err) => console.log(err));
-                
                 
             },
             (error: any) => {
