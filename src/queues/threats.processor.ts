@@ -113,6 +113,24 @@ export class Processor_threats extends WorkerHost {
 
       job.updateProgress(4);
 
+
+      interface ThreatData {
+        [year: string]: number;
+      }
+
+      function fillMissingYears(obj: ThreatData) {
+        const years = Object.keys(obj);
+        const minYear = 1985
+        const maxYear = Math.max(...years.map((year) => parseInt(year, 10)))
+
+        for (let year = minYear; year <= maxYear; year++) {
+          if (!obj.hasOwnProperty(year.toString())) {
+            obj[year.toString()] = 0;
+          }
+        }
+      }
+
+
       // AOO
       const AOO = oacMapBiomasLandCoverfilePathJson.AOO;
       const AOOvalue = oacMapBiomasLandCoverfilePathJson.AOO_km2;
@@ -171,22 +189,6 @@ export class Processor_threats extends WorkerHost {
         relevantAooThreatsPercentage[key] = percentageValues;
       }
 
-      interface ThreatData {
-        [year: string]: number;
-      }
-
-      function fillMissingYears(obj: ThreatData) {
-        const years = Object.keys(obj);
-        const minYear = 1985
-        const maxYear = Math.max(...years.map((year) => parseInt(year, 10)))
-
-        for (let year = minYear; year <= maxYear; year++) {
-          if (!obj.hasOwnProperty(year.toString())) {
-            obj[year.toString()] = 0;
-          }
-        }
-      }
-
       for (const key in relevantAooThreatsPercentage) {
         if (Object.hasOwnProperty.call(relevantAooThreatsPercentage, key)) {
           const obj = relevantAooThreatsPercentage[key];
@@ -202,7 +204,7 @@ export class Processor_threats extends WorkerHost {
           const value = values[year];
           y.push(value);
         }
-
+        
         const trendAnalysis: any = await runRScript(y);
 
         const lastYear_km2 = relevantAooThreats[key]["2021"];
@@ -280,6 +282,13 @@ export class Processor_threats extends WorkerHost {
           relevantEooThreatsPercentage[key] = percentageValues;
         }
 
+        for (const key in relevantEooThreatsPercentage) {
+          if (Object.hasOwnProperty.call(relevantEooThreatsPercentage, key)) {
+            const obj = relevantEooThreatsPercentage[key];
+            fillMissingYears(obj);
+          }
+        }
+        
         const EOOresult = [];
         for (const key in relevantEooThreatsPercentage) {
           const values = relevantEooThreatsPercentage[key];
@@ -288,6 +297,7 @@ export class Processor_threats extends WorkerHost {
             const value = values[year];
             y.push(value);
           }
+
           const trendAnalysis: any = await runRScript(y);
           const lastYear_km2 = relevantEooThreats[key]["2021"];
           EOOresult.push({
