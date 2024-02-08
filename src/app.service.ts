@@ -33,9 +33,9 @@ export class AppService {
     @InjectQueue_speciesProfile() readonly queue_speciesProfile: Queue
   ) { }
 
-  addToQueue_records(species: string) {
-    this.queue_records.add('Records', { species });
-    return `${species} included on queue Records`;
+  addToQueue_records(species: string, source: string) {
+    this.queue_records.add('Records', { species, source });
+    return `${species} included on queue Records from ${source}`;
   }
 
   addToQueue_oa_mapbiomas_landcover(species: string) {

@@ -27,6 +27,7 @@ export class Processor_records extends WorkerHost {
 
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
+    const source = job.data.source;
 
     if (!species) {
       return Promise.reject(new Error('Failed'));
@@ -35,11 +36,21 @@ export class Processor_records extends WorkerHost {
     // Start process
     job.updateProgress(1);
 
-    const speciesOcc: any = await getOcc(species);
-    const speciesUrns = speciesOcc.urns;
-    const speciesValidationOcc = speciesOcc.validationRecords;
-    const speciesValidationSIG = speciesOcc.validationSIG;
-    let speciesCoords = speciesOcc.coordsObj;
+    let speciesOcc: any = {};
+    let speciesUrns: any = [];
+    let speciesValidationOcc: any = [];
+    let speciesValidationSIG: any = [];
+    let speciesCoords: any = [];
+
+    if(source === 'CNCFlora-oldSystem'){
+      speciesOcc: any = await getOcc(species);
+      speciesUrns = speciesOcc.urns;
+      speciesValidationOcc = speciesOcc.validationRecords;
+      speciesValidationSIG = speciesOcc.validationSIG;
+      speciesCoords = speciesOcc.coordsObj;
+
+    }
+
 
     const flowData = await whichFlow(species);
     const SIGanalyst = await getSIGanalyst(species);
@@ -238,6 +249,15 @@ export class Processor_records extends WorkerHost {
           filteredOccIdx.push(i);
         }
       }
+
+      if (flowData.records === '!' && flowData.sig === '0') {
+        for (let i = 0; i < speciesValidationOcc.length; i++) {
+          if (speciesValidationOcc[i] !== 'Inválido') {
+            filteredOccIdx.push(i);
+          }
+        }
+      }
+
     }
     
     let speciesRecords: any = [];
