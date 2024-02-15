@@ -8,6 +8,7 @@ import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
 
 import { getOcc } from './helpers/getOccFromOldSys';
+import { getOccFromProFlora } from './helpers/getOccFromProFlora'
 import { whichFlow } from './helpers/whichFlow';
 import { GeoJSON } from './helpers/geojson';
 import { getSIGanalyst } from './helpers/getSIGanalyst';
@@ -42,18 +43,71 @@ export class Processor_records extends WorkerHost {
     let speciesValidationSIG: any = [];
     let speciesCoords: any = [];
 
-    if(source === 'CNCFlora-oldSystem'){
-      speciesOcc: any = await getOcc(species);
+    if (source === 'CNCFlora-oldSystem') {
+      speciesOcc = await getOcc(species);
       speciesUrns = speciesOcc.urns;
       speciesValidationOcc = speciesOcc.validationRecords;
       speciesValidationSIG = speciesOcc.validationSIG;
       speciesCoords = speciesOcc.coordsObj;
-
     }
 
+    let speciesIds: any = [];
 
-    const flowData = await whichFlow(species);
-    const SIGanalyst = await getSIGanalyst(species);
+    if (source === 'Museu-Goeldi/PA') {
+      speciesOcc = await getOccFromProFlora(species);
+      speciesIds = speciesOcc.ids;
+      
+      const occIsValid: any = {
+        "true": "Válido",
+        "false": "Inválido"
+      }
+      speciesValidationOcc = speciesOcc.validationRecords;
+      speciesValidationOcc = speciesOcc.validationRecords.map((value: any) => occIsValid[value])
+
+      const occStatusGis: any = {
+        "0": "SIG NOT OK",
+        "1": "SIG OK",
+        "2": "SIG NOT OK"
+      }
+      speciesValidationSIG = speciesOcc.validationSIG.map((value: any) => occStatusGis[value])
+
+      const occGeoreferenceProtocol: any = {
+        "1": "Google Earth",
+        "2": "SIG",
+        "3": "Coletor"
+      }
+      const occGeoprecision: any = {
+        "1": "0 a 250m",
+        "2": "250 a 1000m",
+        "3": "5 a 10km",
+        "4": "50 a 100km",
+        "5": "10 a 20 km",
+        "6": "50 a 100km",
+        "7": "Centróide de UC",
+        "8": "Centróide de município"
+      }
+      speciesCoords = speciesOcc.coordsObj
+      speciesCoords = speciesCoords.map((coord: any) => {
+        return {
+          ...coord,
+          precision: occGeoprecision[coord.precision.toString()],
+          protocol: occGeoreferenceProtocol[coord.protocol.toString()]
+        };
+      });
+    }
+
+    let flowData: any = ''
+    let SIGanalyst: any = ''
+
+    if (source === 'Museu-Goeldi/PA'){
+      flowData = await whichFlow(species, 'Museu-Goeldi/PA')
+      SIGanalyst = await getSIGanalyst(species, 'Museu-Goeldi/PA')
+    }
+    
+    if (source === 'CNCFlora-oldSystem'){
+      flowData = await whichFlow(species, 'CNCFlora-oldSystem')
+      SIGanalyst = await getSIGanalyst(species, 'CNCFlora-oldSystem')
+    }
 
     // Remove empty coords
     // Remoção dos mesmos índices de speciesCoords, speciesUrns, speciesValidationOcc e speciesValidationSIG
@@ -71,7 +125,7 @@ export class Processor_records extends WorkerHost {
       );
 
       indicesToRemove.reverse().forEach((index) => {
-        speciesUrns.splice(index, 1);
+        speciesIds.splice(index, 1);
         speciesValidationOcc.splice(index, 1);
         speciesValidationSIG.splice(index, 1);
       });
@@ -259,7 +313,7 @@ export class Processor_records extends WorkerHost {
       }
 
     }
-    
+
     let speciesRecords: any = [];
     filteredOccIdx.forEach((i) => {
       const record = {

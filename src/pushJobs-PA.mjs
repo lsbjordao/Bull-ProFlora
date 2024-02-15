@@ -70,7 +70,7 @@ async function pushJobs() {
   await credentials.authorize();
 
   const ss = google.sheets({ version: 'v4', auth: credentials });
-  const spreadsheetId = '1DwBS0VD79wMO0UNztfSbUR5mTYdlv3rX9Se1bZhV4Jg';
+  const spreadsheetId = '1swPXVm9AD2IyNtslwjOf7Pq5cXC0unbdd_YnJjfuvnI';
   const sheetName = 'List_for_HTML_profile';
 
   ss.spreadsheets.values.get({
@@ -81,27 +81,8 @@ async function pushJobs() {
       console.error('Erro ao obter os valores da coluna E:', err);
       return;
     }
-    const listOfSpecies = (res.data.values).flat();
-      
-    // Queue Records from CNCFlora-oldSystem
-    queueRecords.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
-      });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${species}.html`;
-          return !jobNames.includes(species) && existsSync(path);
-        });
-
-      speciesToAdd.forEach((species) => {
-        sendPostRequestWithSource('records', species, 'CNCFlora-oldSystem');
-      });
-    });
+    const listOfSpecies = (res.data.values).flat().filter(species => species !== '#N/A');
 
     // Queue Records from Museu-Goeldi/PA
     queueRecords.getJobs().then(async (jobs) => {
@@ -109,17 +90,12 @@ async function pushJobs() {
         return job.data.species;
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${species}.html`;
-          return !jobNames.includes(species) && existsSync(path);
-        });
+      listOfSpecies.forEach(async (species) => {
+        const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequestWithSource('records', species, 'CNCFlora-oldSystem');
+        if (!jobNames.includes(species) && existsSync(path)) {
+          await sendPostRequestWithSource('records', species, 'Museu-Goeldi/PA');
+        }
       });
     });
 

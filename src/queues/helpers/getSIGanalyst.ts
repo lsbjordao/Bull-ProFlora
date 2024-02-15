@@ -1,7 +1,7 @@
 import { google, sheets_v4 } from 'googleapis';
 import { JWT } from 'google-auth-library';
 
-async function getSIGanalyst(species: string): Promise<any> {
+async function getSIGanalyst(species: string, source: 'CNCFlora-oldSystem'|'Museu-Goeldi/PA'): Promise<any> {
     const keyPath = './credentials.json';
     const scopes = [
         'https://www.googleapis.com/auth/spreadsheets'
@@ -14,8 +14,18 @@ async function getSIGanalyst(species: string): Promise<any> {
 
     await credentials.authorize();
 
+    let spreadsheetId: string = ''
+
+    if(source === 'CNCFlora-oldSystem'){
+        spreadsheetId = '1DwBS0VD79wMO0UNztfSbUR5mTYdlv3rX9Se1bZhV4Jg';
+    }
+
+    if(source === 'Museu-Goeldi/PA'){
+        spreadsheetId = '1swPXVm9AD2IyNtslwjOf7Pq5cXC0unbdd_YnJjfuvnI';
+    }
+    
     const sheets = google.sheets({ version: 'v4', auth: credentials });
-    const spreadsheetId = '1DwBS0VD79wMO0UNztfSbUR5mTYdlv3rX9Se1bZhV4Jg';
+    
     const sheetName = 'Acomp_spp';
 
     const res = await sheets.spreadsheets.values.batchGet({
