@@ -386,9 +386,9 @@ export class Processor_speciesProfile extends WorkerHost {
             output.conservationActions.includeThreatenedList.push({
               action: '5.1.3 Sub-national level',
               situation: 'on going',
-              text: `A espécie foi avaliada como ${list.Status} na lista oficial das espécies ameaçadas de extinção no Estado do Espírito Santo (Espírito Santo, 2005).`,
+              text: `A espécie foi avaliada como ${list.Status} na lista oficial das espécies ameaçadas de extinção no Estado do Pará (Pará, 2007).`,
               reference:
-                'COEMA - Conselho Estadual de Meio Ambiente, 2007. Lista de Espécies Ameaçadas de Extinção no Espírito Santo. Resolução nº 54, de 24 de outubro de 2007. URL https://iema.es.gov.br/especies-ameacadas.',
+                'COEMA - Conselho Estadual de Meio Ambiente, 2007. Lista de Espécies Ameaçadas de Extinção no Pará. Resolução nº 54, de 24 de outubro de 2007.',
             });
           }
 
@@ -445,17 +445,28 @@ export class Processor_speciesProfile extends WorkerHost {
 
         // Municípios prioritários da Amazônia Legal
         if (output.conservationActions.municipsPriorAL.length > 0) {
-          const municips = [];
+          let municips = output.conservationActions.municipsPriorAL.map((item: any) => `${item.MUNICIPIO} (${item.UF})`).join(', ')
+          if (output.conservationActions.municipsPriorAL.length > 1) {
+            const lastComma = municips.lastIndexOf(',');
+        
+            if (lastComma !== -1) {
+                municips = municips.substring(0, lastComma) + ' e' + municips.substring(lastComma + 1);
+            }
+        }
 
-          for (
-            let i = 0;
-            i < output.conservationActions.municipsPriorAL.length;
-            i++
-          ) {
-            const municip =
-              output.conservationActions.municipsPriorAL[i]['MUNICIPIO'];
-            municips.push(municip);
+          let nMunicips = 'municípíos'
+          if (output.conservationActions.municipsPriorAL.length === 1) {
+            nMunicips = 'município'
           }
+
+          output.conservationActions.includeThreatenedList.push({
+            action: '5.1.2 National level',
+            situation: 'on going',
+            text: `A espécie ocorre em ${municips}, ${nMunicips} da Amazônia Legal considerado prioritário para fiscalização, referido no Decreto Federal 6.321/2007 (BRASIL, 2007) e atualizado em 2018 pela Portaria MMA nº 428/18 (MMA, 2018).`,
+            reference:
+              `BRASIL, 2007. Decreto Federal nº 6.321, de 21 de dezembro de 2007. Diário Oficial da União, 21/12/2007, Edição Extra, Seção 1, p. 12. URL http://www.planalto.gov.br/ccivil_03/_Ato2007-2010/2007/Decreto/D6321.htm (acesso em 15 de março de 2022).<br><br>
+              MMA - Ministério do Meio Ambiente, 2018. Portaria MMA nº 428, de 19 de novembro de 2018. Diário Oficial da União, 20/11/2018, Edição 222, Seção 1, p. 74. URL http://www.in.gov.br/materia/-/asset_publisher/Kujrw0TZC2Mb/content/id/50863140/do1-2018-11-20-portaria-n-428-de-19-de-novembro-de-2018-50863024 (acesso em 15 de março de 2022).`,
+          })
         }
 
         // Threats
@@ -522,6 +533,7 @@ export class Processor_speciesProfile extends WorkerHost {
         }
 
         if (AooThreats.length !== 0 && EooThreats.length !== 0) {
+
           let AooThreatsList = [];
           for (const threat of AooThreats) {
             const lastYear = threat.lastYear;
@@ -632,10 +644,10 @@ export class Processor_speciesProfile extends WorkerHost {
             EooThreatsList.push(EooThreatInfo);
           }
 
-          function mergeThreatsText(threatsList:any) {
-            const mergedThreats:any = {};
+          function mergeThreatsText(threatsList: any) {
+            const mergedThreats: any = {};
 
-            threatsList.forEach((item:any) => {
+            threatsList.forEach((item: any) => {
               if (!mergedThreats[item.threat]) {
                 mergedThreats[item.threat] = {
                   threat: item.threat,
@@ -662,10 +674,159 @@ export class Processor_speciesProfile extends WorkerHost {
             ...mergedEooThreatsList,
           ]);
 
-          const threatsList: any = Object.values(mergedThreatsList);
-          threatsList.forEach((threat: { text: any }) => {
-            threat.text = threat.text.replace(/\.$/, ' (MapBiomas, 2022).');
-          });
+          const landCoverThreatsList: any = Object.values(mergedThreatsList);
+
+
+          // MapBiomas fire
+
+          const AooFireThreats = output.threats.AOOfire;
+          const EooFireThreats = output.threats.EOOfire;
+
+          AooFireThreats.sort((a: any, b: any) => b.percent - a.percent);
+          EooFireThreats.sort((a: any, b: any) => b.percent - a.percent);
+
+          if (AooFireThreats.length === 0 && EooFireThreats.length === 0) {
+            output.threats.includeThreat = [
+              {
+                threat: 'Nenhuma ameaça significativa relacionado ao fogo.',
+                text: '',
+                reference: '',
+              },
+            ];
+          }
+
+          let FireThreatsList: any = [];
+          if (AooFireThreats.length !== 0 && EooFireThreats.length !== 0) {
+            let totalPercentAoo = 0;
+            let totalKm2Aoo = 0;
+            for (const threat of AooFireThreats) {
+              totalPercentAoo += threat.percent;
+              totalKm2Aoo += threat.km2;
+            }
+
+            let fireThreatText: string = `Um total de ${totalPercentAoo.toFixed(
+              2,
+            )}% (${totalKm2Aoo.toFixed(
+              2,
+            )} km²) da AOO útil da espécie queimaram em ${AooFireThreats[0].year
+              } [`;
+
+            for (let i = 0; i < AooFireThreats.length; i++) {
+              fireThreatText += `${AooFireThreats[i].class} (${AooFireThreats[
+                i
+              ].percent.toFixed(2)}%)`;
+
+              if (i !== AooFireThreats.length - 1) {
+                fireThreatText += ', ';
+              }
+            }
+
+            fireThreatText += ']. ';
+
+            let totalPercentEoo = 0;
+            let totalKm2Eoo = 0;
+            for (const threat of EooFireThreats) {
+              totalPercentAoo += threat.percent;
+              totalKm2Aoo += threat.km2;
+            }
+
+            fireThreatText += `Um total de ${totalPercentEoo.toFixed(
+              2,
+            )}% (${totalKm2Eoo.toFixed(
+              2,
+            )} km²) da EOO útil da espécie queimaram em ${EooFireThreats[0].year
+              } [`;
+
+            for (let i = 0; i < EooFireThreats.length; i++) {
+              fireThreatText += `${EooFireThreats[i].class} (${EooFireThreats[
+                i
+              ].percent.toFixed(2)}%)`;
+
+              if (i !== EooFireThreats.length - 1) {
+                fireThreatText += ', ';
+              }
+            }
+
+            fireThreatText += '].';
+
+            const fireThreatInfo = {
+              threat: '7.1.3 Trend Unknown/Unrecorded',
+              text: fireThreatText,
+              reference: `MapBiomas Fogo, 2022. Projeto MapBiomas Fogo - Coleção 2 do Mapeamento de cicatrizes de fogo no Brasil, dados de 2022. URL https://https://mapbiomas.org (acesso em ${date}).`,
+            };
+            FireThreatsList.push(fireThreatInfo);
+          }
+
+          if (AooFireThreats.length !== 0 && EooFireThreats.length === 0) {
+            let totalPercentAoo = 0;
+            let totalKm2Aoo = 0;
+            for (const threat of AooFireThreats) {
+              totalPercentAoo += threat.percent;
+              totalKm2Aoo += threat.km2;
+            }
+
+            let AooFireThreatText = `Um total de ${totalPercentAoo.toFixed(
+              2,
+            )}% (${totalKm2Aoo.toFixed(
+              2,
+            )} km²) da AOO útil da espécie queimaram em ${AooFireThreats[0].year
+              } [`;
+
+            for (let i = 0; i < AooFireThreats.length; i++) {
+              AooFireThreatText += `${AooFireThreats[i].class
+                } (${AooFireThreats[i].percent.toFixed(2)}%)`;
+
+              if (i !== AooFireThreats.length - 1) {
+                AooFireThreatText += ', ';
+              }
+            }
+
+            AooFireThreatText += '].';
+
+            const AooFireThreatInfo = {
+              threat: '7.1.3 Trend Unknown/Unrecorded',
+              text: AooFireThreatText,
+              reference: `MapBiomas Fogo, 2022. Projeto MapBiomas Fogo - Coleção 2 do Mapeamento de cicatrizes de fogo no Brasil, dados de 2022. URL https://https://mapbiomas.org (acesso em ${date}).`,
+            };
+            FireThreatsList.push(AooFireThreatInfo);
+          }
+
+          if (AooFireThreats.length === 0 && EooFireThreats.length !== 0) {
+            let totalPercentEoo = 0;
+            let totalKm2Eoo = 0;
+            for (const threat of EooFireThreats) {
+              totalPercentEoo += threat.percent;
+              totalKm2Eoo += threat.km2;
+            }
+
+            let EooFireThreatText = `Um total de ${totalPercentEoo.toFixed(
+              2,
+            )}% (${totalKm2Eoo.toFixed(
+              2,
+            )} km²) da EOO útil da espécie queimaram em ${EooFireThreats[0].year
+              } [`;
+
+            for (let i = 0; i < EooFireThreats.length; i++) {
+              EooFireThreatText += `${EooFireThreats[i].class
+                } (${EooFireThreats[i].percent.toFixed(2)}%)`;
+
+              if (i !== EooFireThreats.length - 1) {
+                EooFireThreatText += ', ';
+              }
+            }
+
+            EooFireThreatText += '].';
+
+            const EooFireThreatInfo = {
+              threat: '7.1.3 Trend Unknown/Unrecorded',
+              text: EooFireThreatText,
+              reference: `MapBiomas Fogo, 2022. Projeto MapBiomas Fogo - Coleção 2 do Mapeamento de cicatrizes de fogo no Brasil, dados de 2022. URL https://https://mapbiomas.org (acesso em ${date}).`,
+            };
+            FireThreatsList.push(EooFireThreatInfo);
+          }
+
+          // Merge threatsLists (land cover, fire)
+          const threatsList = landCoverThreatsList.concat(FireThreatsList);
 
           output.threats.includeThreat = threatsList;
         }
@@ -758,9 +919,159 @@ export class Processor_speciesProfile extends WorkerHost {
 
             AooThreatsList.splice(AooThreatsList.indexOf(secondItem), 1);
           }
-          const threatsList = AooThreatsListMerged.concat(
+          const landCoverThreatsList = AooThreatsListMerged.concat(
             AooThreatsListNotMerged,
           );
+
+          // MapBiomas fire
+          const AooFireThreats = output.threats.AOOfire;
+          const EooFireThreats = output.threats.EOOfire;
+          
+          AooFireThreats.sort((a: any, b: any) => b.percent - a.percent);
+          EooFireThreats.sort((a: any, b: any) => b.percent - a.percent);
+
+          if (AooFireThreats.length === 0 && EooFireThreats.length === 0) {
+            output.threats.includeThreat = [
+              {
+                threat: 'Nenhuma ameaça significativa relacionado ao fogo.',
+                text: '',
+                reference: '',
+              },
+            ];
+          }
+
+          let FireThreatsList: any = [];
+          if (AooFireThreats.length !== 0 && EooFireThreats.length !== 0) {
+            let totalPercentAoo = 0;
+            let totalKm2Aoo = 0;
+            for (const threat of AooFireThreats) {
+              totalPercentAoo += threat.percent;
+              totalKm2Aoo += threat.km2;
+            }
+
+            let fireThreatText: string = `Um total de ${totalPercentAoo.toFixed(
+              2,
+            )}% (${totalKm2Aoo.toFixed(
+              2,
+            )} km²) da AOO útil da espécie queimaram em ${AooFireThreats[0].year
+              } [`;
+
+            for (let i = 0; i < AooFireThreats.length; i++) {
+              fireThreatText += `${AooFireThreats[i].class} (${AooFireThreats[
+                i
+              ].percent.toFixed(2)}%)`;
+
+              if (i !== AooFireThreats.length - 1) {
+                fireThreatText += ', ';
+              }
+            }
+
+            fireThreatText += ']. ';
+
+            let totalPercentEoo = 0;
+            let totalKm2Eoo = 0;
+            for (const threat of EooFireThreats) {
+              totalPercentAoo += threat.percent;
+              totalKm2Aoo += threat.km2;
+            }
+
+            fireThreatText += `Um total de ${totalPercentEoo.toFixed(
+              2,
+            )}% (${totalKm2Eoo.toFixed(
+              2,
+            )} km²) da EOO útil da espécie queimaram em ${EooFireThreats[0].year
+              } [`;
+
+            for (let i = 0; i < EooFireThreats.length; i++) {
+              fireThreatText += `${EooFireThreats[i].class} (${EooFireThreats[
+                i
+              ].percent.toFixed(2)}%)`;
+
+              if (i !== EooFireThreats.length - 1) {
+                fireThreatText += ', ';
+              }
+            }
+
+            fireThreatText += '].';
+
+            const fireThreatInfo = {
+              threat: '7.1.3 Trend Unknown/Unrecorded',
+              text: fireThreatText,
+              reference: `MapBiomas Fogo, 2022. Projeto MapBiomas Fogo - Coleção 2 do Mapeamento de cicatrizes de fogo no Brasil, dados de 2022. URL https://https://mapbiomas.org (acesso em ${date}).`,
+            };
+            FireThreatsList.push(fireThreatInfo);
+          }
+
+          if (AooFireThreats.length !== 0 && EooFireThreats.length === 0) {
+            let totalPercentAoo = 0;
+            let totalKm2Aoo = 0;
+            for (const threat of AooFireThreats) {
+              totalPercentAoo += threat.percent;
+              totalKm2Aoo += threat.km2;
+            }
+
+            let AooFireThreatText = `Um total de ${totalPercentAoo.toFixed(
+              2,
+            )}% (${totalKm2Aoo.toFixed(
+              2,
+            )} km²) da AOO útil da espécie queimaram em ${AooFireThreats[0].year
+              } [`;
+
+            for (let i = 0; i < AooFireThreats.length; i++) {
+              AooFireThreatText += `${AooFireThreats[i].class
+                } (${AooFireThreats[i].percent.toFixed(2)}%)`;
+
+              if (i !== AooFireThreats.length - 1) {
+                AooFireThreatText += ', ';
+              }
+            }
+
+            AooFireThreatText += '].';
+
+            const AooFireThreatInfo = {
+              threat: '7.1.3 Trend Unknown/Unrecorded',
+              text: AooFireThreatText,
+              reference: `MapBiomas Fogo, 2022. Projeto MapBiomas Fogo - Coleção 2 do Mapeamento de cicatrizes de fogo no Brasil, dados de 2022. URL https://https://mapbiomas.org (acesso em ${date}).`,
+            };
+            FireThreatsList.push(AooFireThreatInfo);
+          }
+
+          if (AooFireThreats.length === 0 && EooFireThreats.length !== 0) {
+            let totalPercentEoo = 0;
+            let totalKm2Eoo = 0;
+            for (const threat of EooFireThreats) {
+              totalPercentEoo += threat.percent;
+              totalKm2Eoo += threat.km2;
+            }
+
+            let EooFireThreatText = `Um total de ${totalPercentEoo.toFixed(
+              2,
+            )}% (${totalKm2Eoo.toFixed(
+              2,
+            )} km²) da EOO útil da espécie queimaram em ${EooFireThreats[0].year
+              } [`;
+
+            for (let i = 0; i < EooFireThreats.length; i++) {
+              EooFireThreatText += `${EooFireThreats[i].class
+                } (${EooFireThreats[i].percent.toFixed(2)}%)`;
+
+              if (i !== EooFireThreats.length - 1) {
+                EooFireThreatText += ', ';
+              }
+            }
+
+            EooFireThreatText += '].';
+
+            const EooFireThreatInfo = {
+              threat: '7.1.3 Trend Unknown/Unrecorded',
+              text: EooFireThreatText,
+              reference: `MapBiomas Fogo, 2022. Projeto MapBiomas Fogo - Coleção 2 do Mapeamento de cicatrizes de fogo no Brasil, dados de 2022. URL https://https://mapbiomas.org (acesso em ${date}).`,
+            };
+            FireThreatsList.push(EooFireThreatInfo);
+          }
+
+          // Merge threatsLists (land cover, fire)
+          const threatsList = landCoverThreatsList.concat(FireThreatsList);
 
           output.threats.includeThreat = threatsList;
         }
@@ -888,9 +1199,8 @@ export class Processor_speciesProfile extends WorkerHost {
               2,
             )}% (${totalKm2Aoo.toFixed(
               2,
-            )} km²) da AOO útil da espécie queimaram em ${
-              AooFireThreats[0].year
-            } [`;
+            )} km²) da AOO útil da espécie queimaram em ${AooFireThreats[0].year
+              } [`;
 
             for (let i = 0; i < AooFireThreats.length; i++) {
               fireThreatText += `${AooFireThreats[i].class} (${AooFireThreats[
@@ -915,9 +1225,8 @@ export class Processor_speciesProfile extends WorkerHost {
               2,
             )}% (${totalKm2Eoo.toFixed(
               2,
-            )} km²) da EOO útil da espécie queimaram em ${
-              EooFireThreats[0].year
-            } [`;
+            )} km²) da EOO útil da espécie queimaram em ${EooFireThreats[0].year
+              } [`;
 
             for (let i = 0; i < EooFireThreats.length; i++) {
               fireThreatText += `${EooFireThreats[i].class} (${EooFireThreats[
@@ -951,14 +1260,12 @@ export class Processor_speciesProfile extends WorkerHost {
               2,
             )}% (${totalKm2Aoo.toFixed(
               2,
-            )} km²) da AOO útil da espécie queimaram em ${
-              AooFireThreats[0].year
-            } [`;
+            )} km²) da AOO útil da espécie queimaram em ${AooFireThreats[0].year
+              } [`;
 
             for (let i = 0; i < AooFireThreats.length; i++) {
-              AooFireThreatText += `${
-                AooFireThreats[i].class
-              } (${AooFireThreats[i].percent.toFixed(2)}%)`;
+              AooFireThreatText += `${AooFireThreats[i].class
+                } (${AooFireThreats[i].percent.toFixed(2)}%)`;
 
               if (i !== AooFireThreats.length - 1) {
                 AooFireThreatText += ', ';
@@ -987,14 +1294,12 @@ export class Processor_speciesProfile extends WorkerHost {
               2,
             )}% (${totalKm2Eoo.toFixed(
               2,
-            )} km²) da EOO útil da espécie queimaram em ${
-              EooFireThreats[0].year
-            } [`;
+            )} km²) da EOO útil da espécie queimaram em ${EooFireThreats[0].year
+              } [`;
 
             for (let i = 0; i < EooFireThreats.length; i++) {
-              EooFireThreatText += `${
-                EooFireThreats[i].class
-              } (${EooFireThreats[i].percent.toFixed(2)}%)`;
+              EooFireThreatText += `${EooFireThreats[i].class
+                } (${EooFireThreats[i].percent.toFixed(2)}%)`;
 
               if (i !== EooFireThreats.length - 1) {
                 EooFireThreatText += ', ';
@@ -1051,8 +1356,8 @@ export class Processor_speciesProfile extends WorkerHost {
 
     return Promise.resolve(
       'G:/Outros computadores/Meu computador/CNCFlora_data/speciesProfiles/' +
-        species +
-        '.html',
+      species +
+      '.html',
     );
   }
   catch(err: Error) {
