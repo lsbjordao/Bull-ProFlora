@@ -33,40 +33,34 @@ function getOcc(input: any) {
       $('.col-md-3').each(function (index, element) {
         const stateProvinceElement = $(element).find('#stateProvince');
         const municipalityElement = $(element).find('#municipality');
-
-        if (stateProvinceElement.length > 0 && municipalityElement.length > 0) {
-          const stateProvince = stateProvinceElement.attr('value');
-          const municipality = municipalityElement.attr('value');
-
-          states.push(stateProvince);
-          municipalities.push(municipality);
-        }
+        const stateProvince = stateProvinceElement.attr('value');
+        states.push(stateProvince);
+        const municipality = municipalityElement.attr('value');
+        municipalities.push(municipality);
       });
 
-      const inputs = $('.col-md-6 input');
-      const coords = inputs.map((i, element) => {
-        return $(element).attr('value');
-      }).get();
+      let coordsObj: any = []
+      $('.col-md-3').each(function (index, element) {
 
-      const coordsMat = [];
-      const ncol = 6;
-      for (let i = 0; i < coords.length; i += ncol) {
-        coordsMat.push(coords.slice(i, i + ncol));
-      }
-      coordsMat.forEach(row => {
-        row.splice(4, 2);
-      });
-      const headers = ['lat', 'lon', 'precision', 'protocol'];
-      const coordsObj = coordsMat.map(row => {
-        if (row.length !== headers.length) {
-          throw new Error(`Matriz de coordenadas inválida: ${row}`);
-        }
-        const obj: { [key: string]: any } = {};
-        row.forEach((val: any, idx: number) => {
-          obj[headers[idx]] = val;
+        const latElement = $(element).find('input[name="decimalLatitude"]');
+        const lonElement = $(element).find('input[name="decimalLongitude"]');
+        const precisionElement = $(element).find('input[name="georeferencePrecision"]');
+        const protocolElement = $(element).find('input[name="georeferenceProtocol"]');
+
+        const latValue = latElement.attr('value');
+        const lonValue = lonElement.attr('value');
+        const precisionValue = precisionElement.attr('value');
+        const protocolValue = protocolElement.attr('value');
+
+        coordsObj.push({
+          lat: latValue,
+          lon: lonValue,
+          precision: precisionValue,
+          protocol: protocolValue
         });
-        return obj;
       });
+
+      coordsObj = coordsObj.filter((obj: any) => typeof obj.lat === 'string' && typeof obj.lon === 'string');
 
       const result = {
         n: urns.length,
