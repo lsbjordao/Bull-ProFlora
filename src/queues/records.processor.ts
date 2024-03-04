@@ -56,7 +56,7 @@ export class Processor_records extends WorkerHost {
     if (source === 'Museu-Goeldi/PA') {
       speciesOcc = await getOccFromProFlora(species);
       speciesIds = speciesOcc.ids;
-      
+
       const occIsValid: any = {
         "true": "Válido",
         "false": "Inválido"
@@ -99,17 +99,24 @@ export class Processor_records extends WorkerHost {
     let flowData: any = ''
     let SIGanalyst: any = ''
 
-    if (source === 'Museu-Goeldi/PA'){
+    if (source === 'Museu-Goeldi/PA') {
       flowData = await whichFlow(species, 'Museu-Goeldi/PA')
       SIGanalyst = await getSIGanalyst(species, 'Museu-Goeldi/PA')
     }
-    
-    if (source === 'CNCFlora-oldSystem'){
+
+    if (source === 'CNCFlora-oldSystem') {
       flowData = await whichFlow(species, 'CNCFlora-oldSystem')
       SIGanalyst = await getSIGanalyst(species, 'CNCFlora-oldSystem')
     }
 
-    // Remove empty coords
+    // Empty coords
+    speciesCoords.map((coords: any) => {
+      if (coords.lat === '' || coords.lon === '') {
+        job.log(`Empty coord: ${coords} (${SIGanalyst})`)
+        throw new Error('Empty latitude or longitude field.')
+      }
+    })
+
     // Remoção dos mesmos índices de speciesCoords, speciesUrns, speciesValidationOcc e speciesValidationSIG
     if (flowData.flow === 'PNA' || flowData.flow === 'PA') {
       const indicesToRemove: number[] = [];

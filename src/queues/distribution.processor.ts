@@ -65,7 +65,11 @@ export class Processor_distribution extends WorkerHost {
     }
 
     result = _.filter(result, function (item: any) {
-      return item.firstLvl !== ''
+      return item.firstLvl !== '' && item.firstLvl !== undefined
+    });
+
+    result = _.filter(result, function (item: any) {
+      return item.secondLvl !== '' && item.secondLvl !== undefined
     });
     
     result = _.uniq(result, false, function (item: any) {
