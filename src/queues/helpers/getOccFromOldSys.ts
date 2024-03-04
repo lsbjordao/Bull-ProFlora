@@ -27,13 +27,21 @@ function getOcc(input: any) {
         .filter((_, index) => index % 2 !== 1)
         .slice(1);
 
-      const states = $('#stateProvince')
-        .map((i, element) => $(element).attr('value'))
-        .get();
+      const states: any = [];
+      const municipalities: any = [];
 
-      const municipalities = $('#municipality')
-        .map((i, element) => $(element).attr('value'))
-        .get();
+      $('.col-md-3').each(function (index, element) {
+        const stateProvinceElement = $(element).find('#stateProvince');
+        const municipalityElement = $(element).find('#municipality');
+
+        if (stateProvinceElement.length > 0 && municipalityElement.length > 0) {
+          const stateProvince = stateProvinceElement.attr('value');
+          const municipality = municipalityElement.attr('value');
+
+          states.push(stateProvince);
+          municipalities.push(municipality);
+        }
+      });
 
       const inputs = $('.col-md-6 input');
       const coords = inputs.map((i, element) => {
