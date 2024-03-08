@@ -110,12 +110,13 @@ export class Processor_records extends WorkerHost {
     }
 
     // Empty coords
-    speciesCoords.map((coords: any) => {
-      if (coords.lat === '' || coords.lon === '') {
-        job.log(`Empty coord: ${coords} (${SIGanalyst})`)
-        throw new Error('Empty latitude or longitude field.')
-      }
-    })
+    // speciesCoords.map((coords: any, idx: number) => {
+    //   if (coords.lat === '' || coords.lon === '') {
+    //     console.log(idx)
+    //     job.log(`Empty coord: ${coords} (${SIGanalyst})`)
+    //     throw new Error('Empty latitude or longitude field.')
+    //   }
+    // })
 
     // Remoção dos mesmos índices de speciesCoords, speciesUrns, speciesValidationOcc e speciesValidationSIG
     if (flowData.flow === 'PNA' || flowData.flow === 'PA') {

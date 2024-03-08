@@ -34,6 +34,7 @@ export class Processor_distribution extends WorkerHost {
     job.updateProgress(1);
 
     const speciesOcc: any = await getOcc(job.data.species);
+    // console.log(speciesOcc)
     const speciesUrns = speciesOcc.urns;
     const speciesStates = speciesOcc.states;
     const speciesMunicipalities = speciesOcc.municipalities;
