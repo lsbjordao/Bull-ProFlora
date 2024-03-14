@@ -43,15 +43,16 @@ export class Processor_records extends WorkerHost {
     let speciesValidationSIG: any = [];
     let speciesCoords: any = [];
 
+    let speciesIds: any = [];
+
     if (source === 'CNCFlora-oldSystem') {
       speciesOcc = await getOcc(species);
       speciesUrns = speciesOcc.urns;
       speciesValidationOcc = speciesOcc.validationRecords;
       speciesValidationSIG = speciesOcc.validationSIG;
       speciesCoords = speciesOcc.coordsObj;
+      speciesIds = speciesUrns
     }
-
-    let speciesIds: any = [];
 
     if (source === 'Museu-Goeldi/PA') {
       speciesOcc = await getOccFromProFlora(species);
