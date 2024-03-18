@@ -81,324 +81,335 @@ async function pushJobs() {
       console.error('Erro ao obter os valores da coluna E:', err);
       return;
     }
-    const listOfSpecies = (res.data.values).flat();
-      
-    // Queue Records from CNCFlora-oldSystem
-    queueRecords.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
-      });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${species}.html`;
-          return !jobNames.includes(species) && existsSync(path);
+    function mainLoop() {
+
+
+
+
+
+
+      const listOfSpecies = (res.data.values).flat();
+
+      // Queue Records from CNCFlora-oldSystem
+      queueRecords.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequestWithSource('records', species, 'CNCFlora-oldSystem');
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${species}.html`;
+            return !jobNames.includes(species) && existsSync(path);
+          });
 
-    // Queue Records from Museu-Goeldi/PA
-    queueRecords.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequestWithSource('records', species, 'CNCFlora-oldSystem');
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${species}.html`;
-          return !jobNames.includes(species) && existsSync(path);
+      // Queue Records from Museu-Goeldi/PA
+      queueRecords.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequestWithSource('records', species, 'CNCFlora-oldSystem');
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            const path = `G:/Outros computadores/Meu computador/CNCFlora_data/inputs/occurrences/oldSystem/${species}.html`;
+            return !jobNames.includes(species) && existsSync(path);
+          });
 
-    // Queue Information
-    queueInformation.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequestWithSource('records', species, 'CNCFlora-oldSystem');
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          return !jobNames.includes(species);
+      // Queue Information
+      queueInformation.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('information', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            return !jobNames.includes(species);
+          });
 
-    // Queue Citation FFB
-    queueCitation_FFB.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('information', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          return !jobNames.includes(species);
+      // Queue Citation FFB
+      queueCitation_FFB.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('citationFFB', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            return !jobNames.includes(species);
+          });
 
-    // Queue Obras princeps
-    queueObrasPrinceps.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('citationFFB', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          return !jobNames.includes(species);
+      // Queue Obras princeps
+      queueObrasPrinceps.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('obraPrinceps', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            return !jobNames.includes(species);
+          });
 
-    // Queue Distribution
-    queueDistribution.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('obraPrinceps', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const pathRecords = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
-          const pathInformation = `G:/Outros computadores/Meu computador/CNCFlora_data/information/${species}.json`;
-          return !jobNames.includes(species) && existsSync(pathRecords) && existsSync(pathInformation);
+      // Queue Distribution
+      queueDistribution.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('distribution', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            const pathRecords = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
+            const pathInformation = `G:/Outros computadores/Meu computador/CNCFlora_data/information/${species}.json`;
+            return !jobNames.includes(species) && existsSync(pathRecords) && existsSync(pathInformation);
+          });
 
-    // Queue OA-MapBiomas-LandCover
-    queueOaMapBiomasLandCover.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('distribution', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
-          return !jobNames.includes(species) && existsSync(path);
+      // Queue OA-MapBiomas-LandCover
+      queueOaMapBiomasLandCover.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('oa-mapbiomas-landcover', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
+            return !jobNames.includes(species) && existsSync(path);
+          });
 
-    // Queue OA-MapBiomas-Fire
-    queueOaMapBiomasFire.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('oa-mapbiomas-landcover', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
-          return !jobNames.includes(species) && existsSync(path);
+      // Queue OA-MapBiomas-Fire
+      queueOaMapBiomasFire.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('oa-mapbiomas-fire', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
+            return !jobNames.includes(species) && existsSync(path);
+          });
 
-    // Queue OA-UCs
-    queueOaUCs.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('oa-mapbiomas-fire', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
-          return !jobNames.includes(species) && existsSync(path);
+      // Queue OA-UCs
+      queueOaUCs.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('oa-UCs', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
+            return !jobNames.includes(species) && existsSync(path);
+          });
 
-    // Queue OA-TERs
-    queueOaTERs.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('oa-UCs', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
-          return !jobNames.includes(species) && existsSync(path);
+      // Queue OA-TERs
+      queueOaTERs.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('oa-TERs', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
+            return !jobNames.includes(species) && existsSync(path);
+          });
 
-    // Queue OA-PANs
-    queueOaPANs.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('oa-TERs', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
-          return !jobNames.includes(species) && existsSync(path);
+      // Queue OA-PANs
+      queueOaPANs.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('oa-PANs', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
+            return !jobNames.includes(species) && existsSync(path);
+          });
 
-    // Queue Conservation actions
-    queueConservationActions.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('oa-PANs', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
-          return !jobNames.includes(species) && existsSync(path);
+      // Queue Conservation actions
+      queueConservationActions.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('conservationActions', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
+            return !jobNames.includes(species) && existsSync(path);
+          });
 
-    // Queue Threats
-    queueThreats.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('conservationActions', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (species) {
-          return species.toString();
-        })
-        .filter(function (species) {
-          const pathRecords = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
-          const pathOacMapBiomasLandCover = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-LandCover7/${species}.json`;
-          return !jobNames.includes(species) && existsSync(pathRecords) && existsSync(pathOacMapBiomasLandCover);
+      // Queue Threats
+      queueThreats.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      speciesToAdd.forEach((species) => {
-        sendPostRequest('threats', species);
-      });
-    });
+        const speciesToAdd = listOfSpecies
+          .map(function (species) {
+            return species.toString();
+          })
+          .filter(function (species) {
+            const pathRecords = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
+            const pathOacMapBiomasLandCover = `G:/Outros computadores/Meu computador/CNCFlora_data/oac/MapBiomas-LandCover7/${species}.json`;
+            return !jobNames.includes(species) && existsSync(pathRecords) && existsSync(pathOacMapBiomasLandCover);
+          });
 
-    // Queue Species profile
-    queueSpeciesProfile.getJobs().then(async (jobs) => {
-      const jobNames = jobs.map(function (job) {
-        return job.data.species;
+        speciesToAdd.forEach((species) => {
+          sendPostRequest('threats', species);
+        });
       });
 
-      const speciesToAdd = listOfSpecies
-        .map(function (value) {
-          return value.toString();
-        })
-        .filter(function (value) {
-          return !jobNames.includes(value);
+      // Queue Species profile
+      queueSpeciesProfile.getJobs().then(async (jobs) => {
+        const jobNames = jobs.map(function (job) {
+          return job.data.species;
         });
 
-      function checkFileExists(filePath) {
-        return existsSync(filePath);
-      }
+        const speciesToAdd = listOfSpecies
+          .map(function (value) {
+            return value.toString();
+          })
+          .filter(function (value) {
+            return !jobNames.includes(value);
+          });
 
-      const completedList = []
+        function checkFileExists(filePath) {
+          return existsSync(filePath);
+        }
 
-      setInterval(check, 3000)
+        const completedList = []
 
-      function check() {
-        const dirsToCheck = [
-          'distribution',
-          'information',
-          'obrasPrinceps',
-          'citationFFB',
-          'oac/MapBiomas-LandCover7',
-          'oac/MapBiomas-Fire',
-          'oac/PANs',
-          'oac/TERs',
-          'oac/UCs',
-          'conservationActions',
-          'threats'
-        ]
-        speciesToAdd.forEach(species => {
+        setInterval(check, 3000)
 
-          if (completedList.indexOf(species) === -1) {
-            const fileExists = dirsToCheck.map(dir => {
-              const path = `G:/Outros computadores/Meu computador/CNCFlora_data/${dir}/${species}.json`
-              return checkFileExists(path) ? 1 : 0
-            })
-            function getSum(total, num) {
-              return total + num
+        function check() {
+          const dirsToCheck = [
+            'distribution',
+            'information',
+            'obrasPrinceps',
+            'citationFFB',
+            'oac/MapBiomas-LandCover7',
+            'oac/MapBiomas-Fire',
+            'oac/PANs',
+            'oac/TERs',
+            'oac/UCs',
+            'conservationActions',
+            'threats'
+          ]
+          speciesToAdd.forEach(species => {
+
+            if (completedList.indexOf(species) === -1) {
+              const fileExists = dirsToCheck.map(dir => {
+                const path = `G:/Outros computadores/Meu computador/CNCFlora_data/${dir}/${species}.json`
+                return checkFileExists(path) ? 1 : 0
+              })
+              function getSum(total, num) {
+                return total + num
+              }
+              const isReady = (fileExists.reduce(getSum, 0)) === dirsToCheck.length
+
+              if (isReady) {
+                sendPostRequest('speciesProfile', species);
+                completedList.push(species)
+              }
             }
-            const isReady = (fileExists.reduce(getSum, 0)) === dirsToCheck.length
+          })
+        }
+      });
+    }
 
-            if (isReady) {
-              sendPostRequest('speciesProfile', species);
-              completedList.push(species)
-            }
-          }
-        })
-      }
-    });
-
+    const interval = 50000 // 10 seconds
+    setInterval(mainLoop, interval);
   });
 }
 

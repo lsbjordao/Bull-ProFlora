@@ -8,6 +8,7 @@ import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
 
 import * as fs from 'fs';
+import { adexchangebuyer_v1_2 } from 'googleapis';
 import * as R from 'r-script';
 
 
@@ -204,7 +205,7 @@ export class Processor_threats extends WorkerHost {
           const value = values[year];
           y.push(value);
         }
-        
+
         const trendAnalysis: any = await runRScript(y);
 
         const lastYear_km2 = relevantAooThreats[key]["2021"];
@@ -288,7 +289,7 @@ export class Processor_threats extends WorkerHost {
             fillMissingYears(obj);
           }
         }
-        
+
         const EOOresult = [];
         for (const key in relevantEooThreatsPercentage) {
           const values = relevantEooThreatsPercentage[key];
@@ -407,9 +408,10 @@ export class Processor_threats extends WorkerHost {
       let AoototalAreaPercentage = 0;
 
       for (const key of Object.keys(AooFireThreats)) {
+
         let areaPercentage = AooFireThreats[key]['2022'] / AOOvalue;
         if (isNaN(areaPercentage)) {
-          areaPercentage = 0;
+          areaPercentage = 0
         }
         AoototalAreaPercentage += areaPercentage;
 
@@ -432,63 +434,68 @@ export class Processor_threats extends WorkerHost {
       // EOO Fire
       const EOOfire = oacMapBiomasFireJson.EOO;
 
-      const EOOfireValues: any = {};
-      for (let i = 0; i < AOOfire.length; i++) {
-        let band = AOOfire[i].band;
-        let year = band.substring(band.lastIndexOf('_') + 1);
+      const noData = EOOfire.every((element: any) => !element.hasOwnProperty('areaKm2'))
 
-        let groups = AOOfire[i].areaKm2.groups;
+      const EOOfireOutput: [] = []
+      if (noData === true) { } else {
 
-        for (let j = 0; j < groups.length; j++) {
-          let classValue = groups[j].class;
+        const EOOfireValues: any = {};
+        for (let i = 0; i < EOOfire.length; i++) {
+          let band = EOOfire[i].band;
+          let year = band.substring(band.lastIndexOf('_') + 1);
 
-          if ([1, 2, 3, 4, 5, 6, 9, 11, 12, 13, 15, 18, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 35, 36, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 57, 58, 62].includes(classValue)) {
-            let sumValue = groups[j].sum;
+          let groups = EOOfire[i].areaKm2.groups;
 
-            if (!EOOfireValues[classValue]) {
-              EOOfireValues[classValue] = {};
-            }
+          for (let j = 0; j < groups.length; j++) {
+            let classValue = groups[j].class;
 
-            if (!EOOfireValues[classValue][year]) {
-              EOOfireValues[classValue][year] = sumValue;
-            } else {
-              EOOfireValues[classValue][year] += sumValue;
+            if ([1, 2, 3, 4, 5, 6, 9, 11, 12, 13, 15, 18, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 31, 32, 33, 34, 35, 36, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 57, 58, 62].includes(classValue)) {
+              let sumValue = groups[j].sum;
+
+              if (!EOOfireValues[classValue]) {
+                EOOfireValues[classValue] = {};
+              }
+
+              if (!EOOfireValues[classValue][year]) {
+                EOOfireValues[classValue][year] = sumValue;
+              } else {
+                EOOfireValues[classValue][year] += sumValue;
+              }
             }
           }
         }
-      }
 
-      const EooFireThreats: any = {};
-      for (const key in EOOfireValues) {
-        EooFireThreats[classes[key]] = EOOfireValues[key];
-      }
-
-      // Threats greather than 5%
-      let relevantEooFireThreats: any = [];
-      let EoototalAreaPercentage = 0;
-
-      for (const key of Object.keys(EooFireThreats)) {
-        let areaPercentage = EooFireThreats[key]['2022'] / EOOvalue;
-        if (isNaN(areaPercentage)) {
-          areaPercentage = 0;
+        const EooFireThreats: any = {};
+        for (const key in EOOfireValues) {
+          EooFireThreats[classes[key]] = EOOfireValues[key];
         }
-        EoototalAreaPercentage += areaPercentage;
 
-        if (EoototalAreaPercentage >= 0.05) {
-          if (areaPercentage !== 0) {
-            const data = {
-              "class": key,
-              "year": 2022,
-              "km2": EooFireThreats[key]['2022'],
-              "percent": areaPercentage
-            };
-            relevantAooFireThreats.push(data);
+        // Threats greather than 5%
+        let relevantEooFireThreats: any = [];
+        let EoototalAreaPercentage = 0;
+
+        for (const key of Object.keys(EooFireThreats)) {
+          let areaPercentage = EooFireThreats[key]['2022'] / EOOvalue;
+          if (isNaN(areaPercentage)) {
+            areaPercentage = 0;
+          }
+          EoototalAreaPercentage += areaPercentage;
+
+          if (EoototalAreaPercentage >= 0.05) {
+            if (areaPercentage !== 0) {
+              const data = {
+                "class": key,
+                "year": 2022,
+                "km2": EooFireThreats[key]['2022'],
+                "percent": areaPercentage
+              };
+              relevantAooFireThreats.push(data);
+            }
           }
         }
+
+        const EOOfireOutput = relevantEooFireThreats;
       }
-
-      const EOOfireOutput = relevantEooFireThreats;
-
 
       const output = { "AOO": AOOoutput, "EOO": EOOoutput, "AOOfire": AOOfireOutput, "EOOfire": EOOfireOutput };
 

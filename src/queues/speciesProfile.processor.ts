@@ -55,6 +55,7 @@ export class Processor_speciesProfile extends WorkerHost {
       'obrasPrinceps',
       'citationFFB',
       'oac/MapBiomas-LandCover7',
+      'oac/MapBiomas-Fire',
       'oac/PANs',
       'oac/TERs',
       'oac/UCs',
@@ -448,11 +449,11 @@ export class Processor_speciesProfile extends WorkerHost {
           let municips = output.conservationActions.municipsPriorAL.map((item: any) => `${item.MUNICIPIO} (${item.UF})`).join(', ')
           if (output.conservationActions.municipsPriorAL.length > 1) {
             const lastComma = municips.lastIndexOf(',');
-        
+
             if (lastComma !== -1) {
-                municips = municips.substring(0, lastComma) + ' e' + municips.substring(lastComma + 1);
+              municips = municips.substring(0, lastComma) + ' e' + municips.substring(lastComma + 1);
             }
-        }
+          }
 
           let nMunicips = 'municípíos'
           if (output.conservationActions.municipsPriorAL.length === 1) {
@@ -924,9 +925,10 @@ export class Processor_speciesProfile extends WorkerHost {
           );
 
           // MapBiomas fire
+          
           const AooFireThreats = output.threats.AOOfire;
           const EooFireThreats = output.threats.EOOfire;
-          
+
           AooFireThreats.sort((a: any, b: any) => b.percent - a.percent);
           EooFireThreats.sort((a: any, b: any) => b.percent - a.percent);
 
@@ -1016,8 +1018,9 @@ export class Processor_speciesProfile extends WorkerHost {
               2,
             )} km²) da AOO útil da espécie queimaram em ${AooFireThreats[0].year
               } [`;
-
+            
             for (let i = 0; i < AooFireThreats.length; i++) {
+              
               AooFireThreatText += `${AooFireThreats[i].class
                 } (${AooFireThreats[i].percent.toFixed(2)}%)`;
 
@@ -1326,7 +1329,7 @@ export class Processor_speciesProfile extends WorkerHost {
       })
       .then((htmlString: any) => {
         fs.writeFileSync(
-          `G:/Outros computadores/Meu computador/CNCFlora_data/speciesProfiles/${species}.html`,
+          `G:/Outros computadores/Meu computador/CNCFlora_data/outputs/profileOfSpeciesHTML results/${species}.html`,
           htmlString,
         );
       })

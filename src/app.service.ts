@@ -35,67 +35,80 @@ export class AppService {
 
   addToQueue_records(species: string, source: string) {
     this.queue_records.add('Records', { species, source });
-    return `${species} included on queue Records from ${source}`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue Records from ${source} at ${time}`;
   }
 
   addToQueue_oa_mapbiomas_landcover(species: string) {
     this.queue_oa_mapbiomas_landcover.add('OA-MapBiomas-LandCover', { species });
-    return `${species} included on queue OA-MapBiomas-LandCover`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue OA-MapBiomas-LandCover at ${time}`;
   }
 
   addToQueue_oa_mapbiomas_fire(species: string) {
     this.queue_oa_mapbiomas_fire.add('OA-MapBiomas-Fire', { species });
-    return `${species} included on queue OA-MapBiomas-Fire`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue OA-MapBiomas-Fire at ${time}`;
   }
 
   addToQueue_information(species: string) {
     this.queue_information.add('Information', { species });
-    return `${species} included on queue Information`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue Information at ${time}`;
   }
 
   addToQueue_distribution(species: string) {
     this.queue_distribution.add('Distribution', { species });
-    return `${species} included on queue Distribution`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue Distribution at ${time}`;
   }
 
   addToQueue_citationFFB(species: string) {
     this.queue_citationFFB.add('Distribution', { species });
-    return `${species} included on queue Citation FFB`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue Citation FFB at ${time}`;
   }
 
   addToQueue_obraPrinceps(species: string) {
     this.queue_obraPrinceps.add('Obra Princeps', { species });
-    return `${species} included on queue Obra Princeps`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue Obra Princeps at ${time}`;
   }
 
   addToQueue_oa_UCs(species: string) {
     this.queue_oa_UCs.add('OA-UCs', { species });
-    return `${species} included on queue OA-UCs`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue OA-UCs at ${time}`;
   }
 
   addToQueue_oa_TERs(species: string) {
     this.queue_oa_TERs.add('OA-UCs', { species });
-    return `${species} included on queue OA-TERs`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue OA-TERs at ${time}`;
   }
 
   addToQueue_oa_PANs(species: string) {
     this.queue_oa_PANs.add('OA-PANs', { species });
-    return `${species} included on queue OA-PANs`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue OA-PANs at ${time}`;
   }
 
   addToQueue_conservationActions(species: string) {
     this.queue_conservationActions.add('Conservation actions', { species });
-    return `${species} included on queue Conservation actions`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue Conservation actions at ${time}`;
   }
 
   addToQueue_threats(species: string) {
     this.queue_threats.add('Threats', { species });
-    return `${species} included on queue Threats`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue Threats at ${time}`;
   }
 
   addToQueue_speciesProfile(species: string) {
     this.queue_speciesProfile.add('Species profile', { species });
-    return `${species} included on queue Species profile`;
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${species} included on queue Species profile at ${time}`;
   }
 
 }
