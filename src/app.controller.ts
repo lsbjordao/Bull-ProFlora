@@ -9,8 +9,8 @@ export class AppController {
 
   @Post('records')
   addToQueue_records(@Body() data: any) {
-    const {species, source} = data;
-    return this.appService.addToQueue_records(species, source);
+    const {species, source, priority} = data;
+    return this.appService.addToQueue_records(species, source, priority);
   }
   
   @Post('oa-mapbiomas-landcover')

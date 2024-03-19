@@ -33,8 +33,8 @@ export class AppService {
     @InjectQueue_speciesProfile() readonly queue_speciesProfile: Queue
   ) { }
 
-  addToQueue_records(species: string, source: string) {
-    this.queue_records.add('Records', { species, source });
+  addToQueue_records(species: string, source: string, priority?: number) {
+    this.queue_records.add('Records', { species, source }, { priority: priority });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
     return `${species} included on queue Records from ${source} at ${time}`;
   }

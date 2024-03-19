@@ -84,11 +84,6 @@ async function pushJobs() {
 
     function mainLoop() {
 
-
-
-
-
-
       const listOfSpecies = (res.data.values).flat();
 
       // Queue Records from CNCFlora-oldSystem
