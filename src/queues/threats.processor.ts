@@ -8,7 +8,6 @@ import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
 
 import * as fs from 'fs';
-import { adexchangebuyer_v1_2 } from 'googleapis';
 import * as R from 'r-script';
 
 

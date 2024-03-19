@@ -85,6 +85,9 @@ export class Processor_conservationActions extends WorkerHost {
       }
 
       const speciesOcc: any = await getOcc(job.data.species);
+      const speciesUrns = speciesOcc.urns
+      const recordsUrns = records.map((element: any) => element.properties.urn)
+
       let speciesStates = speciesOcc.states;
 
       const stateToAbbreviation: any = {
@@ -125,7 +128,29 @@ export class Processor_conservationActions extends WorkerHost {
         }
       });
 
-      const speciesMunicipalities = speciesOcc.municipalities;
+      let speciesMunicipalities = speciesOcc.municipalities;
+
+      let checkedValidation: any = [];
+
+      for (let i = 0; i < speciesStates.length; i++) {
+        if (recordsUrns.includes(speciesUrns[i])) {
+          const obj = {
+            states: speciesStates[i],
+            municipalities: speciesMunicipalities[i]
+          };
+          checkedValidation.push(obj);
+        }
+      }
+      const speciesStatesValidated: any = [];
+      const speciesMunicipalitiesValidated: any = [];
+
+      checkedValidation.forEach((item: any) => {
+        speciesStatesValidated.push(item.states);
+        speciesMunicipalitiesValidated.push(item.municipalities);
+      });
+
+      speciesStates = speciesStatesValidated
+      speciesMunicipalities = speciesMunicipalitiesValidated
 
       const listMunicipsPriorAL = './src/queues/conservationActions_lists/MunicipsPriorAL.json';
       const listMunicipsPriorALContent: any = await fs.promises.readFile(listMunicipsPriorAL);
@@ -149,7 +174,7 @@ export class Processor_conservationActions extends WorkerHost {
       });
 
       job.updateProgress(100);
-      
+
       return Promise.resolve(result);
 
     }
