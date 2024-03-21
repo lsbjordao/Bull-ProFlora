@@ -321,6 +321,14 @@ export class Processor_records extends WorkerHost {
         }
       }
 
+      if (flowData.records === 'x' && flowData.sig === '!') {
+        for (let i = 0; i < speciesValidationOcc.length; i++) {
+          if (speciesValidationSIG[i] !== 'SIG NOT') {
+            filteredOccIdx.push(i);
+          }
+        }
+      }
+
     }
 
     let speciesRecords: any = [];
