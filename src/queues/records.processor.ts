@@ -42,7 +42,6 @@ export class Processor_records extends WorkerHost {
     let speciesValidationOcc: any = [];
     let speciesValidationSIG: any = [];
     let speciesCoords: any = [];
-
     let speciesIds: any = [];
 
     if (source === 'CNCFlora-oldSystem') {
@@ -54,8 +53,12 @@ export class Processor_records extends WorkerHost {
       speciesIds = speciesUrns
     }
 
-    if (source === 'Museu-Goeldi/PA') {
+    if (
+      source === 'Museu-Goeldi/PA' ||
+      source === 'CNCFlora-ProFlora'
+    ) {
       speciesOcc = await getOccFromProFlora(species);
+
       speciesIds = speciesOcc.ids;
 
       const occIsValid: any = {
@@ -103,6 +106,11 @@ export class Processor_records extends WorkerHost {
     if (source === 'Museu-Goeldi/PA') {
       flowData = await whichFlow(species, 'Museu-Goeldi/PA')
       SIGanalyst = await getSIGanalyst(species, 'Museu-Goeldi/PA')
+    }
+
+    if (source === 'CNCFlora-ProFlora') {
+      flowData = await whichFlow(species, 'CNCFlora-ProFlora')
+      SIGanalyst = await getSIGanalyst(species, 'CNCFlora-ProFlora')
     }
 
     if (source === 'CNCFlora-oldSystem') {

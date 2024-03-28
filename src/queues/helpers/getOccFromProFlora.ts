@@ -5,7 +5,8 @@ dotenv.config()
 
 async function sendGetRequest(taxon: string) {
     try {
-        const taxonId = '1664'
+        console.log(taxon)
+        const taxonId = '1660'
         const url = `http://${process.env.ProFloraDev}/occurrence?taxonId=${taxonId}`;
         const config: any = {
             headers: {
@@ -21,6 +22,7 @@ async function sendGetRequest(taxon: string) {
             .catch(error => {
                 console.error('Erro:', error);
             });
+
         return response
     } catch (error) {
         console.error('Ocorreu um erro ao enviar a requisição:', error.message);

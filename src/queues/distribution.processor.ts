@@ -10,6 +10,7 @@ import { Job } from 'bullmq';
 import * as fs from 'fs';
 
 import { getOcc } from './helpers/getOccFromOldSys';
+import { getOccFromProFlora } from './helpers/getOccFromProFlora';
 //@ts-ignore
 import * as admDivisions from './functions/admDivisions';
 import * as _ from 'underscore';
@@ -25,20 +26,42 @@ export class Processor_distribution extends WorkerHost {
   private readonly logger = new Logger(Processor_distribution.name);
 
   async process(job: Job<any, any, string>): Promise<any> {
-    const species = job.data.species;
+    const species = job.data.species
+    const source = job.data.source
 
     if (!species) {
       return Promise.reject(new Error('Failed'));
     }
 
-    job.updateProgress(1);
+    job.updateProgress(1)
 
-    const speciesOcc: any = await getOcc(job.data.species);
-    // console.log(speciesOcc)
-    const speciesUrns = speciesOcc.urns;
-    const speciesStates = speciesOcc.states;
-    const speciesMunicipalities = speciesOcc.municipalities;
+    let speciesOcc: any = {};
+    let speciesUrns: any = [];
+    let speciesIds: any = [];
+    let speciesStates: any = [];
+    let speciesMunicipalities: any = [];
 
+    if (source === 'CNCFlora-oldSystem') {
+      speciesOcc = await getOcc(species);
+      speciesUrns = speciesOcc.urns;
+      speciesStates = speciesOcc.states;
+      speciesMunicipalities = speciesOcc.municipalities;
+      speciesIds = speciesUrns
+    }
+
+    if (
+      source === 'Museu-Goeldi/PA' ||
+      source === 'CNCFlora-ProFlora'
+    ) {
+      speciesOcc = await getOccFromProFlora(species);
+
+      speciesIds = speciesOcc.ids
+      speciesStates = speciesOcc.states
+      speciesMunicipalities = speciesOcc.municipalities
+      
+    }
+
+    
     const recordsFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${job.data.species}.json`;
     const informationFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/information/${job.data.species}.json`;
 

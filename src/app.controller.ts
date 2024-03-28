@@ -33,8 +33,8 @@ export class AppController {
 
   @Post('distribution')
   addToQueue_distribution(@Body() data: any) {
-    const {species} = data;
-    return this.appService.addToQueue_distribution(species);
+    const {species, source} = data;
+    return this.appService.addToQueue_distribution(species, source);
   }
 
   @Post('citationFFB')

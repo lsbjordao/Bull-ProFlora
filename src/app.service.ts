@@ -57,8 +57,8 @@ export class AppService {
     return `${species} included on queue Information at ${time}`;
   }
 
-  addToQueue_distribution(species: string) {
-    this.queue_distribution.add('Distribution', { species });
+  addToQueue_distribution(species: string, source: string) {
+    this.queue_distribution.add('Distribution', { species, source });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
     return `${species} included on queue Distribution at ${time}`;
   }
