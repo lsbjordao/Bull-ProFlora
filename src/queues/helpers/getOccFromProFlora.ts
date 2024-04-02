@@ -7,7 +7,7 @@ async function sendGetRequest(taxon: string) {
     try {
         console.log(taxon)
         const taxonId = '1660'
-        const url = `http://${process.env.ProFloraDev}/occurrence?taxonId=${taxonId}`;
+        const url = `${process.env.ProFloraDev}/occurrence?taxonId=${taxonId}`;
         const config: any = {
             headers: {
                 'Content-Type': 'application/json',
