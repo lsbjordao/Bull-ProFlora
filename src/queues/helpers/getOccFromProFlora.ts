@@ -1,21 +1,24 @@
 import { existsSync } from 'fs';
 import axios from 'axios';
+import { getToken } from './getToken';
 import * as dotenv from 'dotenv';
 dotenv.config()
 
 async function sendGetRequest(taxon: string) {
 
     try {
+        const ProFloraToken = await getToken()
+
         const config: any = {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${process.env.ProFloraToken}`
+                'Authorization': `Bearer ${ProFloraToken}`
             }
         }
 
-        let urlBase = process.env.ProFloraProd
-        if (process.env.NODE_ENV === 'dev') { urlBase = process.env.ProFloraDev }
+        let urlBase = process.env.ProFloraUrlBaseProd
+        if (process.env.NODE_ENV === 'dev') { urlBase = process.env.ProFloraUrlBaseDev }
         
         const endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?scientificname=${taxon}`;
 
