@@ -22,7 +22,7 @@ async function whichFlow(species: string, source: 'CNCFlora-oldSystem'|'CNCFlora
     }
 
     if(source === 'CNCFlora-ProFlora'){
-        spreadsheetId = '1DwBS0VD79wMO0UNztfSbUR5mTYdlv3rX9Se1bZhV4Jg';
+        spreadsheetId = '17n2VMQse1uAsvgWA3fXFhewIz1hclliA5d85h8FMHHI';
     }
 
     if(source === 'Museu-Goeldi/PA'){
