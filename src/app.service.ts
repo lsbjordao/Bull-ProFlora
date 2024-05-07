@@ -4,6 +4,7 @@ import { Queue } from 'bullmq';
 import { InjectQueue_records } from './queues/records.processor';
 import { InjectQueue_oa_mapbiomas_landcover } from './queues/oa_mapbiomas_landcover.processor';
 import { InjectQueue_oa_mapbiomas_fire } from './queues/oa_mapbiomas_fire.processor';
+import { InjectQueue_oa_mapbiomas_landcover_geojson } from './queues/oa_mapbiomas_landcover_geojson.processor';
 import { InjectQueue_information } from './queues/information.processor';
 import { InjectQueue_distribution } from './queues/distribution.processor';
 import { InjectQueue_citationFFB } from './queues/citationFFB.processor';
@@ -21,6 +22,7 @@ export class AppService {
     @InjectQueue_records() readonly queue_records: Queue,
     @InjectQueue_oa_mapbiomas_landcover() readonly queue_oa_mapbiomas_landcover: Queue,
     @InjectQueue_oa_mapbiomas_fire() readonly queue_oa_mapbiomas_fire: Queue,
+    @InjectQueue_oa_mapbiomas_landcover_geojson() readonly queue_oa_mapbiomas_landcover_geojson: Queue,
     @InjectQueue_information() readonly queue_information: Queue,
     @InjectQueue_distribution() readonly queue_distribution: Queue,
     @InjectQueue_citationFFB() readonly queue_citationFFB: Queue,
@@ -49,6 +51,12 @@ export class AppService {
     this.queue_oa_mapbiomas_fire.add('OA-MapBiomas-Fire', { species });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
     return `${species} included on queue OA-MapBiomas-Fire at ${time}`;
+  }
+
+  addToQueue_oa_mapbiomas_landcover_geojson(geojson: string) {
+    this.queue_oa_mapbiomas_landcover_geojson.add('OA-MapBiomas-LandCover-Geojson', { geojson });
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${geojson} included on queue OA-MapBiomas-LandCover-Geojson at ${time}`;
   }
 
   addToQueue_information(species: string) {

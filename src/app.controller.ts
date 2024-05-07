@@ -25,6 +25,12 @@ export class AppController {
     return this.appService.addToQueue_oa_mapbiomas_fire(species);
   }
 
+  @Post('oa-mapbiomas-landcover-geojson')
+  addToQueue_oa_mapbiomas_landcover_geojson(@Body() data: any) {
+    const {geojson} = data;
+    return this.appService.addToQueue_oa_mapbiomas_landcover_geojson(geojson);
+  }
+
   @Post('information')
   addToQueue_information(@Body() data: any) {
     const {species} = data;
