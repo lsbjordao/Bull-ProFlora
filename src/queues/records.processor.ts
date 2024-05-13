@@ -38,7 +38,6 @@ export class Processor_records extends WorkerHost {
     job.updateProgress(1);
 
     let speciesOcc: any = {};
-    let speciesUrns: any = [];
     let speciesValidationOcc: any = [];
     let speciesValidationSIG: any = [];
     let speciesCoords: any = [];
@@ -46,11 +45,10 @@ export class Processor_records extends WorkerHost {
 
     if (source === 'CNCFlora-oldSystem') {
       speciesOcc = await getOcc(species);
-      speciesUrns = speciesOcc.urns;
+      speciesIds = speciesOcc.occIds;
       speciesValidationOcc = speciesOcc.validationRecords;
       speciesValidationSIG = speciesOcc.validationSIG;
       speciesCoords = speciesOcc.coordsObj;
-      speciesIds = speciesUrns
     }
 
     if (
@@ -342,7 +340,7 @@ export class Processor_records extends WorkerHost {
     let speciesRecords: any = [];
     filteredOccIdx.forEach((i) => {
       const record = {
-        urn: speciesUrns[i],
+        occId: speciesIds[i],
         validationRecord: speciesValidationOcc[i],
         validationSIG: speciesValidationSIG[i],
       };

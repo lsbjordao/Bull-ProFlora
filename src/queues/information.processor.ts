@@ -22,8 +22,9 @@ export class Processor_information extends WorkerHost {
 
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
+    const source = job.data.source;
 
-    if (!species) {
+    if (!species || !source) {
       return Promise.reject(new Error('Failed'));
     }
 
@@ -39,8 +40,15 @@ export class Processor_information extends WorkerHost {
     });
     await credentials.authorize();
 
-    const sheets = google.sheets({ version: 'v4', auth: credentials });
-    const spreadsheetId = '1vdU2njQ-ZJl4FiDCPpmiX-VrL0637omEyS_hBXQtllY';
+    const sheets = google.sheets({ version: 'v4', auth: credentials })
+
+    let spreadsheetId = '1vdU2njQ-ZJl4FiDCPpmiX-VrL0637omEyS_hBXQtllY' // CNCFlora-oldSystem
+    if (source === 'CNCFlora-ProFlora'){
+      spreadsheetId ='1GxxXJXw3TYhOj00JIJuuj3dYjTUfzp_vN2ydKB5b5gY'
+    }
+    if (source === 'Museu-Goeldi/PA'){ // MPEG
+      spreadsheetId = '14F3XCHYMwchOF592KsJOT1Ygq_ERZDtIs5dmGT47ppQ'
+    }
     const sheetName = 'Acomp_spp';
 
     const speciesData: any = await sheets.spreadsheets.values.get({

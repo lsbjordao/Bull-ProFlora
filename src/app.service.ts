@@ -59,10 +59,10 @@ export class AppService {
     return `${geojson} included on queue OA-MapBiomas-LandCover-Geojson at ${time}`;
   }
 
-  addToQueue_information(species: string) {
-    this.queue_information.add('Information', { species });
+  addToQueue_information(species: string, source: string) {
+    this.queue_information.add('Information', { species, source });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-    return `${species} included on queue Information at ${time}`;
+    return `${species} included on queue Information from ${source} at ${time}`;
   }
 
   addToQueue_distribution(species: string, source: string) {
@@ -101,10 +101,10 @@ export class AppService {
     return `${species} included on queue OA-PANs at ${time}`;
   }
 
-  addToQueue_conservationActions(species: string) {
-    this.queue_conservationActions.add('Conservation actions', { species });
+  addToQueue_conservationActions(species: string, source: string) {
+    this.queue_conservationActions.add('Conservation actions', { species, source });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-    return `${species} included on queue Conservation actions at ${time}`;
+    return `${species} included on queue Conservation actions from ${source} at ${time}`;
   }
 
   addToQueue_threats(species: string) {

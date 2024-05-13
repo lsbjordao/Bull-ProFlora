@@ -51,7 +51,7 @@ async function getOccFromProFlora(taxon: string) {
 
     const result: any = {
         n: data.length,
-        ids: data.map((occ: any) => occ.id),
+        occIds: data.map((occ: any) => occ.id),
         validationRecords: data.map((occ: any) => occ.isValid),
         validationSIG: data.map((occ: any) => occ.gisStatusId),
         coordsObj: data.map((occ: any) => {

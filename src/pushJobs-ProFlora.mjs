@@ -70,7 +70,7 @@ async function pushJobs() {
   await credentials.authorize();
 
   const ss = google.sheets({ version: 'v4', auth: credentials });
-  const spreadsheetId = '1swPXVm9AD2IyNtslwjOf7Pq5cXC0unbdd_YnJjfuvnI';
+  const spreadsheetId = '17n2VMQse1uAsvgWA3fXFhewIz1hclliA5d85h8FMHHI';
   const sheetName = 'List_for_HTML_profile';
 
   ss.spreadsheets.values.get({
@@ -94,7 +94,7 @@ async function pushJobs() {
         const path = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
 
         if (!jobNames.includes(species) && existsSync(path)) {
-          await sendPostRequestWithSource('records', species, 'Museu-Goeldi/PA');
+          await sendPostRequestWithSource('records', species, 'CNCFlora-ProFlora');
         }
       });
     });
@@ -114,7 +114,7 @@ async function pushJobs() {
         });
 
         speciesToAdd.forEach((species) => {
-          sendPostRequestWithSource('information', species, 'Museu-Goeldi/PA');
+          sendPostRequestWithSource('information', species, 'CNCFlora-ProFlora');
         });
     });
 
@@ -293,7 +293,7 @@ async function pushJobs() {
         });
 
       speciesToAdd.forEach((species) => {
-        sendPostRequestWithSource('conservationActions', species, 'Museu-Goeldi/PA');
+        sendPostRequestWithSource('conservationActions', species, 'CNCFlora-ProFlora');
       });
     });
 

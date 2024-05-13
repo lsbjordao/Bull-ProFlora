@@ -37,7 +37,7 @@ export class Processor_distribution extends WorkerHost {
 
     let speciesOcc: any = {};
     let speciesUrns: any = [];
-    let speciesIds: any = [];
+    let speciesOccIds: any = [];
     let speciesStates: any = [];
     let speciesMunicipalities: any = [];
 
@@ -46,7 +46,7 @@ export class Processor_distribution extends WorkerHost {
       speciesUrns = speciesOcc.urns;
       speciesStates = speciesOcc.states;
       speciesMunicipalities = speciesOcc.municipalities;
-      speciesIds = speciesUrns
+      speciesOccIds = speciesUrns
     }
 
     if (
@@ -55,7 +55,7 @@ export class Processor_distribution extends WorkerHost {
     ) {
       speciesOcc = await getOccFromProFlora(species);
 
-      speciesIds = speciesOcc.ids
+      speciesOccIds = speciesOcc.ids
       speciesStates = speciesOcc.states
       speciesMunicipalities = speciesOcc.municipalities
       
@@ -68,7 +68,7 @@ export class Processor_distribution extends WorkerHost {
     let records: any = await fs.promises.readFile(recordsFilePath, 'utf-8');
     records = JSON.parse(records);
 
-    const recordsUrns = records.map((element: any) => element.properties.urn);
+    const recordsOccIds = records.map((element: any) => element.properties.occId);
 
     let information: any = await fs.promises.readFile(informationFilePath, 'utf-8');
     information = JSON.parse(information);
@@ -79,7 +79,7 @@ export class Processor_distribution extends WorkerHost {
     let result: any = [];
 
     for (let i = 0; i < speciesStates.length; i++) {
-      if (recordsUrns.includes(speciesUrns[i])) {
+      if (recordsOccIds.includes(speciesOccIds[i])) {
         const obj = {
           firstLvl: speciesStates[i],
           secondLvl: speciesMunicipalities[i]

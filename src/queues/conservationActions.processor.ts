@@ -10,6 +10,7 @@ import { Job } from 'bullmq';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getOcc } from './helpers/getOccFromOldSys';
+import { getOccFromProFlora } from './helpers/getOccFromProFlora';
 
 export const QUEUE_NAME_conservationActions = 'Conservation actions';
 export const InjectQueue_conservationActions = (): ParameterDecorator =>
@@ -23,6 +24,7 @@ export class Processor_conservationActions extends WorkerHost {
 
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
+    const source = job.data.source;
 
     if (!species) {
       return Promise.reject(new Error('Failed'));
@@ -84,9 +86,16 @@ export class Processor_conservationActions extends WorkerHost {
         });
       }
 
-      const speciesOcc: any = await getOcc(job.data.species);
-      const speciesUrns = speciesOcc.urns
-      const recordsUrns = records.map((element: any) => element.properties.urn)
+      let speciesOcc: any = []
+
+      if (source === 'CNCFlora-oldSystem') { speciesOcc = await getOcc(species) }
+      if (
+        source === 'CNCFlora-ProFlora' ||
+        source === 'Museu-Goeldi/PA'
+      ) { speciesOcc = await getOccFromProFlora(species) }
+
+      const speciesOccIds = speciesOcc.occIds
+      const recordsOccIds = records.map((element: any) => element.properties.oocId)
 
       let speciesStates = speciesOcc.states;
 
@@ -133,7 +142,7 @@ export class Processor_conservationActions extends WorkerHost {
       let checkedValidation: any = [];
 
       for (let i = 0; i < speciesStates.length; i++) {
-        if (recordsUrns.includes(speciesUrns[i])) {
+        if (recordsOccIds.includes(speciesOccIds[i])) {
           const obj = {
             states: speciesStates[i],
             municipalities: speciesMunicipalities[i]
@@ -152,6 +161,7 @@ export class Processor_conservationActions extends WorkerHost {
       speciesStates = speciesStatesValidated
       speciesMunicipalities = speciesMunicipalitiesValidated
 
+      // Municípios Prioritários da Amazônia Legal
       const listMunicipsPriorAL = './src/queues/conservationActions_lists/MunicipsPriorAL.json';
       const listMunicipsPriorALContent: any = await fs.promises.readFile(listMunicipsPriorAL);
       const jsonListMunicipsPriorAL = JSON.parse(listMunicipsPriorALContent.toString());

@@ -33,8 +33,8 @@ export class AppController {
 
   @Post('information')
   addToQueue_information(@Body() data: any) {
-    const {species} = data;
-    return this.appService.addToQueue_information(species);
+    const {species, source} = data;
+    return this.appService.addToQueue_information(species, source);
   }
 
   @Post('distribution')
@@ -75,8 +75,8 @@ export class AppController {
 
   @Post('conservationActions')
   addToQueue_conservationActions(@Body() data: any) {
-    const {species} = data;
-    return this.appService.addToQueue_conservationActions(species);
+    const {species, source} = data;
+    return this.appService.addToQueue_conservationActions(species, source);
   }
 
   @Post('threats')

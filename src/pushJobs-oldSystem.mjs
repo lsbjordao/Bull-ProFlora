@@ -141,7 +141,7 @@ async function pushJobs() {
           });
 
         speciesToAdd.forEach((species) => {
-          sendPostRequest('information', species);
+          sendPostRequestWithSource('information', species, 'CNCFlora-oldSystem');
         });
       });
 
@@ -320,8 +320,9 @@ async function pushJobs() {
           });
 
         speciesToAdd.forEach((species) => {
-          sendPostRequest('conservationActions', species);
+          sendPostRequestWithSource('conservationActions', species, 'CNCFlora-oldSystem');
         });
+
       });
 
       // Queue Threats

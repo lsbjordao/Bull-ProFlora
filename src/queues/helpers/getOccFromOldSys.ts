@@ -69,7 +69,7 @@ function getOcc(input: any) {
 
       const result = {
         n: urns.length,
-        urns: urns,
+        occIds: urns,
         validationRecords: validationRecords,
         validationSIG: validationSIG,
         coordsObj: coordsObj,
