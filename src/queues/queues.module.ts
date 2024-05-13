@@ -94,6 +94,24 @@ import {
   InjectQueue_speciesProfile,
 } from './speciesProfile.processor';
 
+import {
+  QUEUE_NAME_stackedArea_chart_geojson,
+  Processor_stackedArea_chart_geojson,
+  InjectQueue_stackedArea_chart_geojson,
+} from './stackedArea-chart-geojson.processor';
+
+import {
+  QUEUE_NAME_trendline_chart_mapbiomas_landcover,
+  Processor_trendline_chart_mapbiomas_landcover,
+  InjectQueue_trendline_chart_mapbiomas_landcover,
+} from './trendline_chart_mapbiomas_landcover.processor';
+
+import {
+  QUEUE_NAME_trendline_calcRates_mapbiomas_landcover,
+  Processor_trendline_calcRates_mapbiomas_landcover,
+  InjectQueue_trendline_calcRates_mapbiomas_landcover,
+} from './trendline_calcRates_mapbiomas_landcover.processor';
+
 import { BasicAuthMiddleware } from './basic-auth.middleware';
 
 @Module({})
@@ -155,6 +173,19 @@ export class QueuesModule implements NestModule {
       name: QUEUE_NAME_speciesProfile,
     });
 
+    const queue_stackedAreaChartGeojson = BullModule.registerQueue({
+      name: QUEUE_NAME_stackedArea_chart_geojson,
+    });
+
+    const queue_trendline_chart_mapbiomas_landcover = BullModule.registerQueue({
+      name: QUEUE_NAME_trendline_chart_mapbiomas_landcover,
+    });
+
+    const queue_trendline_calcRates_mapbiomas_landcover = BullModule.registerQueue({
+      name: QUEUE_NAME_trendline_calcRates_mapbiomas_landcover,
+    });
+    
+
     if (
       !queue_oa_mapbiomas_landcover.providers || !queue_oa_mapbiomas_landcover.exports || 
       !queue_oa_mapbiomas_fire.providers || !queue_oa_mapbiomas_fire.exports || 
@@ -169,7 +200,11 @@ export class QueuesModule implements NestModule {
       !queue_oa_PANs.providers || !queue_oa_PANs.exports ||
       !queue_conservationActions.providers || !queue_conservationActions.exports ||
       !queue_threats.providers || !queue_threats.exports ||
-      !queue_speciesProfile.providers || !queue_speciesProfile.exports
+      !queue_speciesProfile.providers || !queue_speciesProfile.exports ||
+      !queue_stackedAreaChartGeojson.providers || !queue_stackedAreaChartGeojson.exports ||
+      !queue_trendline_chart_mapbiomas_landcover.providers || !queue_trendline_chart_mapbiomas_landcover.exports ||
+      !queue_trendline_calcRates_mapbiomas_landcover.providers || !queue_trendline_calcRates_mapbiomas_landcover.exports
+
     ) {
       throw new Error('Unable to build queue');
     }
@@ -204,7 +239,10 @@ export class QueuesModule implements NestModule {
         queue_oa_PANs,
         queue_conservationActions,
         queue_threats,
-        queue_speciesProfile
+        queue_speciesProfile,
+        queue_stackedAreaChartGeojson,
+        queue_trendline_chart_mapbiomas_landcover,
+        queue_trendline_calcRates_mapbiomas_landcover
       ],
       providers: [
         Processor_oa_mapbiomas_landcover, 
@@ -221,6 +259,9 @@ export class QueuesModule implements NestModule {
         Processor_conservationActions,
         Processor_threats,
         Processor_speciesProfile,
+        Processor_stackedArea_chart_geojson,
+        Processor_trendline_chart_mapbiomas_landcover,
+        Processor_trendline_calcRates_mapbiomas_landcover,
         ...queue_oa_mapbiomas_landcover.providers, 
         ...queue_oa_mapbiomas_fire.providers, 
         ...queue_oa_mapbiomas_landcover_geojson.providers, 
@@ -234,7 +275,10 @@ export class QueuesModule implements NestModule {
         ...queue_oa_PANs.providers,
         ...queue_conservationActions.providers,
         ...queue_threats.providers,
-        ...queue_speciesProfile.providers
+        ...queue_speciesProfile.providers,
+        ...queue_stackedAreaChartGeojson.providers,
+        ...queue_trendline_chart_mapbiomas_landcover.providers,
+        ...queue_trendline_calcRates_mapbiomas_landcover.providers
       ],
       exports: [
         ...queue_oa_mapbiomas_landcover.exports, 
@@ -250,7 +294,10 @@ export class QueuesModule implements NestModule {
         ...queue_oa_PANs.exports,
         ...queue_conservationActions.exports,
         ...queue_threats.exports,
-        ...queue_speciesProfile.exports
+        ...queue_speciesProfile.exports,
+        ...queue_stackedAreaChartGeojson.exports,
+        ...queue_trendline_chart_mapbiomas_landcover.exports,
+        ...queue_trendline_calcRates_mapbiomas_landcover.exports
       ],
     };
   }
@@ -269,7 +316,10 @@ export class QueuesModule implements NestModule {
     @InjectQueue_oa_PANs() private readonly queue_oa_PANs: Queue,
     @InjectQueue_conservationActions() private readonly queue_conservationActions: Queue,
     @InjectQueue_threats() private readonly queue_threats: Queue,
-    @InjectQueue_speciesProfile() private readonly queue_speciesProfile: Queue
+    @InjectQueue_speciesProfile() private readonly queue_speciesProfile: Queue,
+    @InjectQueue_stackedArea_chart_geojson() private readonly queue_stackedAreaChartGeojson: Queue,
+    @InjectQueue_trendline_chart_mapbiomas_landcover() private readonly queue_trendline_chart_mapbiomas_landcover: Queue,
+    @InjectQueue_trendline_calcRates_mapbiomas_landcover() private readonly queue_trendline_calcRates_mapbiomas_landcover: Queue
   ) {}
 
   configure(consumer: MiddlewareConsumer) {
@@ -291,7 +341,10 @@ export class QueuesModule implements NestModule {
         new BullMQAdapter(this.queue_oa_PANs),
         new BullMQAdapter(this.queue_conservationActions),
         new BullMQAdapter(this.queue_threats),
-        new BullMQAdapter(this.queue_speciesProfile)
+        new BullMQAdapter(this.queue_speciesProfile),
+        new BullMQAdapter(this.queue_stackedAreaChartGeojson),
+        new BullMQAdapter(this.queue_trendline_chart_mapbiomas_landcover),
+        new BullMQAdapter(this.queue_trendline_calcRates_mapbiomas_landcover)
       ],
       serverAdapter,
       options: {

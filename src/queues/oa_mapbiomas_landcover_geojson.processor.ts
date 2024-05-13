@@ -8,9 +8,6 @@ import { Logger } from '@nestjs/common'
 import { Job } from 'bullmq'
 
 import * as fs from 'fs'
-//@ts-ignore
-import * as EooAooCalc from '@vicentecalfo/eoo-aoo-calc'
-
 import * as oa from './functions/overlayAnalysis'
 
 export const QUEUE_NAME_oa_mapbiomas_landcover_geojson = 'OA-MapBiomas-LandCover-Geojson'

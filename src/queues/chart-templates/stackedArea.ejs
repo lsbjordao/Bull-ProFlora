@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+</head>
+
+<body>
+    <div id="stackedArea"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const series = JSON.parse('<%- JSON.stringify(series) %>');
+
+            Highcharts.chart('stackedArea', {
+                chart: {
+                    type: 'area',
+                    height: 800
+                },
+                title: {
+                    text: `<%- feature %>`
+                },
+                subtitle: {
+                    text: 'Fonte: MapBiomas - Cobertura do Solo - 1985-2022 - Coleção 8.0'
+                },
+                xAxis: {
+                    categories: [
+                        '1985',
+                        '1986',
+                        '1987',
+                        '1988',
+                        '1989',
+                        '1990',
+                        '1991',
+                        '1992',
+                        '1993',
+                        '1994',
+                        '1995',
+                        '1996',
+                        '1997',
+                        '1998',
+                        '1999',
+                        '2000',
+                        '2001',
+                        '2002',
+                        '2003',
+                        '2004',
+                        '2005',
+                        '2006',
+                        '2007',
+                        '2008',
+                        '2009',
+                        '2010',
+                        '2011',
+                        '2012',
+                        '2013',
+                        '2014',
+                        '2015',
+                        '2016',
+                        '2017',
+                        '2018',
+                        '2019',
+                        '2020',
+                        '2021',
+                        '2022'
+                    ],
+                    tickmarkPlacement: 'on',
+                    title: {
+                        enabled: false
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Porcentagem'
+                    },
+                    labels: {
+                        formatter: function() {
+                            return this.value;
+                        }
+                    },
+                    max: 100
+                },
+                tooltip: {
+                    split: true,
+                    valueSuffix: ' %'
+                },
+                plotOptions: {
+                    area: {
+                        stacking: 'normal',
+                        lineColor: '#666666',
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                },
+                series: series
+            });
+        });
+    </script>
+</body>
+
+</html>

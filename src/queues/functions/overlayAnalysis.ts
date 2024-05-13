@@ -143,19 +143,19 @@ function calcAreaGeojson(features: any) {
                 let areaKm2 = geometry.area().getInfo()
                 areaKm2 = areaKm2/1000000
 
-                var image1 = ee.Image('projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2');
-                var image2 = ee.Image('projects/mapbiomas-raisg/public/collection4/mapbiomas_raisg_panamazonia_collection4_integration_v1');
-                var image3 = ee.Image('projects/MapBiomas_Pampa/public/collection2/mapbiomas_pampa_collection2_integration_v1');
-                var image4 = ee.Image('projects/mapbiomas-chaco/public/collection4/mapbiomas_chaco_collection4_integration_v1');
-                var image5 = ee.Image('projects/mapbiomas_af_trinacional/public/collection2/mapbiomas_atlantic_forest_collection20_integration_v1');
-                var image6 = ee.Image('projects/mapbiomas-public/assets/peru/collection1/mapbiomas_peru_collection1_integration_v1');
+                var image1 = ee.Image('projects/mapbiomas-workspace/public/collection8/mapbiomas_collection80_integration_v1');
+                // var image2 = ee.Image('projects/mapbiomas-raisg/public/collection4/mapbiomas_raisg_panamazonia_collection4_integration_v1');
+                // var image3 = ee.Image('projects/MapBiomas_Pampa/public/collection2/mapbiomas_pampa_collection2_integration_v1');
+                // var image4 = ee.Image('projects/mapbiomas-chaco/public/collection4/mapbiomas_chaco_collection4_integration_v1');
+                // var image5 = ee.Image('projects/mapbiomas_af_trinacional/public/collection2/mapbiomas_atlantic_forest_collection20_integration_v1');
+                // var image6 = ee.Image('projects/mapbiomas-public/assets/peru/collection1/mapbiomas_peru_collection1_integration_v1');
 
                 var image1bandNames = image1.bandNames().getInfo();
-                var image4bandNames = image4.bandNames().getInfo();
+                // var image4bandNames = image4.bandNames().getInfo();
                 
-                image4 = image4.select(image4bandNames.filter(function(band) { return band !== 'classification_2022'; }));
+                // image4 = image4.select(image4bandNames.filter(function(band) { return band !== 'classification_2022'; }));
 
-                var mosaic = ee.ImageCollection([image1, image2, image3, image5, image6, image4]).mosaic();
+                var mosaic = ee.ImageCollection([image1]).mosaic(); // , image2, image3, image5, image6, image4
 
                 var image = mosaic;
                 var bandNames = image1bandNames;

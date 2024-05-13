@@ -15,6 +15,9 @@ import { InjectQueue_oa_PANs } from './queues/oa_PANs.processor';
 import { InjectQueue_conservationActions } from './queues/conservationActions.processor';
 import { InjectQueue_threats } from './queues/threats.processor';
 import { InjectQueue_speciesProfile } from './queues/speciesProfile.processor';
+import { InjectQueue_stackedArea_chart_geojson } from './queues/stackedArea-chart-geojson.processor';
+import { InjectQueue_trendline_chart_mapbiomas_landcover } from './queues/trendline_chart_mapbiomas_landcover.processor';
+import { InjectQueue_trendline_calcRates_mapbiomas_landcover } from './queues/trendline_calcRates_mapbiomas_landcover.processor';
 
 @Injectable()
 export class AppService {
@@ -32,7 +35,10 @@ export class AppService {
     @InjectQueue_oa_PANs() readonly queue_oa_PANs: Queue,
     @InjectQueue_conservationActions() readonly queue_conservationActions: Queue,
     @InjectQueue_threats() readonly queue_threats: Queue,
-    @InjectQueue_speciesProfile() readonly queue_speciesProfile: Queue
+    @InjectQueue_speciesProfile() readonly queue_speciesProfile: Queue,
+    @InjectQueue_stackedArea_chart_geojson() readonly queue_stackedAreaChartGeojson: Queue,
+    @InjectQueue_trendline_chart_mapbiomas_landcover() readonly queue_trendline_chart_mapbiomas_landcover: Queue,
+    @InjectQueue_trendline_calcRates_mapbiomas_landcover() readonly queue_trendline_calcRates_mapbiomas_landcover: Queue
   ) { }
 
   addToQueue_records(species: string, source: string, priority?: number) {
@@ -117,6 +123,24 @@ export class AppService {
     this.queue_speciesProfile.add('Species profile', { species });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
     return `${species} included on queue Species profile at ${time}`;
+  }
+
+  addToQueue_stackedArea_chart_geojson(feature: string) {
+    this.queue_stackedAreaChartGeojson.add('Stacked-Area-Chart-GeoJSON', { feature });
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${feature} included on queue Stacked-Area-Chart-GeoJSON at ${time}`;
+  }
+
+  addToQueue_trendline_chart_mapbiomas_landcover(feature: string) {
+    this.queue_trendline_chart_mapbiomas_landcover.add('Trendline-chart-MapBiomas-landcover', { feature });
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${feature} included on queue Trendline-chart-MapBiomas-landcover at ${time}`;
+  }
+
+  addToQueue_trendline_calcRates_mapbiomas_landcover(feature: string) {
+    this.queue_trendline_calcRates_mapbiomas_landcover.add('Trendline-calcRates-MapBiomas-landcover', { feature });
+    const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    return `${feature} included on queue Trendline-calcRates-MapBiomas-landcover at ${time}`;
   }
 
 }
