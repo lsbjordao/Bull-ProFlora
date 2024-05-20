@@ -57,7 +57,7 @@ export class Processor_records extends WorkerHost {
     ) {
       speciesOcc = await getOccFromProFlora(species);
 
-      speciesIds = speciesOcc.ids;
+      speciesIds = speciesOcc.occIds;
 
       const occIsValid: any = {
         "true": "Válido",

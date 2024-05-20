@@ -24,6 +24,7 @@ async function sendGetRequest(taxon: string) {
 
         const taxonId = await axios.get(endpoint_getTaxonId, config)
             .then(response => {
+                console.log(response)
                 return response.data._embedded.get_taxon_id_by_scientificname[0].id
             })
             .catch(error => {
@@ -48,7 +49,6 @@ async function sendGetRequest(taxon: string) {
 
 async function getOccFromProFlora(taxon: string) {
     const data: any = await sendGetRequest(taxon)
-
     const result: any = {
         n: data.length,
         occIds: data.map((occ: any) => occ.id),
@@ -65,7 +65,6 @@ async function getOccFromProFlora(taxon: string) {
         states: data.map((occ: any) => occ.stateProvince),
         municipalities: data.map((occ: any) => occ.municipality)
     };
-
     return result
 }
 

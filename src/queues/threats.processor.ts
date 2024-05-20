@@ -435,7 +435,7 @@ export class Processor_threats extends WorkerHost {
 
       const noData = EOOfire.every((element: any) => !element.hasOwnProperty('areaKm2'))
 
-      const EOOfireOutput: [] = []
+      let EOOfireOutput: [] = []
       if (noData === true) { } else {
 
         const EOOfireValues: any = {};
@@ -488,12 +488,12 @@ export class Processor_threats extends WorkerHost {
                 "km2": EooFireThreats[key]['2022'],
                 "percent": areaPercentage
               };
-              relevantAooFireThreats.push(data);
+              relevantEooFireThreats.push(data);
             }
           }
         }
 
-        const EOOfireOutput = relevantEooFireThreats;
+        EOOfireOutput = relevantEooFireThreats;
       }
 
       const output = { "AOO": AOOoutput, "EOO": EOOoutput, "AOOfire": AOOfireOutput, "EOOfire": EOOfireOutput };

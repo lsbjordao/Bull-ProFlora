@@ -55,7 +55,7 @@ export class Processor_distribution extends WorkerHost {
     ) {
       speciesOcc = await getOccFromProFlora(species);
 
-      speciesOccIds = speciesOcc.ids
+      speciesOccIds = speciesOcc.occIds
       speciesStates = speciesOcc.states
       speciesMunicipalities = speciesOcc.municipalities
       

@@ -57,7 +57,7 @@ export class Processor_obraPrinceps extends WorkerHost {
     author = author.data.values.flat();
 
     let speciesAuthor: any;
-    const speciesIndex = listOfSpecies.indexOf(job.data.species);
+    const speciesIndex = listOfSpecies.indexOf(species);
     if (speciesIndex !== -1) {
       speciesAuthor = author[speciesIndex];
       const regexPattern = /^(\w+\s+){2}(.*)$/
@@ -76,8 +76,10 @@ export class Processor_obraPrinceps extends WorkerHost {
 
     async function searchSpeciesInTropicos() {
       try {
+        let taxon = species.replace(/var\. /, '')
+        taxon = [...new Set(taxon.split(' '))].join(' ');
         const data = await tropicosApi.search({
-          name: job.data.species,
+          name: taxon,
           type: 'wildcard'
         }).toPromise();
 
@@ -95,8 +97,8 @@ export class Processor_obraPrinceps extends WorkerHost {
 
     // IPNI
 
-    const genus = job.data.species.match(/^[^\s]+/)[0];
-    const epithet = job.data.species.match(/^\S+\s+(\S+)/)[1];
+    const genus = species.match(/^[^\s]+/)[0];
+    const epithet = species.match(/^\S+\s+(\S+)/)[1];
 
     const jskew = require('@vicentecalfo/jskew');
 
@@ -131,7 +133,7 @@ export class Processor_obraPrinceps extends WorkerHost {
 
     const result = output;
 
-    fs.writeFile(`G:/Outros computadores/Meu computador/CNCFlora_data/obrasPrinceps/${job.data.species}.json`, JSON.stringify(result), 'utf8', (err) => {
+    fs.writeFile(`G:/Outros computadores/Meu computador/CNCFlora_data/obrasPrinceps/${species}.json`, JSON.stringify(result), 'utf8', (err) => {
       if (err) {
         console.error(err);
       }
