@@ -6,6 +6,27 @@ dotenv.config()
 
 async function sendGetRequest(taxon: string) {
 
+const genus = taxon.replace(/(\w+).*/, '$1')
+const specificEpithet = taxon.replace(/\w+\s([\w-]+).*/, '$1');
+let varietyEpithet = ''
+let subspeciesEpithet = ''
+
+let hasVarietyEpithet = false
+if(taxon.includes(' var. ')){
+    hasVarietyEpithet = true
+}
+if(hasVarietyEpithet){
+    varietyEpithet = taxon.replace(/.*var\. ([\w-]+).*/, '$1');
+}
+let hasSubspeciesEpithet = false
+if(taxon.includes(' subsp. ')){
+    hasSubspeciesEpithet = true
+}
+if(hasSubspeciesEpithet){
+    subspeciesEpithet = taxon.replace(/.*subsp\. ([\w-]+).*/, '$1');
+}
+
+
     try {
         const ProFloraToken = await getToken()
 
@@ -20,11 +41,16 @@ async function sendGetRequest(taxon: string) {
         let urlBase = process.env.ProFloraUrlBaseProd
         if (process.env.NODE_ENV === 'dev') { urlBase = process.env.ProFloraUrlBaseDev }
         
-        const endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?scientificname=${taxon}`;
+        let endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}`
+        if(hasVarietyEpithet){
+            endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}&varietyEpithet=${varietyEpithet}`
+        }
+        if(hasSubspeciesEpithet){
+            endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}&subspeciesEpithet=${subspeciesEpithet}`
+        }
 
         const taxonId = await axios.get(endpoint_getTaxonId, config)
             .then(response => {
-                console.log(response)
                 return response.data._embedded.get_taxon_id_by_scientificname[0].id
             })
             .catch(error => {
