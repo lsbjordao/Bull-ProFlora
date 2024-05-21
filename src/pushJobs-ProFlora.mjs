@@ -173,7 +173,7 @@ async function pushJobs() {
         })
 
       speciesToAdd.forEach((species) => {
-        sendPostRequest('distribution', species)
+        sendPostRequestWithSource('distribution', species, 'CNCFlora-ProFlora')
       })
     })
 

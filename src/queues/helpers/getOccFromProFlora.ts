@@ -88,8 +88,9 @@ async function getOccFromProFlora(taxon: string) {
                 protocol: occ.georeferenceProtocolId
             };
         }),
-        states: data.map((occ: any) => occ.stateProvince),
-        municipalities: data.map((occ: any) => occ.municipality)
+        states: data.map((occ: any) => occ.externalProcess.sigStateName),
+        municipalities: data.map((occ: any) => occ.externalProcess.sigMunicipalityName),
+        contries: data.map((occ: any) => occ.externalProcess.sigCountryName)
     };
     return result
 }

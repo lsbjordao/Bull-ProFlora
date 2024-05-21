@@ -14,7 +14,7 @@ async function getToken() {
     const body = {
         "grant_type": "password",
         "username": "lucasjordao@jbrj.gov.br",
-        "password": "iEgViCVsB1iE",
+        "password": "-FWst_aJDN06",
         "client_id": "cncflora_api",
         "client_secret": "05Mb14$28_&tr"
     }

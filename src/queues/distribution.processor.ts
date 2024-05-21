@@ -60,7 +60,6 @@ export class Processor_distribution extends WorkerHost {
       speciesMunicipalities = speciesOcc.municipalities
       
     }
-
     
     const recordsFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${job.data.species}.json`;
     const informationFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/information/${job.data.species}.json`;
