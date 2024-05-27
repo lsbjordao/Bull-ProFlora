@@ -75,6 +75,7 @@ if(hasSubspeciesEpithet){
 
 async function getOccFromProFlora(taxon: string) {
     const data: any = await sendGetRequest(taxon)
+    console.log(data)
     const result: any = {
         n: data.length,
         occIds: data.map((occ: any) => occ.id),

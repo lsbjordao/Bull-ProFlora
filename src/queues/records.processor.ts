@@ -56,7 +56,11 @@ export class Processor_records extends WorkerHost {
       source === 'CNCFlora-ProFlora'
     ) {
       speciesOcc = await getOccFromProFlora(species);
-
+      if (Array.isArray(speciesOcc.validationRecords) &&
+        speciesOcc.validationRecords.every((record: any) => record === null)) {
+          job.log(`All validation records null.`);
+        throw new Error('All validation records null.');
+      }
       speciesIds = speciesOcc.occIds;
 
       const occIsValid: any = {
@@ -150,8 +154,8 @@ export class Processor_records extends WorkerHost {
     speciesCoords = speciesCoords.map(
       (coords: { lat: string; lon: string }) => ({
         ...coords,
-        lat: coords.lat.trim(),
-        lon: coords.lon.trim(),
+        lat: coords.lat.toString().trim(),
+        lon: coords.lon.toString().trim(),
       }),
     );
 
@@ -355,6 +359,7 @@ export class Processor_records extends WorkerHost {
     speciesRecords = speciesRecords.filter((obj: any) =>
       obj.geometry.hasOwnProperty('coordinates'),
     );
+
 
     writeFile(
       `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`,
