@@ -169,7 +169,7 @@ export class Processor_threats extends WorkerHost {
       // Threats greather than 5%
       let relevantAooThreats: any = {};
       for (const key of Object.keys(AooThreats)) {
-        let areaPercentage = AooThreats[key]['2021'] / AOOvalue;
+        let areaPercentage = AooThreats[key]['2022'] / AOOvalue;
         if (areaPercentage >= 0.01) {
           relevantAooThreats[key] = AooThreats[key];
         }
@@ -207,13 +207,13 @@ export class Processor_threats extends WorkerHost {
 
         const trendAnalysis: any = await runRScript(y);
 
-        const lastYear_km2 = relevantAooThreats[key]["2021"];
+        const lastYear_km2 = relevantAooThreats[key]["2022"];
         AOOresult.push({
           "threat": key.toLowerCase(),
-          "lastYear": "2021",
+          "lastYear": "2022",
           "trendAnalysis": trendAnalysis[0],
           "lastYear_km2": lastYear_km2,
-          "lastYear_percentage": relevantAooThreatsPercentage[key]["2021"]
+          "lastYear_percentage": relevantAooThreatsPercentage[key]["2022"]
         });
 
       }
@@ -262,7 +262,7 @@ export class Processor_threats extends WorkerHost {
         // Threats greather than 5%
         let relevantEooThreats: any = {};
         for (const key of Object.keys(EooThreats)) {
-          let areaPercentage = EooThreats[key]['2021'] / EOOvalue;
+          let areaPercentage = EooThreats[key]['2022'] / EOOvalue;
           if (areaPercentage >= 0.01) {
             relevantEooThreats[key] = EooThreats[key];
           }
@@ -299,13 +299,13 @@ export class Processor_threats extends WorkerHost {
           }
 
           const trendAnalysis: any = await runRScript(y);
-          const lastYear_km2 = relevantEooThreats[key]["2021"];
+          const lastYear_km2 = relevantEooThreats[key]["2022"];
           EOOresult.push({
             "threat": key.toLowerCase(),
-            "lastYear": "2021",
+            "lastYear": "2022",
             "trendAnalysis": trendAnalysis[0],
             "lastYear_km2": lastYear_km2,
-            "lastYear_percentage": relevantEooThreatsPercentage[key]["2021"]
+            "lastYear_percentage": relevantEooThreatsPercentage[key]["2022"]
           });
         }
 

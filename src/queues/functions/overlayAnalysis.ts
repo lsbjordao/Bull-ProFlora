@@ -26,19 +26,21 @@ function calcArea(coordinates: any) {
 
                 var AOOgeometry = featureCollectionAOO.geometry();
 
-                var image1 = ee.Image('projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2');
-                var image2 = ee.Image('projects/mapbiomas-raisg/public/collection4/mapbiomas_raisg_panamazonia_collection4_integration_v1');
-                var image3 = ee.Image('projects/MapBiomas_Pampa/public/collection2/mapbiomas_pampa_collection2_integration_v1');
+                var image1 = ee.Image('projects/mapbiomas-workspace/public/collection8/mapbiomas_collection80_integration_v1');
+                var image2 = ee.Image('projects/mapbiomas-raisg/public/collection5/mapbiomas_raisg_panamazonia_collection5_integration_v1');
+                var image3 = ee.Image('projects/MapBiomas_Pampa/public/collection3/mapbiomas_pampa_collection3_integration_v1');
                 var image4 = ee.Image('projects/mapbiomas-chaco/public/collection4/mapbiomas_chaco_collection4_integration_v1');
-                var image5 = ee.Image('projects/mapbiomas_af_trinacional/public/collection2/mapbiomas_atlantic_forest_collection20_integration_v1');
-                var image6 = ee.Image('projects/mapbiomas-public/assets/peru/collection1/mapbiomas_peru_collection1_integration_v1');
+                var image5 = ee.Image('projects/mapbiomas_af_trinacional/public/collection3/mapbiomas_atlantic_forest_collection30_integration_v1');
+                var image6 = ee.Image('projects/mapbiomas-public/assets/peru/collection2/mapbiomas_peru_collection2_integration_v1');
+                var image7 = ee.Image('projects/MapBiomas_Pampa/public/collection3/mapbiomas_uruguay_collection1_integration_v1');
+                // var image8 = ee.Image('projects/mapbiomas-public/assets/argentina/collection1/mapbiomas_argentina_collection1_integration_v1');
 
                 var image1bandNames = image1.bandNames().getInfo();
-                var image4bandNames = image4.bandNames().getInfo();
-                
-                image4 = image4.select(image4bandNames.filter(function(band) { return band !== 'classification_2022'; }));
 
-                var mosaic = ee.ImageCollection([image1, image2, image3, image5, image6, image4]).mosaic();
+                // var image4bandNames = image4.bandNames().getInfo();
+                // image4 = image4.select(image4bandNames.filter(function(band) { return band !== 'classification_2022'; }));
+
+                var mosaic = ee.ImageCollection([image7, image6, image5, image4, image3, image2, image1]).mosaic(); // image8
 
                 var image = mosaic;
                 var bandNames = image1bandNames;
@@ -102,23 +104,39 @@ function calcArea(coordinates: any) {
                 }
 
                 Promise.all([
-                    Promise.all(EOOresult.map(({ band, areaKm2 }: {band: any, areaKm2: any}) => areaKm2)),
-                    Promise.all(AOOresult.map(({ band, areaKm2 }: {band: any, areaKm2: any}) => areaKm2))
+                    Promise.all(EOOresult.map(({ band, areaKm2 }: { band: any, areaKm2: any }) => areaKm2)),
+                    Promise.all(AOOresult.map(({ band, areaKm2 }: { band: any, areaKm2: any }) => areaKm2))
                 ]).then(([EOOareas, AOOareas]) => {
                     EOOresult = EOOresult.map((res: any, i: any) => ({
                         band: res.band,
                         areaKm2: EOOareas[i],
                     }));
-                
+
                     AOOresult = AOOresult.map((res: any, i: any) => ({
                         band: res.band,
                         areaKm2: AOOareas[i],
                     }));
-                
+
+                    // EOOresult.forEach(result => {
+                    //     result.areaKm2.groups.forEach(group => {
+                    //         if (group.class === 22) {
+                    //             group.class = 30;
+                    //         }
+                    //     });
+                    // });
+
+                    // AOOresult.forEach(result => {
+                    //     result.areaKm2.groups.forEach(group => {
+                    //         if (group.class === 22) {
+                    //             group.class = 30;
+                    //         }
+                    //     });
+                    // });
+
                     resolve({ EOO: EOOresult, AOO: AOOresult });
-                
+
                 }).catch((err) => console.log(err));
-                
+
             },
             (error: any) => {
                 console.log(error.message)
@@ -141,7 +159,7 @@ function calcAreaGeojson(features: any) {
 
                 var geometry = featureCollection.geometry();
                 let areaKm2 = geometry.area().getInfo()
-                areaKm2 = areaKm2/1000000
+                areaKm2 = areaKm2 / 1000000
 
                 var image1 = ee.Image('projects/mapbiomas-workspace/public/collection8/mapbiomas_collection80_integration_v1');
                 // var image2 = ee.Image('projects/mapbiomas-raisg/public/collection4/mapbiomas_raisg_panamazonia_collection4_integration_v1');
@@ -152,7 +170,7 @@ function calcAreaGeojson(features: any) {
 
                 var image1bandNames = image1.bandNames().getInfo();
                 // var image4bandNames = image4.bandNames().getInfo();
-                
+
                 // image4 = image4.select(image4bandNames.filter(function(band) { return band !== 'classification_2022'; }));
 
                 var mosaic = ee.ImageCollection([image1]).mosaic(); // , image2, image3, image5, image6, image4
@@ -190,7 +208,7 @@ function calcAreaGeojson(features: any) {
                 }
 
                 Promise.all([
-                    Promise.all(geometryResult.map(({ band, areaKm2 }: {band: any, areaKm2: any}) => areaKm2))
+                    Promise.all(geometryResult.map(({ band, areaKm2 }: { band: any, areaKm2: any }) => areaKm2))
                 ]).then(([areas]) => {
                     geometryResult = geometryResult.map((res: any, i: any) => ({
                         band: res.band,
@@ -200,7 +218,7 @@ function calcAreaGeojson(features: any) {
                     resolve({ areaKm2: areaKm2, geometry: geometryResult });
 
                 }).catch((err) => console.log(err));
-                
+
             },
             (error: any) => {
                 console.log(error.message)
