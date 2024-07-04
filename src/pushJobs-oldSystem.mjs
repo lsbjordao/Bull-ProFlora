@@ -404,7 +404,7 @@ async function pushJobs() {
       });
     }
 
-    const interval = 100000 // 10 min
+    const interval = 1000 // 10 min
     setInterval(mainLoop, interval);
   });
 }

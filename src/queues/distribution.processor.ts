@@ -36,17 +36,15 @@ export class Processor_distribution extends WorkerHost {
     job.updateProgress(1)
 
     let speciesOcc: any = {};
-    let speciesUrns: any = [];
     let speciesOccIds: any = [];
     let speciesStates: any = [];
     let speciesMunicipalities: any = [];
 
     if (source === 'CNCFlora-oldSystem') {
       speciesOcc = await getOcc(species);
-      speciesUrns = speciesOcc.urns;
       speciesStates = speciesOcc.states;
       speciesMunicipalities = speciesOcc.municipalities;
-      speciesOccIds = speciesUrns
+      speciesOccIds = speciesOcc.occIds
     }
 
     if (
@@ -54,11 +52,9 @@ export class Processor_distribution extends WorkerHost {
       source === 'CNCFlora-ProFlora'
     ) {
       speciesOcc = await getOccFromProFlora(species);
-
       speciesOccIds = speciesOcc.occIds
       speciesStates = speciesOcc.states
       speciesMunicipalities = speciesOcc.municipalities
-      
     }
     
     const recordsFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${job.data.species}.json`;
