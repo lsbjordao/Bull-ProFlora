@@ -13,6 +13,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Bootstrap Table CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@2.2.5/dist/bootstrap-table.min.css" />
+    <!-- Bootstrap icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Clipboard.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
     <!-- Custom CSS -->
     <style>
         body {
@@ -140,11 +144,15 @@
                 </tr>
                 <tr>
                     <td>Distribuição geográfica</td>
-                    <td><%= distribution.text.replace('citação FFB', citationFFB.short) %></td>
+                    <td>
+                        <span class="copy-text"><%= distribution.text.replace('citação FFB', FFB.citation.short) %></span>
+                    </td>
                 </tr>
                 <tr>
                     <td>Citação FFB</td>
-                    <td><%= citationFFB.long %></td>
+                    <td>
+                        <span class="copy-text"><%= FFB.citation.long %></span>
+                    </td>
                 </tr>
                 <tr>
                     <td>Forma de vida</td>
@@ -193,8 +201,12 @@
                     <% for(let i = 0; i < threats.includeThreat.length; i++) { %>
                     <tr>
                         <td><%= threats.includeThreat[i].threat %></td>
-                        <td><%= threats.includeThreat[i].text %></td>
-                        <td><%= threats.includeThreat[i].reference %></td>
+                        <td class="clipboard-cell" data-clipboard-target="#text-<%= i %>">
+                            <span id="text-<%= i %>" class="copy-text"><%= threats.includeThreat[i].text %></span>
+                        </td>
+                        <td class="clipboard-cell" data-clipboard-target="#reference-<%= i %>">
+                            <span id="reference-<%= i %>" class="copy-text"><%= threats.includeThreat[i].reference %></span>
+                        </td>    
                     </tr>
                     <%}%>
                 <% } %>
@@ -216,17 +228,25 @@
                 <tr>
                     <td><%= UCs.includeUC.action %></td>
                     <td><%= UCs.includeUC.situation %></td>
-                    <td><%= UCs.includeUC.text %></td>
-                    <td><%= UCs.includeUC.reference %></td>
-                </tr>
+                    <td class="clipboard-cell">
+                        <span class="copy-text"><%= UCs.includeUC.text %></span>
+                    </td>
+                    <td class="clipboard-cell">
+                        <span class="copy-text"><%= UCs.includeUC.reference %></span>
+                    </td>
+                </tr>                
 
                 <% if(PANs.includePAN.length > 0) { %>
                     <% for(let i = 0; i < PANs.includePAN.length; i++) { %>
                     <tr>
                         <td><%= PANs.includePAN[i].action %></td>
                         <td><%= PANs.includePAN[i].situation %></td>
-                        <td><%= PANs.includePAN[i].text %></td>
-                        <td><%= PANs.includePAN[i].reference %></td>
+                        <td class="clipboard-cell" data-clipboard-target="#PANsIncludePANText<%= i %>">
+                            <span id="PANsIncludePANText<%= i %>" class="copy-text"><%= PANs.includePAN[i].text %></span>
+                        </td>
+                        <td class="clipboard-cell" data-clipboard-target="#PANsIncludePANReference<%= i %>">
+                            <span id="PANsIncludePANReference<%= i %>" class="copy-text"><%= PANs.includePAN[i].reference %></span>
+                        </td>                        
                     </tr>
                     <%}%>
                 <% } %>
@@ -235,8 +255,12 @@
                     <tr>
                         <td><%= TERs.includeTER.action %></td>
                         <td><%= TERs.includeTER.situation %></td>
-                        <td><%= TERs.includeTER.text %></td>
-                        <td><%= TERs.includeTER.reference %></td>
+                        <td class="clipboard-cell" data-clipboard-target="#TERsIncludeTERText">
+                            <span id="TERsIncludeTERText" class="copy-text"><%= TERs.includeTER.text %></span>
+                        </td>
+                        <td class="clipboard-cell" data-clipboard-target="#TERsIncludeTERReference">
+                            <span id="TERsIncludeTERReference" class="copy-text"><%= TERs.includeTER.reference %></span>
+                        </td>
                     </tr>
                 <% } %>
                 
@@ -245,12 +269,55 @@
                     <tr>
                         <td><%= conservationActions.includeThreatenedList[i].action %></td>
                         <td><%= conservationActions.includeThreatenedList[i].situation %></td>
-                        <td><%= conservationActions.includeThreatenedList[i].text %></td>
-                        <td><%- conservationActions.includeThreatenedList[i].reference %></td>
+                        <td class="clipboard-cell" data-clipboard-target="#conservationActionsText<%= i %>">
+                            <span id="conservationActionsText<%= i %>" class="copy-text"><%= conservationActions.includeThreatenedList[i].text %></span>
+                        </td>
+                        <td class="clipboard-cell" data-clipboard-target="#conservationActionsReference<%= i %>">
+                            <span id="conservationActionsReference<%= i %>" class="copy-text"><%- conservationActions.includeThreatenedList[i].reference %></span>
+                        </td>
                     </tr>
                     <%}%>
                 <% } %>
             </tbody>
         </table>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new ClipboardJS('.btn');
+        });
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const copyTextSpans = document.querySelectorAll('.copy-text');
+
+        copyTextSpans.forEach(span => {
+            span.addEventListener('click', function () {
+                // Seleciona o texto dentro do span
+                const range = document.createRange();
+                range.selectNodeContents(this);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+
+                // Copia o texto selecionado para a área de transferência
+                document.execCommand('copy');
+
+                // Limpa a seleção
+                selection.removeAllRanges();
+
+                // Feedback visual opcional (ex.: mudar cor de fundo temporariamente)
+                this.style.backgroundColor = 'yellow'; // Cor verde para feedback de sucesso
+
+                // Reseta a cor de fundo após um breve período
+                setTimeout(() => {
+                    this.style.backgroundColor = '';
+                }, 1000); // 1000 milissegundos = 1 segundo
+            });
+        });
+    });
+</script>
+
 </body>
+</html>

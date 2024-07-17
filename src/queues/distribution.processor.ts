@@ -58,18 +58,18 @@ export class Processor_distribution extends WorkerHost {
     }
     
     const recordsFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${job.data.species}.json`;
-    const informationFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/information/${job.data.species}.json`;
+    const FFBFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/FFB/${job.data.species}.json`;
 
     let records: any = await fs.promises.readFile(recordsFilePath, 'utf-8');
     records = JSON.parse(records);
 
     const recordsOccIds = records.map((element: any) => element.properties.occId);
 
-    let information: any = await fs.promises.readFile(informationFilePath, 'utf-8');
-    information = JSON.parse(information);
-    let endemicFFB = information.endemism;
-    if (endemicFFB === 'YES') { endemicFFB = true };
-    if (endemicFFB === 'NO') { endemicFFB = false };
+    let FFBdata: any = await fs.promises.readFile(FFBFilePath, 'utf-8');
+    FFBdata = JSON.parse(FFBdata);
+    let endemism = FFBdata.endemism;
+    if (endemism === 'YES') { endemism = true };
+    if (endemism === 'NO') { endemism = false };
 
     let result: any = [];
 
@@ -124,29 +124,29 @@ export class Processor_distribution extends WorkerHost {
           countries.unshift('Brasil');
         } else {
           // Nossa base possui registros fora do Brasil
-          if (endemicFFB === true) {
+          if (endemism === true) {
             text += 'A espécie é considerada endêmica do Brasil (citação FFB); no entanto, encontramos registros fora do Brasil em nossa base de dados.';
           }
-          if (endemicFFB === false) {
+          if (endemism === false) {
             text += 'A espécie não é endêmica do Brasil (citação FFB).';
           }
         }
       } else if (countries.length === 1 && countries[0] === 'Brasil') {
         // Nossa base possui registros apenas do Brasil
-        if (endemicFFB === true) {
+        if (endemism === true) {
           text += 'A espécie é endêmica do Brasil (citação FFB), com distribuição.';
         }
-        if (endemicFFB === false) {
+        if (endemism === false) {
           text += 'Segundo a Flora e Funga do Brasil, a espécie não é endêmica do Brasil (citação FFB); no entanto, não registramos ocorrências fora desse país.';
         }
       } else {
         // Não há registros no Brasil
         text += 'Não foram encontrados registros da espécie no Brasil.';
 
-        if (endemicFFB === true) {
+        if (endemism === true) {
           text += 'A espécie é endêmica do Brasil (citação FFB), porém não registramos ocorrência da espécie nesse país.';
         }
-        if (endemicFFB === false) {
+        if (endemism === false) {
           text += 'Segundo a Flora e Funga do Brasil, a espécie não é endêmica do Brasil (citação FFB), mas não registramos ocorrências no Brasil.';
         }
       }

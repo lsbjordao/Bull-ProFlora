@@ -43,10 +43,10 @@ export class AppController {
     return this.appService.addToQueue_distribution(species, source);
   }
 
-  @Post('citationFFB')
-  addToQueue_citationFFB(@Body() data: any) {
+  @Post('FFB')
+  addToQueue_FFB(@Body() data: any) {
     const { species } = data;
-    return this.appService.addToQueue_citationFFB(species);
+    return this.appService.addToQueue_FFB(species);
   }
 
   @Post('obraPrinceps')

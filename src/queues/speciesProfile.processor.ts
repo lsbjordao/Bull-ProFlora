@@ -53,7 +53,7 @@ export class Processor_speciesProfile extends WorkerHost {
       'distribution',
       'information',
       'obrasPrinceps',
-      'citationFFB',
+      'FFB',
       'oac/MapBiomas-LandCover7',
       'oac/MapBiomas-Fire',
       'oac/PANs',
@@ -105,11 +105,11 @@ export class Processor_speciesProfile extends WorkerHost {
         output.AOO = output.MapBiomas.AOO_km2;
         output.AOOutil = output.MapBiomas.AOOutil_km2;
 
-        output.information.endemism = output.information.endemism.replace(
+        output.FFB.endemism = output.FFB.endemism.replace(
           'NO',
           'Não',
         );
-        output.information.endemism = output.information.endemism.replace(
+        output.FFB.endemism = output.FFB.endemism.replace(
           'YES',
           'Sim',
         );

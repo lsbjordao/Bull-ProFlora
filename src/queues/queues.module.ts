@@ -47,10 +47,10 @@ import {
 } from './distribution.processor';
 
 import {
-  QUEUE_NAME_citationFFB,
-  Processor_citationFFB,
-  InjectQueue_citationFFB,
-} from './citationFFB.processor';
+  QUEUE_NAME_FFB,
+  Processor_FFB,
+  InjectQueue_FFB,
+} from './FFB.processor';
 
 import {
   QUEUE_NAME_obraPrinceps,
@@ -141,8 +141,8 @@ export class QueuesModule implements NestModule {
       name: QUEUE_NAME_distribution,
     });
 
-    const queue_citationFFB = BullModule.registerQueue({
-      name: QUEUE_NAME_citationFFB,
+    const queue_FFB = BullModule.registerQueue({
+      name: QUEUE_NAME_FFB,
     });
 
     const queue_obraPrinceps = BullModule.registerQueue({
@@ -193,7 +193,7 @@ export class QueuesModule implements NestModule {
       !queue_records.providers || !queue_records.exports || 
       !queue_information.providers || !queue_information.exports ||
       !queue_distribution.providers || !queue_distribution.exports ||
-      !queue_citationFFB.providers || !queue_citationFFB.exports ||
+      !queue_FFB.providers || !queue_FFB.exports ||
       !queue_obraPrinceps.providers || !queue_obraPrinceps.exports ||
       !queue_oa_UCs.providers || !queue_oa_UCs.exports ||
       !queue_oa_TERs.providers || !queue_oa_TERs.exports ||
@@ -232,7 +232,7 @@ export class QueuesModule implements NestModule {
         queue_records,
         queue_information,
         queue_distribution,
-        queue_citationFFB,
+        queue_FFB,
         queue_obraPrinceps,
         queue_oa_UCs,
         queue_oa_TERs,
@@ -251,7 +251,7 @@ export class QueuesModule implements NestModule {
         Processor_records, 
         Processor_information, 
         Processor_distribution,
-        Processor_citationFFB,
+        Processor_FFB,
         Processor_obraPrinceps,
         Processor_oa_UCs,
         Processor_oa_TERs,
@@ -268,7 +268,7 @@ export class QueuesModule implements NestModule {
         ...queue_records.providers, 
         ...queue_information.providers,
         ...queue_distribution.providers,
-        ...queue_citationFFB.providers,
+        ...queue_FFB.providers,
         ...queue_obraPrinceps.providers,
         ...queue_oa_UCs.providers,
         ...queue_oa_TERs.providers,
@@ -287,7 +287,7 @@ export class QueuesModule implements NestModule {
         ...queue_records.exports, 
         ...queue_information.exports,
         ...queue_distribution.exports,
-        ...queue_citationFFB.exports,
+        ...queue_FFB.exports,
         ...queue_obraPrinceps.exports,
         ...queue_oa_UCs.exports,
         ...queue_oa_TERs.exports,
@@ -309,7 +309,7 @@ export class QueuesModule implements NestModule {
     @InjectQueue_records() private readonly queue_records: Queue,
     @InjectQueue_information() private readonly queue_information: Queue,
     @InjectQueue_distribution() private readonly queue_distribution: Queue,
-    @InjectQueue_citationFFB() private readonly queue_citationFFB: Queue,
+    @InjectQueue_FFB() private readonly queue_FFB: Queue,
     @InjectQueue_obraPrinceps() private readonly queue_obraPrinceps: Queue,
     @InjectQueue_oa_UCs() private readonly queue_oa_UCs: Queue,
     @InjectQueue_oa_TERs() private readonly queue_oa_TERs: Queue,
@@ -329,7 +329,7 @@ export class QueuesModule implements NestModule {
     createBullBoard({
       queues: [
         new BullMQAdapter(this.queue_information),
-        new BullMQAdapter(this.queue_citationFFB),
+        new BullMQAdapter(this.queue_FFB),
         new BullMQAdapter(this.queue_obraPrinceps),
         new BullMQAdapter(this.queue_records),
         new BullMQAdapter(this.queue_distribution),

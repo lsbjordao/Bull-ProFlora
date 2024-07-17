@@ -11,15 +11,15 @@ import * as fs from 'fs';
 import { google } from 'googleapis';
 import * as https from 'https';
 
-export const QUEUE_NAME_citationFFB = 'Citation FFB';
-export const InjectQueue_citationFFB = (): ParameterDecorator =>
-  InjectQueue(QUEUE_NAME_citationFFB);
+export const QUEUE_NAME_FFB = 'FFB';
+export const InjectQueue_FFB = (): ParameterDecorator =>
+  InjectQueue(QUEUE_NAME_FFB);
 
-@Processor(QUEUE_NAME_citationFFB, {
+@Processor(QUEUE_NAME_FFB, {
   concurrency: 1,
 })
-export class Processor_citationFFB extends WorkerHost {
-  private readonly logger = new Logger(Processor_citationFFB.name);
+export class Processor_FFB extends WorkerHost {
+  private readonly logger = new Logger(Processor_FFB.name);
 
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
@@ -65,7 +65,7 @@ export class Processor_citationFFB extends WorkerHost {
       speciesTaxonId = taxonId[speciesIndex];
     }
 
-    async function getCitation(species: any) {
+    async function getFromFFB(species: any) {
       const options = {
         hostname: 'servicos.jbrj.gov.br',
         path: '/v2/flora/taxon/' + encodeURIComponent(species),
@@ -88,18 +88,33 @@ export class Processor_citationFFB extends WorkerHost {
       });
     }
 
-    citation = await getCitation(job.data.species);
+    const response: any = await getFromFFB(job.data.species);
 
-    if (citation.erro === '500') {
+    if (response.erro === '500') {
       result = { long: 'SERVIDOR_FFB_OFF', short: 'COLOCAR_CITAÇÃO' }
     }
 
-    if (citation.length === 0) {
+    if (response.length === 0) {
       result = { long: 'NÃO_LISTADA_NA_FFB', short: 'COLOCAR_CITAÇÃO' };
     }
 
-    if (citation.length > 0) {
-      citation = citation[0].taxon;
+    if (response.length > 0) {
+      const data = response[0]
+      console.log(data)
+      
+      const lifeForm = data.specie_profile.lifeForm
+      const habitat = data.specie_profile.habitat
+      const vegetationType = data.specie_profile.vegetationType
+      const states = data.distribuition.map((item: any) => item.locationid.replace(/BR-/, ''))
+      let endemism = data.distribuition[0].occurrenceremarks.endemism
+      if(endemism === 'Endemica'){ endemism = 'YES' }
+      if(endemism === 'Não endemica'){ endemism = 'NO' }
+      const phytogeographicDomain = data.distribuition[0].occurrenceremarks.phytogeographicDomain
+      const obraPrinceps = data.taxon.namepublishedin.replace(/([0-9])\s([0-9][0-9][0-9][0-9])/,'$1, $2')
+      const vernacularNames = data.vernacular_name.map((item: any) => item)
+
+      const taxonData = data.taxon;
+
       let today = new Date();
       const months = [
         'janeiro',
@@ -121,11 +136,11 @@ export class Processor_citationFFB extends WorkerHost {
 
       const date = `${day} de ${month} de ${year}`;
 
-      let id = citation.references;
+      let id = taxonData.references;
       id = id.match(/id\=.*/)[0];
       id = id.replace(/id\=/, '');
 
-      let howToCite = citation.bibliographiccitation_how_to_cite;
+      let howToCite = taxonData.bibliographiccitation_how_to_cite;
       let haveAuthor = howToCite.match(/^Flora do Brasil/);
       if (haveAuthor === null) {
         haveAuthor = true;
@@ -141,7 +156,7 @@ export class Processor_citationFFB extends WorkerHost {
         howToCite = `${howToCite}, ${year}.${taxon}. Flora e Funga do Brasil. Jardim Botânico do Rio de Janeiro. URL https://floradobrasil.jbrj.gov.br/${id} (acesso em ${date}).`;
         citation = howToCite;
       } else {
-        citation = `Flora e Funga do Brasil, ${year}. ${citation.family}. Flora e Funga do Brasil. Jardim Botânico do Rio de Janeiro. URL https://floradobrasil.jbrj.gov.br/${id} (acesso em ${date}).`;
+        citation = `Flora e Funga do Brasil, ${year}. ${taxonData.family}. Flora e Funga do Brasil. Jardim Botânico do Rio de Janeiro. URL https://floradobrasil.jbrj.gov.br/${id} (acesso em ${date}).`;
       }
 
       function generateShortCitation(longCitation: any) {
@@ -175,11 +190,14 @@ export class Processor_citationFFB extends WorkerHost {
 
       const shortCitation = generateShortCitation(citation);
 
-      result = { long: citation, short: shortCitation };
+      result = {
+        lifeForm, habitat, vegetationType, states, endemism, phytogeographicDomain, obraPrinceps, vernacularNames,
+        "citation": { long: citation, short: shortCitation }
+      }
     }
 
     fs.writeFile(
-      `G:/Outros computadores/Meu computador/CNCFlora_data/citationFFB/${job.data.species}.json`,
+      `G:/Outros computadores/Meu computador/CNCFlora_data/FFB/${job.data.species}.json`,
       JSON.stringify(result),
       'utf8',
       (err) => {

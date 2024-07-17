@@ -16,7 +16,7 @@ function initQueue(queueName) {
 // Initiate queues
 const queueRecords = initQueue('Records')
 const queueInformation = initQueue('Information')
-const queueCitation_FFB = initQueue('Citation FFB')
+const queueFFB = initQueue('FFB')
 const queueObrasPrinceps = initQueue('Obras princeps')
 const queueDistribution = initQueue('Distribution')
 const queueOaMapBiomasLandCover = initQueue('OA-MapBiomas-LandCover')
@@ -118,8 +118,8 @@ async function pushJobs() {
       })
     })
 
-    // Queue Citation FFB
-    queueCitation_FFB.getJobs().then(async (jobs) => {
+    // Queue FFB
+    queueFFB.getJobs().then(async (jobs) => {
       const jobNames = jobs.map(function (job) {
         return job.data.species
       })
@@ -133,7 +133,7 @@ async function pushJobs() {
         })
 
       speciesToAdd.forEach((species) => {
-        sendPostRequest('citationFFB', species)
+        sendPostRequest('FFB', species)
       })
     })
 
@@ -168,8 +168,8 @@ async function pushJobs() {
         })
         .filter(function (species) {
           const pathRecords = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`
-          const pathInformation = `G:/Outros computadores/Meu computador/CNCFlora_data/information/${species}.json`
-          return !jobNames.includes(species) && existsSync(pathRecords) && existsSync(pathInformation)
+          const pathFFB = `G:/Outros computadores/Meu computador/CNCFlora_data/FFB/${species}.json`
+          return !jobNames.includes(species) && existsSync(pathRecords) && existsSync(pathFFB)
         })
 
       speciesToAdd.forEach((species) => {
@@ -345,7 +345,7 @@ async function pushJobs() {
           'distribution',
           'information',
           'obrasPrinceps',
-          'citationFFB',
+          'FFB',
           'oac/MapBiomas-LandCover7',
           'oac/MapBiomas-Fire',
           'oac/PANs',

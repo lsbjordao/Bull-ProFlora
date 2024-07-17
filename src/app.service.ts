@@ -7,7 +7,7 @@ import { InjectQueue_oa_mapbiomas_fire } from './queues/oa_mapbiomas_fire.proces
 import { InjectQueue_oa_mapbiomas_landcover_geojson } from './queues/oa_mapbiomas_landcover_geojson.processor';
 import { InjectQueue_information } from './queues/information.processor';
 import { InjectQueue_distribution } from './queues/distribution.processor';
-import { InjectQueue_citationFFB } from './queues/citationFFB.processor';
+import { InjectQueue_FFB } from './queues/FFB.processor';
 import { InjectQueue_obraPrinceps } from './queues/obraprinceps.processor';
 import { InjectQueue_oa_UCs } from './queues/oa_UCs.processor';
 import { InjectQueue_oa_TERs } from './queues/oa_TERs.processor';
@@ -28,7 +28,7 @@ export class AppService {
     @InjectQueue_oa_mapbiomas_landcover_geojson() readonly queue_oa_mapbiomas_landcover_geojson: Queue,
     @InjectQueue_information() readonly queue_information: Queue,
     @InjectQueue_distribution() readonly queue_distribution: Queue,
-    @InjectQueue_citationFFB() readonly queue_citationFFB: Queue,
+    @InjectQueue_FFB() readonly queue_FFB: Queue,
     @InjectQueue_obraPrinceps() readonly queue_obraPrinceps: Queue,
     @InjectQueue_oa_UCs() readonly queue_oa_UCs: Queue,
     @InjectQueue_oa_TERs() readonly queue_oa_TERs: Queue,
@@ -77,10 +77,10 @@ export class AppService {
     return `${species} included on queue Distribution at ${time}`;
   }
 
-  addToQueue_citationFFB(species: string) {
-    this.queue_citationFFB.add('Distribution', { species });
+  addToQueue_FFB(species: string) {
+    this.queue_FFB.add('Distribution', { species });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-    return `${species} included on queue Citation FFB at ${time}`;
+    return `${species} included on queue FFB at ${time}`;
   }
 
   addToQueue_obraPrinceps(species: string) {
