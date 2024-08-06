@@ -77,6 +77,7 @@ export class Processor_obraPrinceps extends WorkerHost {
     async function searchSpeciesInTropicos() {
       try {
         let taxon = species.replace(/var\. /, '')
+        taxon = species.replace(/subsp\. /, '')
         taxon = [...new Set(taxon.split(' '))].join(' ');
         const data = await tropicosApi.search({
           name: taxon,
@@ -93,7 +94,6 @@ export class Processor_obraPrinceps extends WorkerHost {
     }
 
     let tropicosOutput: any = await searchSpeciesInTropicos();
-
 
     // IPNI
 

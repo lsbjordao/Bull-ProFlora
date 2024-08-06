@@ -91,11 +91,11 @@ export class Processor_FFB extends WorkerHost {
     const response: any = await getFromFFB(job.data.species);
 
     if (response.erro === '500') {
-      result = { long: 'SERVIDOR_FFB_OFF', short: 'COLOCAR_CITAÇÃO' }
+      result = { long: 'SERVIDOR_FFB_OFF', short: 'COLOCAR_CITAÇÃO', endemism: 'NotFoundInFFB' }
     }
 
     if (response.length === 0) {
-      result = { long: 'NÃO_LISTADA_NA_FFB', short: 'COLOCAR_CITAÇÃO' };
+      result = { long: 'NÃO_LISTADA_NA_FFB', short: 'COLOCAR_CITAÇÃO', endemism: 'NotFoundInFFB' };
     }
 
     if (response.length > 0) {

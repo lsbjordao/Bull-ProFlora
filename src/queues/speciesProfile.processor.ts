@@ -105,14 +105,19 @@ export class Processor_speciesProfile extends WorkerHost {
         output.AOO = output.MapBiomas.AOO_km2;
         output.AOOutil = output.MapBiomas.AOOutil_km2;
 
-        output.FFB.endemism = output.FFB.endemism.replace(
-          'NO',
-          'Não',
-        );
-        output.FFB.endemism = output.FFB.endemism.replace(
-          'YES',
-          'Sim',
-        );
+        if(output.FFB.endemism){
+          output.FFB.endemism = output.FFB.endemism.replace(
+            'NO',
+            'Não',
+          );
+          output.FFB.endemism = output.FFB.endemism.replace(
+            'YES',
+            'Sim',
+          );
+        } else {
+          output.FFB.endemism = 'NotFoundInFFB'
+          output.FFB.citation = output.FFB
+        }
 
         output.information.vegetationType =
           output.information.vegetationType.replace(

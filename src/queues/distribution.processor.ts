@@ -70,7 +70,7 @@ export class Processor_distribution extends WorkerHost {
     let endemism = FFBdata.endemism;
     if (endemism === 'YES') { endemism = true };
     if (endemism === 'NO') { endemism = false };
-
+    
     let result: any = [];
 
     for (let i = 0; i < speciesStates.length; i++) {
@@ -130,6 +130,9 @@ export class Processor_distribution extends WorkerHost {
           if (endemism === false) {
             text += 'A espécie não é endêmica do Brasil (citação FFB).';
           }
+          if (endemism === 'NotFoundInFFB') {
+            text += 'A espécie é ou não é endêmica do Brasil (COLOCAR_CITAÇÃO).';
+          }
         }
       } else if (countries.length === 1 && countries[0] === 'Brasil') {
         // Nossa base possui registros apenas do Brasil
@@ -138,6 +141,9 @@ export class Processor_distribution extends WorkerHost {
         }
         if (endemism === false) {
           text += 'Segundo a Flora e Funga do Brasil, a espécie não é endêmica do Brasil (citação FFB); no entanto, não registramos ocorrências fora desse país.';
+        }
+        if (endemism === 'NotFoundInFFB') {
+          text = 'A espécie é ou não é endêmica do Brasil (COLOCAR_CITAÇÃO).';
         }
       } else {
         // Não há registros no Brasil
@@ -148,6 +154,9 @@ export class Processor_distribution extends WorkerHost {
         }
         if (endemism === false) {
           text += 'Segundo a Flora e Funga do Brasil, a espécie não é endêmica do Brasil (citação FFB), mas não registramos ocorrências no Brasil.';
+        }
+        if (endemism === 'NotFoundInFFB') {
+          text = 'Não foram encontrados registros da espécie no Brasil (COLOCAR_CITAÇÃO).';
         }
       }
 
@@ -251,6 +260,11 @@ export class Processor_distribution extends WorkerHost {
 
       let regex = /A espécie não é endêmica do Brasil \(citação FFB\)\. Não foram encontrados registros da espécie no Brasil\.Segundo a Flora e Funga do Brasil, a espécie não é endêmica do Brasil \(citação FFB\), mas não registramos ocorrências no Brasil\.(.*)/;
       text = text.replace(regex, (match, group1) => `A espécie não é endêmica do Brasil (citação FFB), mas não registramos ocorrências no país. ${group1}`);
+
+      text = text.replace(
+        'A espécie não é endêmica do Brasil \(citação FFB\)\. Não foram encontrados registros da espécie no Brasil (COLOCAR_CITAÇÃO)',
+        'Não foram encontrados registros da espécie no Brasil (COLOCAR_CITAÇÃO)'
+      )
 
       return text;
     }
