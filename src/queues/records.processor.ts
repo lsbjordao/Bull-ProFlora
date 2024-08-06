@@ -230,7 +230,7 @@ export class Processor_records extends WorkerHost {
 
     // Check bad coordinates format
     const regexValidLat = /^-?(90(\.0+)?|[0-8]?\d(\.\d+)?)$/;
-    const regexValidLon = /^-?(180(\.0+)?|(\d{1,2}|1[0-7]\d)(\.\d+)?)$/;
+    const regexValidLon = /^-?(180(\.0+)?|((1[0-7][0-9]|[1-9]?[0-9])(\.\d*)?))$/;
 
     const invalidCoordinateFormatCoords: any[] = [];
     speciesRecords.forEach((coord: any) => {
