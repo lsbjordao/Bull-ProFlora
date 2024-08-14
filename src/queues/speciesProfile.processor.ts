@@ -83,15 +83,23 @@ export class Processor_speciesProfile extends WorkerHost {
 
         output.obrasPrinceps.output = '';
 
+        if (output.FFB.obraPrinceps.trim() === "") {
+          delete output.FFB.obraPrinceps
+        }        
+
         if (output.obrasPrinceps.Tropicos) {
           output.obrasPrinceps.output += `${output.obrasPrinceps.Tropicos[0].DisplayReference}, ${output.obrasPrinceps.Tropicos[0].DisplayDate}. [Tropicos]<br>`;
         }
 
         if (output.obrasPrinceps.Ipni) {
-          output.obrasPrinceps.output += `${output.obrasPrinceps.Ipni[0].publication} ${output.obrasPrinceps.Ipni[0].referenceCollation}, ${output.obrasPrinceps.Ipni[0].publicationYear}. [IPNI]`;
+          output.obrasPrinceps.output += `${output.obrasPrinceps.Ipni[0].publication} ${output.obrasPrinceps.Ipni[0].referenceCollation}, ${output.obrasPrinceps.Ipni[0].publicationYear}. [IPNI]<br>`;
         }
 
-        if (!output.obrasPrinceps.Tropicos && !output.obrasPrinceps.Ipni) {
+        if (output.FFB.obraPrinceps) {
+          output.obrasPrinceps.output += `${output.FFB.obraPrinceps}. [FFB]`;
+        }
+
+        if (!output.obrasPrinceps.Tropicos && !output.obrasPrinceps.Ipni && !output.FFB.obraPrinceps) {
           output.obrasPrinceps.output = 'Espécie não encontrada.';
         }
 
@@ -105,7 +113,7 @@ export class Processor_speciesProfile extends WorkerHost {
         output.AOO = output.MapBiomas.AOO_km2;
         output.AOOutil = output.MapBiomas.AOOutil_km2;
 
-        if(output.FFB.endemism){
+        if (output.FFB.endemism) {
           output.FFB.endemism = output.FFB.endemism.replace(
             'NO',
             'Não',
@@ -119,121 +127,41 @@ export class Processor_speciesProfile extends WorkerHost {
           output.FFB.citation = output.FFB
         }
 
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Floresta de Terra Firme',
-            '<b>Floresta de Terra Firme</b> [IUCN Habitat: 1.6]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Floresta de Igapó',
-            '<b>Floresta de Igapó</b> [IUCN Habitat: 1.8]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Manguezal',
-            '<b>Manguezal</b> [IUCN Habitat: 1.7]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Floresta de Várzea',
-            '<b>Floresta de Várzea</b> [IUCN Habitat: 1.8]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Campo de Várzea',
-            '<b>Campo de Várzea</b> [IUCN Habitat: 4.6]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Savana Amazônica',
-            '<b>Savana Amazônica</b> [IUCN Habitat: 2.1]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Floresta Estacional Semidecidual',
-            '<b>Floresta Estacional Semidecidual</b> [IUCN Habitat: 1.5]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Vegetação Sobre Afloramentos Rochosos',
-            '<b>Vegetação Sobre Afloramentos Rochosos</b> [IUCN Habitat: 6]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Campinarana',
-            '<b>Campinarana</b> [IUCN Habitat: 1.6(arbórea)/3.6(arbustiva)/4.6(herbácea)]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Cerrado (lato sensu)',
-            '<b>Cerrado (lato sensu)</b> [IUCN Habitat: 1.5(predominantemente arbóreo)/2.1(savana seca)/2.2(savana úmida)/3.5(predominantemente arbustivo)]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Restinga',
-            '<b>Restinga</b> [IUCN Habitat: 1.5(predominantemente arbórea)/3.5(predominantemente arbustiva)/13.3(dunas)]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Floresta Ciliar ou Galeria',
-            '<b>Floresta Ciliar ou Galeria</b> [IUCN Habitat: 1.6(até 1200 m alt.)/1.9(acima de 1200 m alt.)]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Campo de Altitude',
-            '<b>Campo de Altitude</b> [3.7(arbustivo)/4.7(herbáceo)]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Caatinga (stricto sensu)',
-            '<b>Caatinga (stricto sensu)</b> [IUCN Habitat: 2.1]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Área Antrópica',
-            '<b>Área Antrópica</b> [IUCN Habitat: 14.1(áreas aráveis)/14.2(pastagens)/14.3(plantações em larga escala, monoculturas)/14.4(agricultura familiar, ou em pequena escala)/14.5(urbana, comercial, industrial)/14.6(vegetação secundária ou degradada)]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Floresta Estacional Decidual',
-            '<b>Floresta Estacional Decidual</b> [IUCN Habitat: 1.5]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Campo rupestre',
-            '<b>Campo rupestre</b> [IUCN Habitat: 3.7(arbustivo)/4.7(herbáceo)]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Palmeiral',
-            '<b>Palmeiral</b> [IUCN Habitat: 1.5(seco)/1.6(úmido e abaixo de 1200 m alt.)/1.9(úmido e acima de 1200 m alt.)]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Carrasco',
-            '<b>Carrasco</b> [IUCN Habitat: 3.5]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Floresta Estacional Perenifólia',
-            '<b>Floresta Estacional Perenifólia</b> [IUCN Habitat: 1.5]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Floresta Ombrófila Mista',
-            '<b>Floresta Ombrófila Mista</b> [IUCN Habitat: 1.6(até 1200 m alt.)/1.9(acima de 1200 m alt.)]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Floresta Ombrófila (= Floresta Pluvial)',
-            '<b>Floresta Ombrófila (= Floresta Pluvial)</b> [IUCN Habitat: 1.6(até 1200 m alt.)/1.9(acima de 1200 m alt.)]',
-          );
-        output.information.vegetationType =
-          output.information.vegetationType.replace(
-            'Vegetação Aquática',
-            '<b>Vegetação Aquática</b> [IUCN Habitat: 5.1/5.2/5.3/5.4/5.5/5.6]',
-          );
+        output.FFB.phytogeographicDomain = output.FFB.phytogeographicDomain
+
+        const replacements = {
+          'Floresta de Terra Firme': '<b>Floresta de Terra Firme</b> [IUCN Habitat: 1.6]',
+          'Floresta de Igapó': '<b>Floresta de Igapó</b> [IUCN Habitat: 1.8]',
+          'Manguezal': '<b>Manguezal</b> [IUCN Habitat: 1.7]',
+          'Floresta de Várzea': '<b>Floresta de Várzea</b> [IUCN Habitat: 1.8]',
+          'Campo de Várzea': '<b>Campo de Várzea</b> [IUCN Habitat: 4.6]',
+          'Savana Amazônica': '<b>Savana Amazônica</b> [IUCN Habitat: 2.1]',
+          'Floresta Estacional Semidecidual': '<b>Floresta Estacional Semidecidual</b> [IUCN Habitat: 1.5]',
+          'Vegetação Sobre Afloramentos Rochosos': '<b>Vegetação Sobre Afloramentos Rochosos</b> [IUCN Habitat: 6]',
+          'Campinarana': '<b>Campinarana</b> [IUCN Habitat: 1.6(arbórea)/3.6(arbustiva)/4.6(herbácea)]',
+          'Cerrado (lato sensu)': '<b>Cerrado (lato sensu)</b> [IUCN Habitat: 1.5(predominantemente arbóreo)/2.1(savana seca)/2.2(savana úmida)/3.5(predominantemente arbustivo)]',
+          'Restinga': '<b>Restinga</b> [IUCN Habitat: 1.5(predominantemente arbórea)/3.5(predominantemente arbustiva)/13.3(dunas)]',
+          'Floresta Ciliar ou Galeria': '<b>Floresta Ciliar ou Galeria</b> [IUCN Habitat: 1.6(até 1200 m alt.)/1.9(acima de 1200 m alt.)]',
+          'Campo de Altitude': '<b>Campo de Altitude</b> [3.7(arbustivo)/4.7(herbáceo)]',
+          'Caatinga (stricto sensu)': '<b>Caatinga (stricto sensu)</b> [IUCN Habitat: 2.1]',
+          'Área Antrópica': '<b>Área Antrópica</b> [IUCN Habitat: 14.1(áreas aráveis)/14.2(pastagens)/14.3(plantações em larga escala, monoculturas)/14.4(agricultura familiar, ou em pequena escala)/14.5(urbana, comercial, industrial)/14.6(vegetação secundária ou degradada)]',
+          'Floresta Estacional Decidual': '<b>Floresta Estacional Decidual</b> [IUCN Habitat: 1.5]',
+          'Campo rupestre': '<b>Campo rupestre</b> [IUCN Habitat: 3.7(arbustivo)/4.7(herbáceo)]',
+          'Palmeiral': '<b>Palmeiral</b> [IUCN Habitat: 1.5(seco)/1.6(úmido e abaixo de 1200 m alt.)/1.9(úmido e acima de 1200 m alt.)]',
+          'Carrasco': '<b>Carrasco</b> [IUCN Habitat: 3.5]',
+          'Floresta Estacional Perenifólia': '<b>Floresta Estacional Perenifólia</b> [IUCN Habitat: 1.5]',
+          'Floresta Ombrófila Mista': '<b>Floresta Ombrófila Mista</b> [IUCN Habitat: 1.6(até 1200 m alt.)/1.9(acima de 1200 m alt.)]',
+          'Floresta Ombrófila (= Floresta Pluvial)': '<b>Floresta Ombrófila (= Floresta Pluvial)</b> [IUCN Habitat: 1.6(até 1200 m alt.)/1.9(acima de 1200 m alt.)]',
+          'Vegetação Aquática': '<b>Vegetação Aquática</b> [IUCN Habitat: 5.1/5.2/5.3/5.4/5.5/5.6]',
+        };
+
+        output.FFB.vegetationType = output.FFB.vegetationType.map((element: string) => {
+          let updatedElement = element;
+          for (const [key, value] of Object.entries(replacements)) {
+            updatedElement = updatedElement.replace(key, value);
+          }
+          return updatedElement;
+        });
 
         output.information.IUCN_assessment_presence =
           output.information.IUCN_assessment_presence.replace('NO', 'Não');
@@ -930,7 +858,7 @@ export class Processor_speciesProfile extends WorkerHost {
           );
 
           // MapBiomas fire
-          
+
           const AooFireThreats = output.threats.AOOfire;
           const EooFireThreats = output.threats.EOOfire;
 
@@ -1023,9 +951,9 @@ export class Processor_speciesProfile extends WorkerHost {
               2,
             )} km²) da AOO útil da espécie queimaram em ${AooFireThreats[0].year
               } [`;
-            
+
             for (let i = 0; i < AooFireThreats.length; i++) {
-              
+
               AooFireThreatText += `${AooFireThreats[i].class
                 } (${AooFireThreats[i].percent.toFixed(2)}%)`;
 

@@ -121,19 +121,23 @@
                 <tr>
                     <td>Domínios fitogeográficos</td>
                     <td>
-                        <%= information.occurrenceRemarks %>
+                        <% FFB.phytogeographicDomain.forEach(function(domain) { %>
+                            <%= domain %><br>
+                        <% }); %>
                     </td>
                 </tr>
                 <tr>
                     <td>Formações vegetacionais</td>
                     <td>
-                        <%- information.vegetationType %>
+                        <% FFB.vegetationType.forEach(function(vegetation) { %>
+                            <%- vegetation %><br>
+                        <% }); %>
                     </td>
                 </tr>
                 <tr>
                     <td>Endêmica do Brasil (FFB)</td>
                     <td>
-                        <%= information.endemism %>
+                        <%= FFB.endemism %>
                     </td>
                 </tr>
                 <tr>
@@ -145,13 +149,17 @@
                 <tr>
                     <td>Distribuição geográfica</td>
                     <td>
-                        <span class="copy-text"><%= distribution.text.replace('citação FFB', FFB.citation.short) %></span>
+                        <span class="copy-text">
+                            <%= distribution.text.replace('citação FFB', FFB.citation.short) %>
+                        </span>
                     </td>
                 </tr>
                 <tr>
                     <td>Citação FFB</td>
                     <td>
-                        <span class="copy-text"><%= FFB.citation.long %></span>
+                        <span class="copy-text">
+                            <%= FFB.citation.long %>
+                        </span>
                     </td>
                 </tr>
                 <tr>
@@ -197,19 +205,25 @@
                 </tr>
             </thead>
             <tbody>
-                <% if(threats.includeThreat.length > 0) { %>
-                    <% for(let i = 0; i < threats.includeThreat.length; i++) { %>
-                    <tr>
-                        <td><%= threats.includeThreat[i].threat %></td>
-                        <td class="clipboard-cell" data-clipboard-target="#text-<%= i %>">
-                            <span id="text-<%= i %>" class="copy-text"><%= threats.includeThreat[i].text %></span>
-                        </td>
-                        <td class="clipboard-cell" data-clipboard-target="#reference-<%= i %>">
-                            <span id="reference-<%= i %>" class="copy-text"><%= threats.includeThreat[i].reference %></span>
-                        </td>    
-                    </tr>
-                    <%}%>
-                <% } %>
+                <% if(threats.includeThreat.length> 0) { %>
+                    <% for(let i=0; i < threats.includeThreat.length; i++) { %>
+                        <tr>
+                            <td>
+                                <%= threats.includeThreat[i].threat %>
+                            </td>
+                            <td class="clipboard-cell" data-clipboard-target="#text-<%= i %>">
+                                <span id="text-<%= i %>" class="copy-text">
+                                    <%= threats.includeThreat[i].text %>
+                                </span>
+                            </td>
+                            <td class="clipboard-cell" data-clipboard-target="#reference-<%= i %>">
+                                <span id="reference-<%= i %>" class="copy-text">
+                                    <%= threats.includeThreat[i].reference %>
+                                </span>
+                            </td>
+                        </tr>
+                        <%}%>
+                            <% } %>
             </tbody>
         </table>
 
@@ -226,58 +240,94 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><%= UCs.includeUC.action %></td>
-                    <td><%= UCs.includeUC.situation %></td>
-                    <td class="clipboard-cell">
-                        <span class="copy-text"><%= UCs.includeUC.text %></span>
+                    <td>
+                        <%= UCs.includeUC.action %>
+                    </td>
+                    <td>
+                        <%= UCs.includeUC.situation %>
                     </td>
                     <td class="clipboard-cell">
-                        <span class="copy-text"><%= UCs.includeUC.reference %></span>
+                        <span class="copy-text">
+                            <%= UCs.includeUC.text %>
+                        </span>
                     </td>
-                </tr>                
+                    <td class="clipboard-cell">
+                        <span class="copy-text">
+                            <%= UCs.includeUC.reference %>
+                        </span>
+                    </td>
+                </tr>
 
-                <% if(PANs.includePAN.length > 0) { %>
-                    <% for(let i = 0; i < PANs.includePAN.length; i++) { %>
-                    <tr>
-                        <td><%= PANs.includePAN[i].action %></td>
-                        <td><%= PANs.includePAN[i].situation %></td>
-                        <td class="clipboard-cell" data-clipboard-target="#PANsIncludePANText<%= i %>">
-                            <span id="PANsIncludePANText<%= i %>" class="copy-text"><%= PANs.includePAN[i].text %></span>
-                        </td>
-                        <td class="clipboard-cell" data-clipboard-target="#PANsIncludePANReference<%= i %>">
-                            <span id="PANsIncludePANReference<%= i %>" class="copy-text"><%= PANs.includePAN[i].reference %></span>
-                        </td>                        
-                    </tr>
-                    <%}%>
-                <% } %>
+                <% if(PANs.includePAN.length> 0) { %>
+                    <% for(let i=0; i < PANs.includePAN.length; i++) { %>
+                        <tr>
+                            <td>
+                                <%= PANs.includePAN[i].action %>
+                            </td>
+                            <td>
+                                <%= PANs.includePAN[i].situation %>
+                            </td>
+                            <td class="clipboard-cell" data-clipboard-target="#PANsIncludePANText<%= i %>">
+                                <span id="PANsIncludePANText<%= i %>" class="copy-text">
+                                    <%= PANs.includePAN[i].text %>
+                                </span>
+                            </td>
+                            <td class="clipboard-cell" data-clipboard-target="#PANsIncludePANReference<%= i %>">
+                                <span id="PANsIncludePANReference<%= i %>" class="copy-text">
+                                    <%= PANs.includePAN[i].reference %>
+                                </span>
+                            </td>
+                        </tr>
+                        <%}%>
+                            <% } %>
 
-                <% if(Object.keys(TERs.includeTER).length > 0) { %>
-                    <tr>
-                        <td><%= TERs.includeTER.action %></td>
-                        <td><%= TERs.includeTER.situation %></td>
-                        <td class="clipboard-cell" data-clipboard-target="#TERsIncludeTERText">
-                            <span id="TERsIncludeTERText" class="copy-text"><%= TERs.includeTER.text %></span>
-                        </td>
-                        <td class="clipboard-cell" data-clipboard-target="#TERsIncludeTERReference">
-                            <span id="TERsIncludeTERReference" class="copy-text"><%= TERs.includeTER.reference %></span>
-                        </td>
-                    </tr>
-                <% } %>
-                
-                <% if(conservationActions.includeThreatenedList.length > 0) { %>
-                    <% for(let i = 0; i < conservationActions.includeThreatenedList.length; i++) { %>
-                    <tr>
-                        <td><%= conservationActions.includeThreatenedList[i].action %></td>
-                        <td><%= conservationActions.includeThreatenedList[i].situation %></td>
-                        <td class="clipboard-cell" data-clipboard-target="#conservationActionsText<%= i %>">
-                            <span id="conservationActionsText<%= i %>" class="copy-text"><%= conservationActions.includeThreatenedList[i].text %></span>
-                        </td>
-                        <td class="clipboard-cell" data-clipboard-target="#conservationActionsReference<%= i %>">
-                            <span id="conservationActionsReference<%= i %>" class="copy-text"><%- conservationActions.includeThreatenedList[i].reference %></span>
-                        </td>
-                    </tr>
-                    <%}%>
-                <% } %>
+                                <% if(Object.keys(TERs.includeTER).length> 0) { %>
+                                    <tr>
+                                        <td>
+                                            <%= TERs.includeTER.action %>
+                                        </td>
+                                        <td>
+                                            <%= TERs.includeTER.situation %>
+                                        </td>
+                                        <td class="clipboard-cell" data-clipboard-target="#TERsIncludeTERText">
+                                            <span id="TERsIncludeTERText" class="copy-text">
+                                                <%= TERs.includeTER.text %>
+                                            </span>
+                                        </td>
+                                        <td class="clipboard-cell" data-clipboard-target="#TERsIncludeTERReference">
+                                            <span id="TERsIncludeTERReference" class="copy-text">
+                                                <%= TERs.includeTER.reference %>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+
+                                        <% if(conservationActions.includeThreatenedList.length> 0) { %>
+                                            <% for(let i=0; i < conservationActions.includeThreatenedList.length; i++) {
+                                                %>
+                                                <tr>
+                                                    <td>
+                                                        <%= conservationActions.includeThreatenedList[i].action %>
+                                                    </td>
+                                                    <td>
+                                                        <%= conservationActions.includeThreatenedList[i].situation %>
+                                                    </td>
+                                                    <td class="clipboard-cell"
+                                                        data-clipboard-target="#conservationActionsText<%= i %>">
+                                                        <span id="conservationActionsText<%= i %>" class="copy-text">
+                                                            <%= conservationActions.includeThreatenedList[i].text %>
+                                                        </span>
+                                                    </td>
+                                                    <td class="clipboard-cell"
+                                                        data-clipboard-target="#conservationActionsReference<%= i %>">
+                                                        <span id="conservationActionsReference<%= i %>"
+                                                            class="copy-text"><%-
+                                                                conservationActions.includeThreatenedList[i].reference
+                                                                %></span>
+                                                    </td>
+                                                </tr>
+                                                <%}%>
+                                                    <% } %>
             </tbody>
         </table>
     </div>
@@ -288,36 +338,37 @@
         });
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const copyTextSpans = document.querySelectorAll('.copy-text');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const copyTextSpans = document.querySelectorAll('.copy-text');
 
-        copyTextSpans.forEach(span => {
-            span.addEventListener('click', function () {
-                // Seleciona o texto dentro do span
-                const range = document.createRange();
-                range.selectNodeContents(this);
-                const selection = window.getSelection();
-                selection.removeAllRanges();
-                selection.addRange(range);
+            copyTextSpans.forEach(span => {
+                span.addEventListener('click', function () {
+                    // Seleciona o texto dentro do span
+                    const range = document.createRange();
+                    range.selectNodeContents(this);
+                    const selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
 
-                // Copia o texto selecionado para a área de transferência
-                document.execCommand('copy');
+                    // Copia o texto selecionado para a área de transferência
+                    document.execCommand('copy');
 
-                // Limpa a seleção
-                selection.removeAllRanges();
+                    // Limpa a seleção
+                    selection.removeAllRanges();
 
-                // Feedback visual opcional (ex.: mudar cor de fundo temporariamente)
-                this.style.backgroundColor = 'yellow'; // Cor verde para feedback de sucesso
+                    // Feedback visual opcional (ex.: mudar cor de fundo temporariamente)
+                    this.style.backgroundColor = 'yellow'; // Cor verde para feedback de sucesso
 
-                // Reseta a cor de fundo após um breve período
-                setTimeout(() => {
-                    this.style.backgroundColor = '';
-                }, 1000); // 1000 milissegundos = 1 segundo
+                    // Reseta a cor de fundo após um breve período
+                    setTimeout(() => {
+                        this.style.backgroundColor = '';
+                    }, 1000); // 1000 milissegundos = 1 segundo
+                });
             });
         });
-    });
-</script>
+    </script>
 
 </body>
+
 </html>

@@ -32,39 +32,7 @@ export class Processor_FFB extends WorkerHost {
 
     let citation: any;
     let result: any;
-    let taxonId: any;
-    let listOfSpecies: any;
-    let speciesTaxonId: any = null;
-
-    const keyPath = './credentials.json';
-    const scopes = ['https://www.googleapis.com/auth/spreadsheets'];
-    const credentials = new google.auth.JWT({
-      keyFile: keyPath,
-      scopes: scopes,
-    });
-    await credentials.authorize();
-
-    const ss = google.sheets({ version: 'v4', auth: credentials });
-    const spreadsheetId = '1vdU2njQ-ZJl4FiDCPpmiX-VrL0637omEyS_hBXQtllY';
-    const sheetName = 'Acomp_spp';
-
-    listOfSpecies = await ss.spreadsheets.values.get({
-      spreadsheetId: spreadsheetId,
-      range: `${sheetName}!E2:E`,
-    });
-    listOfSpecies = listOfSpecies.data.values.flat();
-
-    taxonId = await ss.spreadsheets.values.get({
-      spreadsheetId: spreadsheetId,
-      range: `${sheetName}!H2:H`,
-    });
-    taxonId = taxonId.data.values.flat();
-
-    const speciesIndex = listOfSpecies.indexOf(job.data.species);
-    if (speciesIndex !== -1) {
-      speciesTaxonId = taxonId[speciesIndex];
-    }
-
+    
     async function getFromFFB(species: any) {
       const options = {
         hostname: 'servicos.jbrj.gov.br',
@@ -88,7 +56,7 @@ export class Processor_FFB extends WorkerHost {
       });
     }
 
-    const response: any = await getFromFFB(job.data.species);
+    const response: any = await getFromFFB(species);
 
     if (response.erro === '500') {
       result = { 
