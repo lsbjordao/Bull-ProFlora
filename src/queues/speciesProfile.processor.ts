@@ -85,7 +85,7 @@ export class Processor_speciesProfile extends WorkerHost {
 
         if (output.FFB.obraPrinceps.trim() === "") {
           delete output.FFB.obraPrinceps
-        }        
+        }
 
         if (output.obrasPrinceps.Tropicos) {
           output.obrasPrinceps.output += `${output.obrasPrinceps.Tropicos[0].DisplayReference}, ${output.obrasPrinceps.Tropicos[0].DisplayDate}. [Tropicos]<br>`;
@@ -155,13 +155,17 @@ export class Processor_speciesProfile extends WorkerHost {
           'Vegetação Aquática': '<b>Vegetação Aquática</b> [IUCN Habitat: 5.1/5.2/5.3/5.4/5.5/5.6]',
         };
 
-        output.FFB.vegetationType = output.FFB.vegetationType.map((element: string) => {
-          let updatedElement = element;
-          for (const [key, value] of Object.entries(replacements)) {
-            updatedElement = updatedElement.replace(key, value);
-          }
-          return updatedElement;
-        });
+        if (output.FFB.vegetationType) {
+          output.FFB.vegetationType = output.FFB.vegetationType.map((element: string) => {
+            let updatedElement = element;
+            for (const [key, value] of Object.entries(replacements)) {
+              updatedElement = updatedElement.replace(key, value);
+            }
+            return updatedElement;
+          });
+        } else { 
+          output.FFB.vegetationType = []
+        }
 
         output.information.IUCN_assessment_presence =
           output.information.IUCN_assessment_presence.replace('NO', 'Não');

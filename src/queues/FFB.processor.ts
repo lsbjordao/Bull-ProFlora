@@ -84,7 +84,10 @@ export class Processor_FFB extends WorkerHost {
       const lifeForm = data.specie_profile.lifeForm
       const habitat = data.specie_profile.habitat
       const vegetationType = data.specie_profile.vegetationType
-      const states = data.distribuition.map((item: any) => item.locationid.replace(/BR-/, ''))
+      let states = []
+      if(data.distribuition.locationid){
+        states = data.distribuition.map((item: any) => item.locationid.replace(/BR-/, ''))
+      }
       let endemism = data.distribuition[0].occurrenceremarks.endemism
       if(endemism === 'Endemica'){ endemism = 'YES' }
       if(endemism === 'Não endemica'){ endemism = 'NO' }
