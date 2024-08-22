@@ -64,13 +64,17 @@ export class Processor_speciesProfile extends WorkerHost {
     ];
 
     const data: any = {};
-    const promises = dirs.map((dir) => {
+    const promises = dirs.map(async (dir) => {
       const filePath = `G:/Outros computadores/Meu computador/CNCFlora_data/${dir}/${species}.json`;
-      return readJson(filePath).then((result) => {
+      try {
+        const result = await readJson(filePath);
         // console.log(result)
         data[dir] = result;
-      });
+      } catch (error) {
+        console.error(`Erro ao ler o arquivo em ${filePath}:`, error);
+      }
     });
+
 
     Promise.all(promises)
       .then(async () => {
@@ -163,7 +167,7 @@ export class Processor_speciesProfile extends WorkerHost {
             }
             return updatedElement;
           });
-        } else { 
+        } else {
           output.FFB.vegetationType = []
         }
 

@@ -57,6 +57,8 @@ export class Processor_distribution extends WorkerHost {
       speciesMunicipalities = speciesOcc.municipalities
     }
     
+    job.updateProgress(2)
+
     const recordsFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${job.data.species}.json`;
     const FFBFilePath = `G:/Outros computadores/Meu computador/CNCFlora_data/FFB/${job.data.species}.json`;
 
@@ -65,12 +67,17 @@ export class Processor_distribution extends WorkerHost {
 
     const recordsOccIds = records.map((element: any) => element.properties.occId);
 
+    job.updateProgress(3)
+
     let FFBdata: any = await fs.promises.readFile(FFBFilePath, 'utf-8');
+    
     FFBdata = JSON.parse(FFBdata);
     let endemism = FFBdata.endemism;
     if (endemism === 'YES') { endemism = true };
     if (endemism === 'NO') { endemism = false };
     
+    job.updateProgress(4)
+
     let result: any = [];
 
     for (let i = 0; i < speciesStates.length; i++) {
