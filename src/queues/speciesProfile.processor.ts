@@ -22,9 +22,18 @@ export class Processor_speciesProfile extends WorkerHost {
 
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
-
     if (!species) {
       return Promise.reject(new Error('Failed'));
+    }
+
+    const source = job.data.source;
+    let resultPath = ''
+    if (source === 'CNCFlora-oldSystem' || source === 'CNCFlora-ProFlora') {
+      resultPath = `G:/Outros computadores/Meu computador/CNCFlora_data/outputs/profileOfSpeciesHTML results/${species}.html`
+    }
+
+    if (source === 'Museu-Goeldi/PA') {
+      resultPath = `G:/Outros computadores/Meu computador/CNCFlora_data/speciesProfiles/speciesProfile-MPEG/${species}.html`
     }
 
     job.updateProgress(1);
@@ -51,7 +60,7 @@ export class Processor_speciesProfile extends WorkerHost {
 
     const dirs = [
       'distribution',
-      'information',
+      //'information',
       'obrasPrinceps',
       'FFB',
       'oac/MapBiomas-LandCover7',
@@ -87,7 +96,7 @@ export class Processor_speciesProfile extends WorkerHost {
 
         output.obrasPrinceps.output = '';
 
-        if (output.FFB.obraPrinceps.trim() === "") {
+        if (output.FFB.obraPrinceps && output.FFB.obraPrinceps.trim() === "") {
           delete output.FFB.obraPrinceps
         }
 
@@ -171,10 +180,10 @@ export class Processor_speciesProfile extends WorkerHost {
           output.FFB.vegetationType = []
         }
 
-        output.information.IUCN_assessment_presence =
-          output.information.IUCN_assessment_presence.replace('NO', 'Não');
-        output.information.IUCN_assessment_presence =
-          output.information.IUCN_assessment_presence.replace('YES', 'Sim');
+        // output.information.IUCN_assessment_presence =
+        //   output.information.IUCN_assessment_presence.replace('NO', 'Não');
+        // output.information.IUCN_assessment_presence =
+        //   output.information.IUCN_assessment_presence.replace('YES', 'Sim');
 
         // Actions
         output['PANs'] = output['oac/PANs'];
@@ -1270,7 +1279,7 @@ export class Processor_speciesProfile extends WorkerHost {
       })
       .then((htmlString: any) => {
         fs.writeFileSync(
-          `G:/Outros computadores/Meu computador/CNCFlora_data/outputs/profileOfSpeciesHTML results/${species}.html`,
+          resultPath,
           htmlString,
         );
       })
@@ -1298,11 +1307,7 @@ export class Processor_speciesProfile extends WorkerHost {
 
     job.updateProgress(100);
 
-    return Promise.resolve(
-      'G:/Outros computadores/Meu computador/CNCFlora_data/speciesProfiles/' +
-      species +
-      '.html',
-    );
+    return Promise.resolve(resultPath);
   }
   catch(err: Error) {
     console.error(err);

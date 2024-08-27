@@ -119,12 +119,12 @@ export class AppService {
     return `${species} included on queue Threats at ${time}`;
   }
 
-  addToQueue_speciesProfile(species: string) {
-    this.queue_speciesProfile.add('Species profile', { species });
+  addToQueue_speciesProfile(species: string, source: string) {
+    this.queue_speciesProfile.add('Species profile', { species, source });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-    return `${species} included on queue Species profile at ${time}`;
+    return `${species} included on queue Species profile from ${source} at ${time}`;
   }
-
+  
   addToQueue_stackedArea_chart_geojson(feature: string) {
     this.queue_stackedAreaChartGeojson.add('Stacked-Area-Chart-GeoJSON', { feature });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })

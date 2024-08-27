@@ -87,8 +87,8 @@ export class AppController {
 
   @Post('speciesProfile')
   addToQueue_speciesProfile(@Body() data: any) {
-    const { species } = data;
-    return this.appService.addToQueue_speciesProfile(species);
+    const { species, source } = data;
+    return this.appService.addToQueue_speciesProfile(species, source);
   }
 
   @Post('stackedArea-chart-geojson')

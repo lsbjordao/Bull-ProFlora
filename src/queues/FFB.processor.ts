@@ -30,15 +30,33 @@ export class Processor_FFB extends WorkerHost {
 
     job.updateProgress(1);
 
+    let infraspecificTaxonName = ''
+    let hasInfraspecificTaxon = false
+    let isSubspecies = false
+    let isVariety = false
+    if (species.includes('var.') || species.includes('subsp.')) {
+      hasInfraspecificTaxon = true
+      if (species.includes('var.')) {
+        isVariety = true
+        infraspecificTaxonName = species.replace('.* var. (.*) ', '%1')
+      }
+      if (species.includes('subsp.')) {
+        isSubspecies = true
+        infraspecificTaxonName = species.replace('.* subsp. (.*) ', '%1')
+      }
+    }
+    const speciesName = species.replace(/^(\b\w+\b)(?:\s+([\w-]+))?.*/, '$1 $2').trim();
+    
     let citation: any;
     let result: any;
-    
-    async function getFromFFB(species: any) {
+
+    async function getFromFFB(speciesName: any) {
       const options = {
         hostname: 'servicos.jbrj.gov.br',
-        path: '/v2/flora/taxon/' + encodeURIComponent(species),
+        path: '/v2/flora/taxon/' + encodeURIComponent(speciesName),
         method: 'GET',
       };
+
       return new Promise((resolve, reject) => {
         const req = https.request(options, (res: any) => {
           let data = '';
@@ -46,7 +64,27 @@ export class Processor_FFB extends WorkerHost {
             data += chunk;
           });
           res.on('end', () => {
-            resolve(JSON.parse(data));
+            if (!hasInfraspecificTaxon) {
+              const result = JSON.parse(data)
+              resolve(result);
+            }
+            if (hasInfraspecificTaxon) {
+              const result = JSON.parse(data)
+
+              if(isVariety === true)
+              result.filter((item: any) =>
+                item.taxon.taxonrank === "VARIEDADE" &&
+                item.taxon.infraspecificepithet === infraspecificTaxonName
+              )
+
+              if(isSubspecies === true)
+                result.filter((item: any) =>
+                  item.taxon.taxonrank === "SUB_ESPECIE" &&
+                  item.taxon.infraspecificepithet === infraspecificTaxonName
+                )
+
+              resolve(result);
+            }
           });
         });
         req.on('error', (error: Error) => {
@@ -56,43 +94,43 @@ export class Processor_FFB extends WorkerHost {
       });
     }
 
-    const response: any = await getFromFFB(species);
+    const response: any = await getFromFFB(speciesName);
 
     if (response.erro === '500') {
-      result = { 
+      result = {
         citation: {
-          long: 'SERVIDOR_FFB_OFF', 
-          short: 'COLOCAR_CITAÇÃO', 
+          long: 'SERVIDOR_FFB_OFF',
+          short: 'COLOCAR_CITAÇÃO',
         },
-        endemism: 'NotFoundInFFB' 
+        endemism: 'NotFoundInFFB'
       }
     }
 
     if (response.length === 0) {
-      result = { 
+      result = {
         citation: {
-          long: 'NOT_FOUND_IN_FFB', 
-          short: 'COLOCAR_CITAÇÃO', 
+          long: 'NOT_FOUND_IN_FFB',
+          short: 'COLOCAR_CITAÇÃO',
         },
-        endemism: 'NotFoundInFFB' 
+        endemism: 'NotFoundInFFB'
       }
     }
 
     if (response.length > 0) {
       const data = response[0]
-      
+
       const lifeForm = data.specie_profile.lifeForm
       const habitat = data.specie_profile.habitat
       const vegetationType = data.specie_profile.vegetationType
       let states = []
-      if(data.distribuition.locationid){
+      if (data.distribuition.locationid) {
         states = data.distribuition.map((item: any) => item.locationid.replace(/BR-/, ''))
       }
       let endemism = data.distribuition[0].occurrenceremarks.endemism
-      if(endemism === 'Endemica'){ endemism = 'YES' }
-      if(endemism === 'Não endemica'){ endemism = 'NO' }
+      if (endemism === 'Endemica') { endemism = 'YES' }
+      if (endemism === 'Não endemica') { endemism = 'NO' }
       const phytogeographicDomain = data.distribuition[0].occurrenceremarks.phytogeographicDomain
-      const obraPrinceps = data.taxon.namepublishedin.replace(/([0-9])\s([0-9][0-9][0-9][0-9])/,'$1, $2')
+      const obraPrinceps = data.taxon.namepublishedin.replace(/([0-9])\s([0-9][0-9][0-9][0-9])/, '$1, $2')
       const vernacularNames = data.vernacular_name.map((item: any) => item)
 
       const taxonData = data.taxon;

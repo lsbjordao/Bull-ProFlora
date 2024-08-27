@@ -96,7 +96,6 @@ export class Processor_conservationActions extends WorkerHost {
 
       const speciesOccIds = speciesOcc.occIds
       const recordsOccIds = records.map((element: any) => element.properties.oocId)
-
       let speciesStates = speciesOcc.states;
 
       const stateToAbbreviation: any = {
