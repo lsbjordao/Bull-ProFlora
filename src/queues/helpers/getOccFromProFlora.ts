@@ -4,31 +4,30 @@ import { getToken } from './getToken';
 import * as dotenv from 'dotenv';
 dotenv.config()
 
-async function sendGetRequest(taxon: string) {
+async function sendGetRequestWithSource(taxon: string, source: string) {
 
-const genus = taxon.replace(/(\w+).*/, '$1')
-const specificEpithet = taxon.replace(/\w+\s([\w-]+).*/, '$1');
-let varietyEpithet = ''
-let subspeciesEpithet = ''
+    const genus = taxon.replace(/(\w+).*/, '$1')
+    const specificEpithet = taxon.replace(/\w+\s([\w-]+).*/, '$1');
+    let varietyEpithet = ''
+    let subspeciesEpithet = ''
 
-let hasVarietyEpithet = false
-if(taxon.includes(' var. ')){
-    hasVarietyEpithet = true
-}
-if(hasVarietyEpithet){
-    varietyEpithet = taxon.replace(/.*var\. ([\w-]+).*/, '$1');
-}
-let hasSubspeciesEpithet = false
-if(taxon.includes(' subsp. ')){
-    hasSubspeciesEpithet = true
-}
-if(hasSubspeciesEpithet){
-    subspeciesEpithet = taxon.replace(/.*subsp\. ([\w-]+).*/, '$1');
-}
-
+    let hasVarietyEpithet = false
+    if (taxon.includes(' var. ')) {
+        hasVarietyEpithet = true
+    }
+    if (hasVarietyEpithet) {
+        varietyEpithet = taxon.replace(/.*var\. ([\w-]+).*/, '$1');
+    }
+    let hasSubspeciesEpithet = false
+    if (taxon.includes(' subsp. ')) {
+        hasSubspeciesEpithet = true
+    }
+    if (hasSubspeciesEpithet) {
+        subspeciesEpithet = taxon.replace(/.*subsp\. ([\w-]+).*/, '$1');
+    }
 
     try {
-        const ProFloraToken = await getToken()
+        const ProFloraToken = await getToken(source)
 
         const config: any = {
             headers: {
@@ -40,12 +39,12 @@ if(hasSubspeciesEpithet){
 
         let urlBase = process.env.ProFloraUrlBaseProd
         if (process.env.NODE_ENV === 'dev') { urlBase = process.env.ProFloraUrlBaseDev }
-        
+
         let endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}`
-        if(hasVarietyEpithet){
+        if (hasVarietyEpithet) {
             endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}&varietyEpithet=${varietyEpithet}`
         }
-        if(hasSubspeciesEpithet){
+        if (hasSubspeciesEpithet) {
             endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}&subspeciesEpithet=${subspeciesEpithet}`
         }
 
@@ -73,8 +72,8 @@ if(hasSubspeciesEpithet){
     }
 }
 
-async function getOccFromProFlora(taxon: string) {
-    const data: any = await sendGetRequest(taxon)
+async function getOccFromProFlora(taxon: string, source: string) {
+    const data: any = await sendGetRequestWithSource(taxon, source)
 
     const result: any = {
         n: data.length,

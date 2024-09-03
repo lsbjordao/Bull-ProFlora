@@ -119,9 +119,9 @@ export class Processor_FFB extends WorkerHost {
     if (response.length > 0) {
       const data = response[0]
 
-      const lifeForm = data.specie_profile.lifeForm
-      const habitat = data.specie_profile.habitat
-      const vegetationType = data.specie_profile.vegetationType
+      const lifeForm = data.specie_profile?.lifeForm ?? '';
+      const habitat = data.specie_profile?.habitat ?? '';
+      const vegetationType = data.specie_profile?.vegetationType ?? '';
       let states = []
       if (data.distribuition.locationid) {
         states = data.distribuition.map((item: any) => item.locationid.replace(/BR-/, ''))

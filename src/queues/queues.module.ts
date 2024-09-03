@@ -349,7 +349,7 @@ export class QueuesModule implements NestModule {
       serverAdapter,
       options: {
         uiConfig: {
-          boardTitle: 'ProFlora-Bull'
+          boardTitle: 'Bull-ProFlora'
         },
       }
     });

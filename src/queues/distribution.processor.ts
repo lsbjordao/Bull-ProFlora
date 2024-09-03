@@ -51,7 +51,7 @@ export class Processor_distribution extends WorkerHost {
       source === 'Museu-Goeldi/PA' ||
       source === 'CNCFlora-ProFlora'
     ) {
-      speciesOcc = await getOccFromProFlora(species);
+      speciesOcc = await getOccFromProFlora(species, source);
       speciesOccIds = speciesOcc.occIds
       speciesStates = speciesOcc.states
       speciesMunicipalities = speciesOcc.municipalities

@@ -52,7 +52,7 @@ export class Processor_records extends WorkerHost {
     }
 
     if (source === 'Museu-Goeldi/PA' || source === 'CNCFlora-ProFlora') {
-      speciesOcc = await getOccFromProFlora(species);
+      speciesOcc = await getOccFromProFlora(species, source);
       if (
         Array.isArray(speciesOcc.validationRecords) &&
         speciesOcc.validationRecords.every(

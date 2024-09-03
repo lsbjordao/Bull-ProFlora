@@ -92,7 +92,7 @@ export class Processor_conservationActions extends WorkerHost {
       if (
         source === 'CNCFlora-ProFlora' ||
         source === 'Museu-Goeldi/PA'
-      ) { speciesOcc = await getOccFromProFlora(species) }
+      ) { speciesOcc = await getOccFromProFlora(species, source) }
 
       const speciesOccIds = speciesOcc.occIds
       const recordsOccIds = records.map((element: any) => element.properties.oocId)
