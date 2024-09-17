@@ -1,5 +1,7 @@
 # Bull-ProFlora
 
+The Bull-ProFlora project is currently under review for publication in a scientific journal. Stay tuned for updates!
+
 ## Overview
 
 **Bull-ProFlora** is a system developed at the *Centro Nacional de Conservação da Flora* ([CNCFlora](http://cncflora.jbrj.gov.br/)), a division of the Rio de Janeiro Botanical Garden ([JBRJ](https://www.gov.br/jbrj/)). Its purpose is to streamline and support the process of assessing the extinction risk of species in the Brazilian flora. By automating workflows and managing large data volumes efficiently, Bull-ProFlora ensures that the assessment process is faster, scalable, and more reliable.
