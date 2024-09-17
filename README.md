@@ -1,6 +1,6 @@
 # Bull-ProFlora
 
-The Bull-ProFlora project is currently under review for publication in a scientific journal. Stay tuned for updates!
+The Bull-ProFlora software is currently under review for publication in a scientific journal. Stay tuned for updates!
 
 ## Overview
 
