@@ -34,4 +34,4 @@ Yes, Bull-ProFlora was designed with reproducibility and scalability in mind. Th
 Bull-ProFlora continues to evolve. Future developments include:
 - Integration with additional data sources to enhance the scope and accuracy of assessments.
 - Improved monitoring and analytics for better insights into job processing.
-- Expanding the system's capabilities to handle assessments for other biodiversity conservation initiatives.
+- Enhance integration with the ProFlora system to minimize repetitive tasks by automating the transfer of data from Bull-ProFlora.
