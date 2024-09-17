@@ -22,7 +22,7 @@ The system is powered by the following technologies:
 - **[Node.js](https://nodejs.org/)**: The runtime environment for executing JavaScript server-side.
 - **[Nest.js](https://nestjs.com/)**: A progressive Node.js framework for building scalable applications.
 - **[Bull](https://github.com/OptimalBits/bull)**: A job queue system using Redis as a fast, in-memory database for handling message queuing.
-- **[BullMQ](https://docs.bullmq.io/)**: A modern message queue system built on top of Redis, used for managing queues at scale.
+- **[BullMQ](https://docs.bullmq.io/)**: A modern message queue system built on top of Bull, used for managing queues at scale.
 - **[Bull-board](https://github.com/felixmosh/bull-board)**: A real-time monitoring tool that allows visualization of the jobs being processed.
 
 ## Is It Reproducible and Replicable?
