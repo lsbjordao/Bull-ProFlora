@@ -12,7 +12,7 @@ The need for an automated system like Bull-ProFlora arises from the increasing v
 
 Bull-ProFlora operates using a **job message queue system**, allowing it to handle multiple tasks concurrently and efficiently. The queue-based architecture enables the distribution of workload across different stages of the assessment process, ensuring that jobs are processed in the correct order and handled in parallel when possible. 
 
-Species records, including occurrence data and geographical coordinates, are validated by experts before being processed further. Once validated, the records enter the Bull-ProFlora system, where they are systematically processed, with results delivered back into the *ProFlora* database.
+Species records, including occurrence data and geographical coordinates, are validated by experts before being processed further. Once validated, the records enter the Bull-ProFlora system, where they are systematically processed, with results delivered back into the [ProFlora](https://proflora.jbrj.gov.br/) system.
 
 ## What’s Under the Hood?
 
