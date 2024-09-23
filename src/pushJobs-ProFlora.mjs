@@ -15,7 +15,7 @@ function initQueue(queueName) {
 
 // Initiate queues
 const queueRecords = initQueue('Records');
-const queueInformation = initQueue('Information');
+// const queueInformation = initQueue('Information');
 const queueFFB = initQueue('FFB');
 const queueObrasPrinceps = initQueue('Obras princeps');
 const queueDistribution = initQueue('Distribution');
@@ -79,7 +79,7 @@ async function pushJobs() {
         .filter(species => species !== '#N/A');
 
       processQueue(queueRecords, listOfSpecies, 'records', 'CNCFlora-ProFlora');
-      processQueue(queueInformation, listOfSpecies, 'information', 'CNCFlora-ProFlora');
+      // processQueue(queueInformation, listOfSpecies, 'information', 'CNCFlora-ProFlora');
       processQueue(queueFFB, listOfSpecies, 'FFB');
       processQueue(queueObrasPrinceps, listOfSpecies, 'obraPrinceps');
       processDistributionQueue(queueDistribution, listOfSpecies);
