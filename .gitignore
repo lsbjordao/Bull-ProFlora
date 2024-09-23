@@ -42,3 +42,5 @@ tropicosApiKey.json
 /src/queues/geojsons
 
 get_occurrences.ahk
+
+.env
