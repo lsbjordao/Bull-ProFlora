@@ -126,10 +126,10 @@ export class Processor_FFB extends WorkerHost {
       if (data.distribuition.locationid) {
         states = data.distribuition.map((item: any) => item.locationid.replace(/BR-/, ''))
       }
-      let endemism = data.distribuition[0].occurrenceremarks.endemism
+      let endemism = data.distribuition[0]?.occurrenceremarks.endemism ?? '';
       if (endemism === 'Endemica') { endemism = 'YES' }
       if (endemism === 'Não endemica') { endemism = 'NO' }
-      const phytogeographicDomain = data.distribuition[0].occurrenceremarks.phytogeographicDomain
+      const phytogeographicDomain = data.distribuition[0]?.occurrenceremarks.phytogeographicDomain ?? [];
       const obraPrinceps = data.taxon.namepublishedin.replace(/([0-9])\s([0-9][0-9][0-9][0-9])/, '$1, $2')
       const vernacularNames = data.vernacular_name.map((item: any) => item)
 
