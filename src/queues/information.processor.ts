@@ -9,6 +9,10 @@ import { Job } from 'bullmq';
 
 import * as fs from 'fs';
 import { google } from 'googleapis';
+import * as dotenv from 'dotenv';
+
+// Carrega variáveis de ambiente do arquivo .env
+dotenv.config();
 
 export const QUEUE_NAME_information = 'Information';
 export const InjectQueue_information = (): ParameterDecorator =>
@@ -21,88 +25,103 @@ export class Processor_information extends WorkerHost {
   private readonly logger = new Logger(Processor_information.name);
 
   async process(job: Job<any, any, string>): Promise<any> {
-    const species = job.data.species;
-    const source = job.data.source;
+    const { species, source } = job.data;
 
     if (!species || !source) {
-      return Promise.reject(new Error('Failed'));
+      return Promise.reject(new Error('Failed: species or source missing.'));
     }
 
     job.updateProgress(1);
 
     const keyPath = './credentials.json';
     const scopes = [
-      'https://www.googleapis.com/auth/spreadsheets'
+      'https://www.googleapis.com/auth/spreadsheets',
     ];
+
     const credentials = new google.auth.JWT({
       keyFile: keyPath,
       scopes: scopes,
     });
+
     await credentials.authorize();
 
-    const sheets = google.sheets({ version: 'v4', auth: credentials })
+    const sheets = google.sheets({ version: 'v4', auth: credentials });
 
-    let spreadsheetId = '1vdU2njQ-ZJl4FiDCPpmiX-VrL0637omEyS_hBXQtllY' // CNCFlora-oldSystem
-    if (source === 'CNCFlora-ProFlora'){
-      spreadsheetId ='1GxxXJXw3TYhOj00JIJuuj3dYjTUfzp_vN2ydKB5b5gY'
-    }
-    if (source === 'Museu-Goeldi/PA'){ // MPEG
-      spreadsheetId = '14F3XCHYMwchOF592KsJOT1Ygq_ERZDtIs5dmGT47ppQ'
-    }
+    // Definindo o ID da planilha de acordo com a fonte
+    const spreadsheetId = this.getSpreadsheetId(source);
     const sheetName = 'Acomp_spp';
 
-    const speciesData: any = await sheets.spreadsheets.values.get({
-      spreadsheetId: spreadsheetId,
-      range: `${sheetName}!E2:T`,
-    });
-    const speciesIndex = speciesData.data.values.findIndex((row: any) => row[0] === job.data.species);
+    try {
+      const speciesData: any = await sheets.spreadsheets.values.get({
+        spreadsheetId: spreadsheetId,
+        range: `${sheetName}!E2:T`,
+      });
 
-    const speciesRow = speciesData.data.values[speciesIndex];
-    const speciesVernacularNames = speciesRow[4];
-    const speciesEndemism = speciesRow[5];
-    const speciesOccurrenceRemarks = speciesRow[6];
-    const speciesLocation = speciesRow[7];
-    const speciesLifeForm = speciesRow[8];
-    const speciesVegetationType = speciesRow[9];
-    const speciesHabitat = speciesRow[10];
-    const speciesCites = speciesRow[12];
-    const speciesUses = speciesRow[14];
-    let speciesIUCN_assessment_presence = speciesRow[15] || "";
+      const speciesIndex = speciesData.data.values.findIndex((row: any) => row[0] === species);
 
-    const result = {
-      "vernacularNames": speciesVernacularNames,
-      "endemism": speciesEndemism,
-      "occurrenceRemarks": speciesOccurrenceRemarks,
-      "location": speciesLocation,
-      "lifeForm": speciesLifeForm,
-      "vegetationType": speciesVegetationType,
-      "habitat": speciesHabitat,
-      "cites": speciesCites,
-      "uses": speciesUses,
-      "IUCN_assessment_presence": speciesIUCN_assessment_presence,
-    };
-
-    fs.writeFile(`G:/Outros computadores/Meu computador/CNCFlora_data/information/${job.data.species}.json`, JSON.stringify(result), 'utf8', function (err) {
-      if (err) {
-        console.error(err);
+      if (speciesIndex === -1) {
+        throw new Error(`Species ${species} not found in spreadsheet.`);
       }
-    });
 
-    job.updateProgress(100);
-    
-    return Promise.resolve(result);
+      const speciesRow = speciesData.data.values[speciesIndex];
+      const result = this.extractSpeciesData(speciesRow);
 
-  } catch(err: Error) {
-    console.error(err);
-    return null;
+      await this.saveSpeciesData(species, result);
+
+      job.updateProgress(100);
+      return Promise.resolve(result);
+
+    } catch (err) {
+      console.error(err);
+      job.updateProgress(100); // Atualiza progresso mesmo em erro
+      return Promise.reject(err);
+    }
   }
 
+  private getSpreadsheetId(source: string): string {
+    switch (source) {
+      case 'CNCFlora-oldSystem':
+        return process.env.SPREADSHEET_ID_CNCFLORA_OLD || '';
+      case 'CNCFlora-ProFlora':
+        return process.env.SPREADSHEET_ID_CNCFLORA_PROFLORA || '';
+      case 'Museu-Goeldi/PA':
+        return process.env.SPREADSHEET_ID_MUSEU_GOELDI || '';
+      default:
+        throw new Error(`Unknown source: ${source}`);
+    }
+  }
+
+  private extractSpeciesData(speciesRow: any[]): any {
+    return {
+      vernacularNames: speciesRow[4],
+      endemism: speciesRow[5],
+      occurrenceRemarks: speciesRow[6],
+      location: speciesRow[7],
+      lifeForm: speciesRow[8],
+      vegetationType: speciesRow[9],
+      habitat: speciesRow[10],
+      cites: speciesRow[12],
+      uses: speciesRow[14],
+      IUCN_assessment_presence: speciesRow[15] || "",
+    };
+  }
+
+  private saveSpeciesData(species: string, result: any): Promise<void> {
+    return new Promise((resolve, reject) => {
+      fs.writeFile(`G:/Outros computadores/Meu computador/CNCFlora_data/information/${species}.json`, JSON.stringify(result), 'utf8', (err) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
 
   @OnWorkerEvent('active')
   onActive(job: Job) {
-    const message = `Active #${job.id} - ${job.data.species}`;
-    const blueMessage = `\x1b[34m${message}\x1b[0m`;
-    this.logger.log(blueMessage);
+    this.logger.log(`Active #${job.id} - ${job.data.species}`);
   }
 
   @OnWorkerEvent('completed')
@@ -112,8 +131,6 @@ export class Processor_information extends WorkerHost {
 
   @OnWorkerEvent('failed')
   onFailed(job: Job) {
-    const message = `Failed #${job.id} - ${job.data.species}`;
-    const redMessage = `\x1b[31m${message}\x1b[0m`;
-    this.logger.log(redMessage);
+    this.logger.log(`Failed #${job.id} - ${job.data.species}`, true);
   }
 }

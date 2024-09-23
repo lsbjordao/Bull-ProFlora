@@ -1,7 +1,9 @@
 import { google, sheets_v4 } from 'googleapis';
 import { JWT } from 'google-auth-library';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-async function whichFlow(species: string, source: 'CNCFlora-oldSystem'|'CNCFlora-ProFlora'|'Museu-Goeldi/PA'): Promise<any> {
+async function whichFlow(species: string, source: 'CNCFlora-oldSystem' | 'CNCFlora-ProFlora' | 'Museu-Goeldi/PA'): Promise<any> {
     
     const keyPath = './credentials.json';
     const scopes = [
@@ -15,18 +17,18 @@ async function whichFlow(species: string, source: 'CNCFlora-oldSystem'|'CNCFlora
 
     await credentials.authorize();
     
-    let spreadsheetId: string = ''
+    let spreadsheetId: string = '';
 
-    if(source === 'CNCFlora-oldSystem'){
-        spreadsheetId = '1DwBS0VD79wMO0UNztfSbUR5mTYdlv3rX9Se1bZhV4Jg';
+    if (source === 'CNCFlora-oldSystem') {
+        spreadsheetId = process.env.SPREADSHEET_ID_CNCFLORA_OLD!;
     }
 
-    if(source === 'CNCFlora-ProFlora'){
-        spreadsheetId = '17n2VMQse1uAsvgWA3fXFhewIz1hclliA5d85h8FMHHI';
+    if (source === 'CNCFlora-ProFlora') {
+        spreadsheetId = process.env.SPREADSHEET_ID_CNCFLORA_PROFLORA!;
     }
 
-    if(source === 'Museu-Goeldi/PA'){
-        spreadsheetId = '1swPXVm9AD2IyNtslwjOf7Pq5cXC0unbdd_YnJjfuvnI';
+    if (source === 'Museu-Goeldi/PA') {
+        spreadsheetId = process.env.SPREADSHEET_ID_MUSEU_GOELDI!;
     }
     
     const sheets = google.sheets({ version: 'v4', auth: credentials });
