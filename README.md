@@ -27,7 +27,7 @@ The system is powered by the following technologies:
 
 ## Is It Reproducible and Replicable?
 
-Yes, Bull-ProFlora was designed with reproducibility and scalability in mind. The system’s architecture is modular and can be adapted to different environments, allowing other institutions or organizations to replicate its functionality for similar species conservation tasks. However, you will not be able to run this exact project on your machine due to the specific configurations tailored for CNCFlora/JBRJ. I recommend building the application from scratch and then replicating the services.
+Yes, Bull-ProFlora was designed with reproducibility and scalability in mind. The system’s architecture is modular and can be adapted to different environments, allowing other institutions or organizations to replicate its functionality for similar species conservation tasks. However, you will not be able to run this exact project on your machine due to the specific configurations tailored for CNCFlora/JBRJ. I recommend building the application from scratch and then copying the services.
 
 ## What's Next?
 
