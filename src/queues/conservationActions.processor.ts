@@ -25,6 +25,7 @@ export class Processor_conservationActions extends WorkerHost {
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species;
     const source = job.data.source;
+    const datasetName = job.data.datasetName;
 
     if (!species) {
       return Promise.reject(new Error('Failed'));
@@ -92,7 +93,7 @@ export class Processor_conservationActions extends WorkerHost {
       if (
         source === 'CNCFlora-ProFlora' ||
         source === 'Museu-Goeldi/PA'
-      ) { speciesOcc = await getOccFromProFlora(species, source) }
+      ) { speciesOcc = await getOccFromProFlora(species, datasetName, source) }
 
       const speciesOccIds = speciesOcc.occIds
       const recordsOccIds = records.map((element: any) => element.properties.oocId)

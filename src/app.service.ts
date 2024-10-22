@@ -41,10 +41,10 @@ export class AppService {
     @InjectQueue_trendline_calcRates_mapbiomas_landcover() readonly queue_trendline_calcRates_mapbiomas_landcover: Queue
   ) { }
 
-  addToQueue_records(species: string, source: string, priority?: number) {
-    this.queue_records.add('Records', { species, source }, { priority: priority });
+  addToQueue_records(species: string, source: string, datasetName: string, priority?: number) {
+    this.queue_records.add('Records', { species, source, datasetName }, { priority: priority });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-    return `${species} included on queue Records from ${source} at ${time}`;
+    return `${species} (dataset: ${datasetName}) included on queue Records from ${source} at ${time}`;
   }
 
   addToQueue_oa_mapbiomas_landcover(species: string) {
@@ -71,10 +71,10 @@ export class AppService {
     return `${species} included on queue Information from ${source} at ${time}`;
   }
 
-  addToQueue_distribution(species: string, source: string) {
-    this.queue_distribution.add('Distribution', { species, source });
+  addToQueue_distribution(species: string, source: string, datasetName: string) {
+    this.queue_distribution.add('Distribution', { species, source, datasetName });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-    return `${species} included on queue Distribution at ${time}`;
+    return `${species} (dataset: ${datasetName}) included on queue Distribution at ${time}`;
   }
 
   addToQueue_FFB(species: string) {
@@ -107,10 +107,10 @@ export class AppService {
     return `${species} included on queue OA-PANs at ${time}`;
   }
 
-  addToQueue_conservationActions(species: string, source: string) {
-    this.queue_conservationActions.add('Conservation actions', { species, source });
+  addToQueue_conservationActions(species: string, source: string, datasetName: string) {
+    this.queue_conservationActions.add('Conservation actions', { species, source, datasetName });
     const time = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-    return `${species} included on queue Conservation actions from ${source} at ${time}`;
+    return `${species} (dataset: ${datasetName}) included on queue Conservation actions from ${source} at ${time}`;
   }
 
   addToQueue_threats(species: string) {

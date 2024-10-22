@@ -28,6 +28,7 @@ export class Processor_distribution extends WorkerHost {
   async process(job: Job<any, any, string>): Promise<any> {
     const species = job.data.species
     const source = job.data.source
+    const datasetName = job.data.datasetName;
 
     if (!species) {
       return Promise.reject(new Error('Failed'));
@@ -51,7 +52,7 @@ export class Processor_distribution extends WorkerHost {
       source === 'Museu-Goeldi/PA' ||
       source === 'CNCFlora-ProFlora'
     ) {
-      speciesOcc = await getOccFromProFlora(species, source);
+      speciesOcc = await getOccFromProFlora(species, datasetName, source);
       speciesOccIds = speciesOcc.occIds
       speciesStates = speciesOcc.states
       speciesMunicipalities = speciesOcc.municipalities
@@ -95,7 +96,7 @@ export class Processor_distribution extends WorkerHost {
     });
 
     result = _.filter(result, function (item: any) {
-      return item.secondLvl !== '' && item.secondLvl !== undefined
+      return item.secondLvl !== '' && item.secondLvl !== undefined && item.secondLvl !== null
     });
     
     result = _.uniq(result, false, function (item: any) {

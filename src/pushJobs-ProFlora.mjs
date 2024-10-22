@@ -3,6 +3,7 @@ import { google } from 'googleapis';
 import { JWT } from 'google-auth-library';
 import { existsSync } from 'fs';
 import axios from 'axios';
+import { ConsoleLogger } from '@nestjs/common';
 
 function initQueue(queueName) {
   return new Queue(queueName, {
@@ -50,6 +51,17 @@ async function sendPostRequestWithSource(queue, species, source) {
   }
 }
 
+async function sendPostRequestWithSourceAndDataset(queue, species, source, datasetName) {
+  try {
+    const url = `http://localhost:3005/${queue}`;
+    const data = { species, source, datasetName };
+    const response = await axios.post(url, data);
+    console.log(response.data);
+  } catch (error) {
+    console.error('Erro ao enviar a requisição:', error.message);
+  }
+}
+
 async function pushJobs() {
   const keyPath = '../credentials.json';
   const scopes = ['https://www.googleapis.com/auth/spreadsheets'];
@@ -66,29 +78,38 @@ async function pushJobs() {
   ss.spreadsheets.values.get(
     {
       spreadsheetId: spreadsheetId,
-      range: `${sheetName}!E2:E`,
+      range: `${sheetName}!D2:E`,
     },
     (err, res) => {
       if (err) {
-        console.error('Erro ao obter os valores da coluna E:', err);
+        console.error('Erro ao obter os valores da coluna D-E:', err);
         return;
       }
 
-      const listOfSpecies = res.data.values
-        .flat()
-        .filter(species => species !== '#N/A');
+      const rows = res.data.values;
+      const listOfSpecies = [];
+      const datasetNames = [];
 
-      processQueue(queueRecords, listOfSpecies, 'records', 'CNCFlora-ProFlora');
+      rows.forEach(row => {
+        const [dataset, species] = row;
+
+        if (species && species !== '#N/A') {
+          listOfSpecies.push(species);
+          datasetNames.push(dataset);
+        }
+      });
+
+      processRecordsQueue(queueRecords, listOfSpecies, 'CNCFlora-ProFlora', datasetNames);
       // processQueue(queueInformation, listOfSpecies, 'information', 'CNCFlora-ProFlora');
       processQueue(queueFFB, listOfSpecies, 'FFB');
       processQueue(queueObrasPrinceps, listOfSpecies, 'obraPrinceps');
-      processDistributionQueue(queueDistribution, listOfSpecies);
+      processDistributionQueue(queueDistribution, listOfSpecies, 'CNCFlora-ProFlora', datasetNames);
       processOaMapBiomasQueue(queueOaMapBiomasLandCover, listOfSpecies, 'oa-mapbiomas-landcover');
       processOaMapBiomasQueue(queueOaMapBiomasFire, listOfSpecies, 'oa-mapbiomas-fire');
       processOaQueue(queueOaUCs, listOfSpecies, 'oa-UCs');
       processOaQueue(queueOaTERs, listOfSpecies, 'oa-TERs');
       processOaQueue(queueOaPANs, listOfSpecies, 'oa-PANs');
-      processConservationActionsQueue(queueConservationActions, listOfSpecies, 'CNCFlora-ProFlora');
+      processConservationActionsQueue(queueConservationActions, listOfSpecies, 'CNCFlora-ProFlora', datasetNames);
       processThreatsQueue(queueThreats, listOfSpecies);
       processSpeciesProfileQueue(queueSpeciesProfile, listOfSpecies);
     }
@@ -109,18 +130,39 @@ function processQueue(queue, listOfSpecies, queueName, source) {
   });
 }
 
-function processDistributionQueue(queue, listOfSpecies) {
+function processRecordsQueue(queue, listOfSpecies, source, datasetNames) {
   queue.getJobs().then(jobs => {
     const jobNames = jobs.map(job => job.data.species);
+    const speciesToAdd = listOfSpecies.filter(species => !jobNames.includes(species));
+    speciesToAdd.forEach(species => {
+      const index = listOfSpecies.indexOf(species);
+      const correspondingDatasetName = datasetNames[index];
+      if (source && correspondingDatasetName) {
+        sendPostRequestWithSourceAndDataset('records', species, source, correspondingDatasetName);
+      }
+    });
+  })
+}
+
+function processDistributionQueue(queue, listOfSpecies, source, datasetNames) {
+  queue.getJobs().then(jobs => {
+    const jobNames = jobs.map(job => job.data.species);
+
     const speciesToAdd = listOfSpecies.filter(species => {
       const pathRecords = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
       const pathFFB = `G:/Outros computadores/Meu computador/CNCFlora_data/FFB/${species}.json`;
       return !jobNames.includes(species) && existsSync(pathRecords) && existsSync(pathFFB);
     });
+
     speciesToAdd.forEach(species => {
-      sendPostRequestWithSource('distribution', species, 'CNCFlora-ProFlora');
+      const index = listOfSpecies.indexOf(species);
+      const correspondingDatasetName = datasetNames[index];
+
+      if (source && correspondingDatasetName) {
+        sendPostRequestWithSourceAndDataset('distribution', species, source, correspondingDatasetName);
+      }
     });
-  });
+  })
 }
 
 function processOaMapBiomasQueue(queue, listOfSpecies, queueName) {
@@ -169,20 +211,24 @@ function processThreatsQueue(queue, listOfSpecies) {
   });
 }
 
-function processConservationActionsQueue(queue, listOfSpecies) {
+function processConservationActionsQueue(queue, listOfSpecies, source, datasetNames) {
   queue.getJobs().then(jobs => {
     const jobNames = jobs.map(job => job.data.species);
+
     const speciesToAdd = listOfSpecies.filter(species => {
       const pathRecords = `G:/Outros computadores/Meu computador/CNCFlora_data/records/${species}.json`;
-      return (
-        !jobNames.includes(species) &&
-        existsSync(pathRecords)
-      );
+      return !jobNames.includes(species) && existsSync(pathRecords)
     });
+
     speciesToAdd.forEach(species => {
-      sendPostRequestWithSource('conservationActions', species, 'CNCFlora-ProFlora');
+      const index = listOfSpecies.indexOf(species);
+      const correspondingDatasetName = datasetNames[index];
+
+      if (source && correspondingDatasetName) {
+        sendPostRequestWithSourceAndDataset('conservationActions', species, source, correspondingDatasetName);
+      }
     });
-  });
+  })
 }
 
 function processSpeciesProfileQueue(queue, listOfSpecies, source) {

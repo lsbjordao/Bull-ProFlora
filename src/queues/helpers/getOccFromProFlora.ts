@@ -4,7 +4,7 @@ import { getToken } from './getToken';
 import * as dotenv from 'dotenv';
 dotenv.config()
 
-async function sendGetRequestWithSource(taxon: string, source: string) {
+async function sendGetRequestWithInstitutionIdAndDataSetIdAndSource(taxon: string, institutionId: string, datasetId: string, source: string) {
 
     const genus = taxon.replace(/(\w+).*/, '$1')
     const specificEpithet = taxon.replace(/\w+\s([\w-]+).*/, '$1');
@@ -40,12 +40,12 @@ async function sendGetRequestWithSource(taxon: string, source: string) {
         let urlBase = process.env.ProFloraUrlBaseProd
         if (process.env.NODE_ENV === 'dev') { urlBase = process.env.ProFloraUrlBaseDev }
 
-        let endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}`
+        let endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}&institutionId=${institutionId}&datasetId=${datasetId}`
         if (hasVarietyEpithet) {
-            endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}&varietyEpithet=${varietyEpithet}`
+            endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}&varietyEpithet=${varietyEpithet}&institutionId=${institutionId}&datasetId=${datasetId}`
         }
         if (hasSubspeciesEpithet) {
-            endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}&subspeciesEpithet=${subspeciesEpithet}`
+            endpoint_getTaxonId = `${urlBase}/get-taxon-id-by-scientificname?genus=${genus}&specificEpithet=${specificEpithet}&subspeciesEpithet=${subspeciesEpithet}&institutionId=${institutionId}&datasetId=${datasetId}`
         }
 
         const taxonId = await axios.get(endpoint_getTaxonId, config)
@@ -72,8 +72,45 @@ async function sendGetRequestWithSource(taxon: string, source: string) {
     }
 }
 
-async function getOccFromProFlora(taxon: string, source: string) {
-    const data: any = await sendGetRequestWithSource(taxon, source)
+async function getOccFromProFlora(taxon: string, datasetName: string, source: string) {
+
+    const ProFloraToken = await getToken(source)
+
+    const config: any = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${ProFloraToken}`
+        }
+    }
+
+    let urlBase = process.env.ProFloraUrlBaseProd
+    if (process.env.NODE_ENV === 'dev') { urlBase = process.env.ProFloraUrlBaseDev }
+
+    let institutionName = 'Centro Nacional de Conservação da Flora - Jardim Botânico do Rio de Janeiro' // 1
+    if (source === 'Museu-Goeldi/PA') { institutionName = 'Museu Paraense Emílio Goeldi' } // 2
+
+    const endpoint_getInstitutionId = `${urlBase}/get-institution-id-by-name?name=${institutionName}`
+
+    const institutionId = await axios.get(endpoint_getInstitutionId, config)
+        .then(response => {
+            return response.data._embedded.get_institution_id_by_name[0].id
+        })
+        .catch(error => {
+            console.error('Error getting taxon ID:', error);
+        })
+
+    const endpoint_getDatasetId = `${urlBase}/get-dataset-id-by-name?name=${datasetName}&institutionId=${institutionId}`
+
+    const datasetId = await axios.get(endpoint_getDatasetId, config)
+        .then(response => {
+            return response.data._embedded.get_dataset_id_by_name[0].id
+        })
+        .catch(error => {
+            console.error('Error getting taxon ID:', error);
+        })
+
+    const data: any = await sendGetRequestWithInstitutionIdAndDataSetIdAndSource(taxon, institutionId, datasetId, source)
 
     const result: any = {
         n: data.length,

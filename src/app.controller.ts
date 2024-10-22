@@ -9,8 +9,8 @@ export class AppController {
 
   @Post('records')
   addToQueue_records(@Body() data: any) {
-    const { species, source, priority } = data;
-    return this.appService.addToQueue_records(species, source, priority);
+    const { species, source, datasetName, priority } = data;
+    return this.appService.addToQueue_records(species, source, datasetName, priority);
   }
 
   @Post('oa-mapbiomas-landcover')
@@ -39,8 +39,8 @@ export class AppController {
 
   @Post('distribution')
   addToQueue_distribution(@Body() data: any) {
-    const { species, source } = data;
-    return this.appService.addToQueue_distribution(species, source);
+    const { species, source, datasetName } = data;
+    return this.appService.addToQueue_distribution(species, source, datasetName);
   }
 
   @Post('FFB')
@@ -75,8 +75,8 @@ export class AppController {
 
   @Post('conservationActions')
   addToQueue_conservationActions(@Body() data: any) {
-    const { species, source } = data;
-    return this.appService.addToQueue_conservationActions(species, source);
+    const { species, source, datasetName } = data;
+    return this.appService.addToQueue_conservationActions(species, source, datasetName);
   }
 
   @Post('threats')
