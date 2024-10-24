@@ -5,7 +5,6 @@ import * as dotenv from 'dotenv';
 dotenv.config()
 
 async function sendGetRequestWithInstitutionIdAndDataSetIdAndSource(taxon: string, institutionId: string, datasetId: string, source: string) {
-
     const genus = taxon.replace(/(\w+).*/, '$1')
     const specificEpithet = taxon.replace(/\w+\s([\w-]+).*/, '$1');
     let varietyEpithet = ''

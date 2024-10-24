@@ -26,14 +26,23 @@ function calcArea(coordinates: any) {
 
                 var AOOgeometry = featureCollectionAOO.geometry();
 
-                var image1 = ee.Image('projects/mapbiomas-workspace/public/collection8/mapbiomas_collection80_integration_v1');
-                var image2 = ee.Image('projects/mapbiomas-raisg/public/collection5/mapbiomas_raisg_panamazonia_collection5_integration_v1');
-                var image3 = ee.Image('projects/MapBiomas_Pampa/public/collection3/mapbiomas_pampa_collection3_integration_v1');
-                var image4 = ee.Image('projects/mapbiomas-chaco/public/collection4/mapbiomas_chaco_collection4_integration_v1');
-                var image5 = ee.Image('projects/mapbiomas_af_trinacional/public/collection3/mapbiomas_atlantic_forest_collection30_integration_v1');
-                var image6 = ee.Image('projects/mapbiomas-public/assets/peru/collection2/mapbiomas_peru_collection2_integration_v1');
-                var image7 = ee.Image('projects/MapBiomas_Pampa/public/collection3/mapbiomas_uruguay_collection1_integration_v1');
-                // var image8 = ee.Image('projects/mapbiomas-public/assets/argentina/collection1/mapbiomas_argentina_collection1_integration_v1');
+                var image1 = ee.Image('projects/mapbiomas-public/assets/brazil/lulc/collection8/mapbiomas_collection80_integration_v1'); // 2022
+                var image2 = ee.Image('projects/mapbiomas-raisg/public/collection5/mapbiomas_raisg_panamazonia_collection5_integration_v1'); // 2022
+                var image3 = ee.Image('projects/MapBiomas_Pampa/public/collection3/mapbiomas_pampa_collection3_integration_v1'); // 2022
+                var image4 = ee.Image('projects/mapbiomas-public/assets/chaco/lulc/collection5/mapbiomas_chaco_collection5_integration_v2'); // 2022
+                var image5 = ee.Image('projects/mapbiomas_af_trinacional/public/collection3/mapbiomas_atlantic_forest_collection30_integration_v1'); // 2022
+                var image6 = ee.Image('projects/mapbiomas-public/assets/peru/collection2/mapbiomas_peru_collection2_integration_v1'); // 2022
+                var image7 = ee.Image('projects/MapBiomas_Pampa/public/collection3/mapbiomas_uruguay_collection1_integration_v1'); // 2022
+                var image8 = ee.Image('projects/mapbiomas-public/assets/argentina/collection1/mapbiomas_argentina_collection1_integration_v1'); // 2022
+                var image9 = ee.Image('projects/mapbiomas-public/assets/chile/collection1/mapbiomas_chile_collection1_integration_v1'); // 2022
+                var image10 = ee.Image('projects/mapbiomas-public/assets/paraguay/collection1/mapbiomas_paraguay_collection1_integration_v1'); // 2022
+                var image11 = ee.Image('projects/mapbiomas-public/assets/ecuador/collection1/mapbiomas_ecuador_collection1_integration_v1'); // 2022
+                var image12 = ee.Image('projects/MapBiomas_Pampa/public/collection3/mapbiomas_uruguay_collection1_integration_v1'); // 2022
+                var image13 = ee.Image('projects/mapbiomas-public/assets/venezuela/collection1/mapbiomas_venezuela_collection1_integration_v1'); // 2022
+                var image14 = ee.Image('projects/mapbiomas-public/assets/colombia/collection1/mapbiomas_colombia_collection1_integration_v1'); // 2022
+                var image15 = ee.Image('projects/mapbiomas-public/assets/bolivia/collection2/mapbiomas_bolivia_collection2_integration_v1')
+                  .select(ee.Image('projects/mapbiomas-public/assets/bolivia/collection2/mapbiomas_bolivia_collection2_integration_v1')
+                  .bandNames().filter(ee.Filter.neq('item', '2023'))); // 2023
 
                 var image1bandNames = image1.bandNames().getInfo();
 
